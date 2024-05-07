@@ -1,0 +1,57 @@
+Npm/Nvm
+	npm 
+		init - inside project to enable node package manager
+		install --save-dev Name - Installs a package inside development enviroment
+		start - Starts the node.js app
+		run
+		npm list - List all packages
+		npm run build
+		--save-dev - Saves package as dev dependency. Sass or compiler tools for example
+	nvm (Node version)
+		use lts - Use latest node version
+		use 14.17.4 - Use Specified node version
+		install --lts - Install Latest node version
+	pnbn
+	barn
+	yarn
+
+Vite
+	npm 
+		create vite@latest 
+	Running on wifi so other devices can dev site
+		npm run dev -- --host
+		"watch": "vite build --watch" - npm run watch
+	vite.config.ts - (imports defineConfig from 'vite', exports default defineConfig) ({...})
+		build: {outDir: '../API/API/wwwroot'}, 
+		build: {
+		    outDir: '../Api/wwwroot', - Where to put npm run build
+		    rollupOptions: {
+		        input: { - Build other files
+		            main: './index.html',
+		            slide: './slide.html',
+		            client: './client.html'
+		        }
+		    }
+		   }
+		server: {port: 3000}, - Specify port to run vite from
+		plugins: [react()], - Use react
+	package.json
+		"start": "vite" - So you can just run "npm run" instead of npm run dev
+	Setting Up for production
+		.env.development
+			REACT_APP_API_URL=https://localhost:5000/ - Or whatever host you are locally running from
+				import.meta.env.REACT_APP_API_URL; - Import It Dynamically into your program
+				process.env.REACT_APP_API_URL - Import It Dynamically into your program
+		.env.production
+			REACT_APP_API_URL= 'EmptyString' '/' '/api/'' - Or whatever host you will production wise be running from
+			BUILD_PATH=../API/API/wwwroot + npm run build
+				We want to output the static application to the wwwroot directory inside the API'
+
+Creating vite/dotnet scaffold
+	dotnet new web -o Scaffold.Web
+		Remove use endpoints
+		add useDefaultFiles and StaticFiles
+		wwwroot - this is the serving folder
+	client
+		npm init -y - Set to private
+		npm install -D -E clean-webpack-plugin@version css-loader@ html-webpack-plugin@version mini-css-extract-plugin@version ts-loader@version typescript@version webpack@version webpack-cli@version

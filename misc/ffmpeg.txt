@@ -1,0 +1,8 @@
+installation
+  setx /m PATH "C:\ffmpeg\bin;%PATH%"
+  Move the ffmpeg base into C:\ base path
+
+for file in *.mp4; do
+  filename=$(basename "$file" .mp4)
+  ffmpeg -i "$file" "${filename}.mp3"
+done

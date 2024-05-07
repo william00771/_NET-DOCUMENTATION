@@ -1,0 +1,155 @@
+Git
+	Atomic comits
+		Add,fix,remove,update,dump: * in *.cs
+	Commands
+		If Branch is ahead or behind main
+			git fetch origin - downloads all files from origin
+			git checkout main - switch to main branch
+			git rebase origin/main - Moves all the local commits that are not in origin/main to the top of the branch 
+			git merge origin/main - Combines the origin/main branch into your currently checked-out branch
+
+		git init folder - Creates a repository in given folder with init values
+		git clone url folder - clone a repository from online (github for example)
+		git status - current status of the files in your current repository
+		q - to quit and get out of current information screen
+
+		add *files - Adds files to staging area
+		add --all - Adds all files and folders to staging area
+		rm *files - Removes files from staging area
+
+		commit -m "title/comment" - Saves all staged files into the git repository
+		log - Shows the log of commits
+
+		git branch - Lists all the branches
+		git branch Name - Creates a new branch from the master
+		git checkout Name - Switches over to a certain branch
+		git push -u origin test-branch1 - To push to a remote repo
+		git branch -D Name - Deletes a branch
+		git merge Nametomerge - Merges given branch into the CURRENTLY SELECTED ONE
+
+		git remote -v - Lists all origins attatched to git project
+		git remote add origin https://github.com/c0ldlimit/vimcolors.git
+		git remote origin -change branch???
+		git remote set-url origin new.git.url/here - Change remote origin URL
+		git remote show origin - Show Remote origin URL
+
+		git push -u origin master 
+		git push whereName Branchname -
+
+dotnet
+	Setup
+		dotnet run
+		dotnet watch --no-hot-reload - Perfect! Very reliable
+		flags
+			-n - The tname of the output
+			-o - The name of the output direcotry
+			--dry-run - Show what would happen
+		new gitignore - So you don't upload the wrong stuff to github
+		new globaljson --sdk-version * - if you want to specify version of .NET used
+		new sln - Creates a new empty solution
+		new *ProjectTemplate* -n Name - Creates the Project Itself, if no name then same as foldername
+				-o name - to specify name
+				-o name.Tests - specify name
+				list - To list all possible .net applications you can build
+			console - Creates a new basic console app for testing purposes
+			webapi - Creates a basic WebAPI template like the one in visual studio with swagger
+			webapi -n API --use-controllers - USE CONTROLLERS in the WebAPI Template
+			mvc - Creates a basic Model View Controller Project
+			classlib - Creates a plain code project, Ex API, Data e.t.c.
+			xunit - Creates a test project xunit for testing classes and functions!
+			nunit - 
+			blazorwasm -o BlazorEcommerce --hosted - CREATES BLAZOR WITH API
+			
+		sln add *.csproj - Connects csproject to solution file
+		add reference *.csproj - 
+		dotnet add reference - Adds reference to other project (Inheritance)
+		dotnet add 'project1' reference 'project2'
+
+		dotnet new blazorwasm -o BlazorWebAssemblyApp
+
+		add package packageName - Installs Nuget package
+		dotnet --help
+		dotnet -help
+
+		dotnet watch --no-hot-reload
+
+	Help
+		dotnet --info - Check all info about .net installed on system
+		dotnet --version - check the installed versions 
+		--help tag
+		build always!!!!
+
+		dotnet dev-certs https --clean
+      		dotnet dev-certs https --trust
+	Run
+		run - Combination of dotnet restore + dotnet build
+			dotnet restore - Downloads dependencies
+			dotnet build - Builds the application
+		test - Tests using xunit test file
+		test --nologo -v:q
+		watch run --urls http://localhost:5001 - Run the watch on specified url
+		watch test --project Name - Add continous testing to csproject
+
+
+Bash
+	cmd + shift + p - reload window
+	cd directory - Moves into a given directory
+	cd 'directory' - moves to copied windows\directory
+	cd - - Go back to the folder you were in
+	start . - Opens a folder/file inside the windows browser
+	code . - Opens a folder with visual studio code
+	up arrow - Cycle through previous commands
+
+	mkdir Name - Makes a directory (new folder)
+	touch Name.ext - Creates a new file of given ext
+	cat Name.ext - shows the content of a given file in the terminal
+	start Name - Starts a file or folder in default program
+	cp file directory/filename - copies a file to a given directory
+	mv file directory/filename - moves a file to a given directory 
+	rm file - remove a given file
+	rmdir directory - remove a given directory (does not work if files in it)
+
+	rm -rf directory - Removes directory recursive and forced
+		-r - Recursive (Includes all subfolders and files)
+		-f - forces (doesn't ask any questions)
+
+	cp -r source_file destination
+
+	ls, ls *.md - is used to list files and directories (like the search function in explorer)
+			. - This directory
+			.. - Above current directory
+			~ - Root directory
+			- - Previous directory
+
+	man + pwd (shows manual for given command)
+	pwd - Shows where we are
+	Command --help - Gives you documentation of certain command
+	clear - Clears the screen
+
+	- short flag for something
+	-- full name of something
+
+
+Install Bash on windows
+	shell (win) / bash (osx) - exposes operating system services to human user
+	use Git Bash to run bash commands inside windows (create new profile and add %ProgramFiles%\Git\bin\bash.exe)
+	Now install zsh from MSYS2 Packages and then u can use git bash to install oh my zsh originally made for bash
+	
+	winget - (Windows Package Manager)
+		Installation
+			Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile $ENV:TEMP\winget.msixbundle; Add-AppXPackage $ENV:TEMP\winget.msixbundle;
+		Commands
+			winget search Name
+				terminal - Lists all packages
+			winget install packageName
+				Microsoft.WindowsTerminal
+				Git.Git - installs goit
+			winget uninstall packageName 
+
+	WSL 2 - So you can run linux shell in cmd windows (able to use Oh My Zsh! on windows)
+		wsl.exe --install
+
+	Oh My Zsh! - Ease Of Life extension for shell
+		Custom Themes
+		Up/Down arrow scrolls through earlier commands
+		When you have written part of a command you can use the Tab-key (looks like ->| on a Mac) to get the rest of the command filled out.

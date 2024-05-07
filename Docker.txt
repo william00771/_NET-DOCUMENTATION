@@ -1,0 +1,22 @@
+Basics
+	docker-compose.yml file
+		version: '3.2'
+		services:
+		  sql-server-db:
+		    container_name: sql-server-db
+		    image: mcr.microsoft.com/azure-sql-edge:latest
+		    ports:
+		      - '1433:1433'
+		    environment:
+		      SA_PASSWORD: 'Password_2_Change_4_Real_Cases_&'
+		      ACCEPT_EULA: 'Y'
+
+	Docker Commands
+		docker-compose up -d - Start the Database
+		docker stop sql-server-db - Stop the database
+
+	Inside AZURE Data Studio - Enter the server details
+		Server: localhost
+		Authentication Type: SQL Login
+		Username: sa
+		Password: Password_2_Change_4_Real_Cases_&
