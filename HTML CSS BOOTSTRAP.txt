@@ -1,0 +1,521 @@
+HTML
+General
+	<!DOCTYPE html>				- Defines which type of document
+	<html lang="en" dir="ltr">	- Defines the language and directory
+	  <head>					- Head is the "Adress Bar"
+	    <meta charset="utf-8">	- Defines the character set to use
+	    <title></title>			- Defines the title in the "adressbar"
+	    <link rel="stylesheet" href="css/stylesheet.css" />
+	  </head>					- Closes the head
+	  <body>					- Adds the body
+	  	<script src="js/index.js" type="text/javascript"></script>
+	  </body>					- Closes the body
+	</html>						- End of the HTML Document
+
+	<!-- comment -->
+
+	lorem200 - To generate 200 lorem ipsum words
+Tips
+	Use a tag, button and input alot. Don't rely on divs. It has baked in personality
+	Using a tag to make the border box of svg for example larger than it actually is, to make hovering less sloppy
+
+	Emmet - Built in to visual studio code
+		element>anotherelement*3>element.class>
+		Very easy and writes a shit ton of html for you. You just gotta define it.
+
+Importing stuff
+	<link />
+		href="" - Location
+		rel="" - type
+			stylesheet
+			icon
+		type="" - whats in it?
+			text/css
+			for icon we don't need any type
+	<script ></script>
+		src="" - Location
+		type="" - whats in it?
+			text/javascript
+
+
+Selection Definitions for css
+	class="" - Can use on many tags
+ 	id="" - Can use only on one tag
+
+ 	<optgroup label="Language Selection">
+                    <option value="sv">Svenska</option>
+                    <option value="en">English</option>
+                    <option value="fi">Suomi</option>
+                </optgroup>
+
+Tags
+	Most Common
+		*These are all really good for SEO Ranking*
+		<div> - A container of something, a layer pretty much
+		<nav> - navbar
+		<header> - Header of the page
+		<footer> - footer of the page
+		<main> - Main content of the site
+		<article> - Groups content that belongs together
+			<summary> - 
+ 		<br> - A break in the page (for a new section)
+		<section> - A section of a website
+
+		<h1> (biggest) -> <h6> (smallest) - Text
+		<p> - Paragraph
+		<img> - Image
+			src="" - Source of something
+			alt="" - Description
+		<a>
+			href="" - Link to something
+		<input>
+			name="" - Name of it
+			type="" - text,submit,checkbox,password,email, image,			  file, date, month, number, hidden, radio, range
+			min
+			max
+		<button>
+		<form>
+			enctype=""
+				text/plain
+			method=""
+			action=""
+		<ul> - Unordered list
+			<li> - list item
+		<ol> - Ordered list
+			<li> - list item
+		<table>
+			<thead>, <tbody> <tfooter> - So you could isolate later on
+			<tr> - Table Row
+				<td> - table cell content
+				<th> - table head cell content (BOLD)
+
+		<progress max="100" value="50"></progress>
+
+		<label 
+			for=""
+		> ... <label/>
+		<input 
+			type=""
+			step=""
+			max=""
+			min=""
+			name=""
+			id=""
+		/>
+CSS
+
+Syntax
+	selection{
+		command: ...;
+	}
+	[data-marcusId="myOwnId"]
+General
+	*, *::before, *::after{
+		padding: 0;
+		margin: 0;
+		font-family: 'main', sans-serif;
+		box-sizing: border-box;
+	}
+	a { color: inherit; text-decoration: none;} 
+tips
+	Make to-do list notis in the beginning of the document
+
+Selectors
+	* - Everything
+	body - Everything in the body
+	.classname - Selects classes defined in html document
+	#idname - Selects an id defined in html document
+
+	> - Selects the direct child, not the grandchildren. SO everything that is directly underneath, not deeper inside component
+
+	Attributes
+	ex a[href]{ } - Everything that has href
+	ex a[href="about.html"] - every attribute with about.html in it
+
+	:first-child - first item in the input for example
+	:last-child - second item in the input for example
+	:nth-child(x) - x is which item in order do you want to select?
+	:nth-of-type(x) - SELECTS CHILD OF GIVEN TYPE. VERY USEFULL
+	:last-of-type - SELECTS CHILD OF GIVEN TYPE. VERY USEFULL
+	:first-of-type - SELECTS CHILD OF GIVEN TYPE. VERY USEFULL
+Units
+	rem - Use for fonts, relative to font size of the root element
+		10px = 1.0rem
+		16px = 1.6rem
+		22px = 2.2rem
+	vw - relative to 1% of width of the viewport*
+	vh - relative to 1% of height of the viewport*
+	% - good for width, relative % to the parent element
+	if you really have to set height, set min-height
+Custom Variables
+	Global Variables
+		inside :root{
+			--variable-name: ; 
+		}
+
+		Refeer to the var using
+		var(--variable-name);
+
+		very usefull for things like color themes
+		Things like calculations
+		Declaring variables of things you are going to use often. Custom font styles e.t.c.
+	Local Variables
+		You can use Local Variables aswell
+		declare them --variable-name: ; - Inside the object
+Working with SVGs
+	Use export from Adobe XD or illustrator into an SVG file and use <img> tag to import it (you can modify size no problem)
+	If you want to change colors of fills and stuff just copy the code from svg and use inline code.
+		In css select .ClassName path:nth-of-type(1) 2 3 e.t.c. to change fill
+		Remove the fill color default inside the svg itself
+Responsive Optimization
+	Willies dream command
+		calc((1 * 16) * 0.08333vw) - It's based on a screen width of 1200px
+									- 1 stands for the rem value
+									- 16 is the pixel value
+									- 0.08 stands for the how to calculate the width value based on these (taken from a calculator online close enough)
+									- So if my logo is 62px on 1200px screen. Then putting in 1 * 62 will literally change nothing. Untill you scale down the browser width. This is awesome. So if i put this simple formula on any font-size, margin, line height, that uses px or rem then this makes every one of those things scale proportionatily with each other based on the screen width. Where the default value always stems from 1200px. So design for 1200px and then the formula does the rest. (bc my browser on my external monitor uses 1200px by default.)
+
+									Behind the calculation [100vw divided by 1200px = the vw value to use]
+
+		calc((1 * 16) * 0.052083vw) - It's based on a screen width of 1920px
+
+
+	fonts
+		in media query use 50% instead of set amount, consistent
+		add a clamp() to dynamically adjust scale
+
+
+Positioning
+	"Default behavior in css, blocks will always stack ontop of each other no matter what, unless you change it with css"
+
+	static - the default positioning
+	relative - relative to its normal position
+My centering techniques used so far
+		VERTICALLY ALIGNING
+			- align-items/self: center; ->> with display flex on parent object
+			- align-items/self: center; ->> with display grid on parent object
+			- margin: auto 0; (grid or flex on parent)
+			- top: 50%; transform: translateY(-50%); - With Position Absolute
+		HORIZONTALLY ALIGNING
+			- justify-content: center; ->> with display flex on parent object
+			- Can use fit-content mixed with padding on parent to keep the object in center
+			- margin: 0 auto; (grid or flex on parent)
+			- text align: center;
+			- text-align: start; / end; (at left vs right side of element)
+			- left: 50%; transform: translateX(-50%); - With Position Absolute
+		ALIGN TOP OR BOTTOM LEFT
+			- align-items/self flex-end; flex-start;
+			- with position relative on parent object & position: absolute; bottom: 0; left: 0;
+			
+Normal positioning
+		float
+			left - then everything needs to have a set % width
+		display: 
+			inline-block - They go next to each other, they are inline
+			block - "the normal display of block" default in html
+			inline - "removes the block and displays inline"
+			table-cell - same as inline block but now cells??
+Normal Positioning Special
+ 			relative - Parent has position relative
+			absolute - It takes the object out of the flow and can position it according to parent if parent is relative, otherwise whole page, its relative to whatever is relative on it.
+				top, left, right, bottom
+				transform: - 
+					translateY()
+					translateX()
+				z-index - -1 1 2 - Move things in z-space
+Flexbox vs grid
+Flexbox - flexbox has intrinsic sizing, grid is more static
+		display: flex; - Defines a flex container
+			flex-basis - ex 33%, how much space does 1 flex cell contain
+			align-items - VERTICAL CENTERING, NOT HORIZONTAL
+				start - at the start or TOP of the block
+				center - at the CENTER of the block
+				end - at the END of the block
+			justify-content - Distributes the space between the children
+				space-between - 
+				space-around - 
+				space-evenly - Even positions
+			flex-direction: - 
+				row
+				column
+				column-reverse
+				row-reverse
+			flex-wrap: - if things run out of room - IF YOU WANT AN ITEM ON THE ROW BELOW
+				wrap - they wrap around
+				flex-basis: 100%; on THE ITEM YOU WANT TO JUMP TO ROW BELOW
+				gap - gap between the flexes
+			align-content
+				center - Alot like justify content
+		flex objects:
+			flex-grow: - 1
+			flex-basis: - How big is the flex cell
+
+Display Grid
+		display: grid; - Defines a grid container 
+			grid-template-columns: - How many columns?
+				can use fr, px, % whatevar - Mix units, fr = availible space
+			auto - takes over any leftover space
+				repeat(times, unitsize) - 5 Equal columns
+				repeat(5, 500px) - 5 columns 500px width each
+					auto-fill = just figure it out, ex 250px, the pc figures out how many can fit
+					auto-fit = 
+					minmax(minimum,maximum) - minimum + maximum value that an object is allowed to be
+						ex minimum 250px, maximum 1fr so the entire space left
+					fit-content(x) - define a maximum value for something
+				repeat(auto-fit, minmax(400px, 1fr)) = ?? - Not sure how this works
+			Repeat function
+				repeat(4, 1fr 2fr 1fr auto) -> it repeats whatever is inside it
+			You can give the areas names to refeer to
+				grid-template-columns: [leftside] 1fr [middle] 2fr [rightside] 1fr;
+			grid-column - To define width of object
+				span 2 - Item will take up 2 column units
+				2/5 - Item will take up space between column 2 and 5
+				5 / -1 - Is The End - All the way to the end of the row line
+				NAMEOFAREA-start / NAMEOFAREA-end
+				grid-column-start: - Specify where item starts on grid
+				grid-column-end: - Specify where item ends on grid
+			grid-row
+				span 6 - takes up 6 row units
+				1 / span 3 - 
+				5 / -1 - Is The End - All the way to the end of the row line
+				NAMEOFAREA-start / NAMEOFAREA-end
+				grid-row-start: - Specify where item starts on grid
+				grid-row-end: - Specify where item ends on grid
+			grid-template-rows: - you can mix define areas of rows vs columns later
+			grid-template-areas: - Define names for every area, whatever name you want
+				[If only template columns] then ex:
+					"sidebar header header header"
+				[If both rows and columns] then ex:
+					"sidebar header header header"
+					"sidebar sect1 sect2 sect3"
+					"sidebar main main main"
+					"sidebar footer footer footer"
+			grid-area: - Now refeer to the names to add them
+				name - The div or section will occupy the given name of grid
+			grid-gap: - Gap between grid to not do margins n stuff, its like a margin
+			devtools - layout -> turn on visual grid
+			Implicit vs explicit tracks - explicit = user defined grid, implicit = auto grid
+			grid-auto-rows: - defines implicit size of rows
+			grid-auto-flow: - 
+				column - Automatically adds implicit items horizontally instead of vertically 
+			use fr unit - Fractional unit ex 1fr 1fr = 50% 50% 3fr 1fr = 75% 25% - In proportion to how much free space is left
+
+			Centering the Grid Itself
+				justify-content on the grid itself will center it in the middle
+			order: - set a custom order for the items (better though to just move them in dom)
+Commands
+	Most Common
+		padding: top right bottom left
+		margin: 
+		inset: - same as margin but inwards instead of outwards, sort of like padding?
+
+		height: 
+		width: 
+			fit-content
+
+		aspect-ratio:
+			ex 1/2
+	Text Styling commands
+		font-size: - Text size
+		font-weight: - 
+			bold
+		line height: - 
+		text-decoration - Changes the text decoration
+			none
+		list-style-type - Changes the list circles
+			none
+		text align: - 
+		text-transform: - changes the text to
+			capitalize - Capitalizes all first characters
+			uppercase - 
+			lowercase - 
+		font-family: - Changes the font family, normally good at *
+
+	Background/Solid Styling Commands
+		background-image: 
+			url(location) - the location of image
+		background-size:
+			cover - Covers the entire sreen
+		object-fit - (For <img> tags)
+			cover - Covers the entire sreen
+		background-repeat - 
+			no-repeat
+		background-attatchment:
+			fixed
+		background-position:
+			center - centers the image
+			25% 75% - Left Push% + Top Push%
+
+	Making things look more pro
+		border: size type color - Can be transparent color
+			solid
+			dashed
+			double
+		border-radius: 
+			size - Makes things more round
+		box-shadow: offsetx offsety color feather, - You can add as many shadows as you want seperated by comma
+		filter
+			brightness() - 
+			opacity - 
+			hue-rotate(); - rotate the colors
+			blur() - 
+			grayscale() - 
+			contrast() - decrease & increase contrast
+			drop-shadow(p p f c) - adds a drop shadow, same as above
+			sepia()
+			saturate()
+		backdrop-filter: - affects all objects in same z-depth (same functions as regular filter)
+		transform:
+			scale
+		transform-origin:
+			left
+			top
+			right
+			center
+		background:
+			linear-gradient();
+				hsl(), hsl(), hsl() - As many values as you want
+					ex hsl(0 0% 0% / 0),
+					ex hsl(255 50% 50% / .3) 20%,
+					ex hsl(0 0% 0% / 1),
+
+					hsl(hue saturation% lightness% / opacity) positionwhereitchanges%,
+		Input specific
+			outline
+	
+	Other
+		overflow:
+			hidden - No Bar when text is longer
+		visibility
+			hidden
+			visible
+		opacity
+			1, 0
+	Scrollbar styling
+		On firefox 
+			scrollbar-color: var(--text_main) var(--black_contact_original);
+		On Chrome
+			::-webkit-scrollbar{ 
+		    	width: .6rem;
+			}
+			::-webkit-scrollbar-track{
+			    background-color: var(--black_contact_original);
+			}
+			::-webkit-scrollbar-thumb{
+			    background-color: var(--text_main);
+			    border-radius: 45px;
+			}
+	progress tag styling
+		progress[value]::-webkit-progress-bar, progress[value] 
+		- Styles the progress bar background color
+
+		progress[value]::-webkit-progress-value + progress[value]::-moz-progress-bar
+		- Styles the progress bar BAR
+
+
+Problems & Fixes
+	Chrome overflow y on 100vw problem. Add
+	add	max-width:100%; right after the 100vw command
+
+
+Events and more fancy stuff
+	More fancy stuff
+		cursor: - change what happens when cursor is on the object
+			pointer
+	Events
+		:hover - on mouse hover
+		:focus-visible - If you use keyboard and tab to navigate website
+		:active - Is temporary, as you click on it but you haven't let go with it yet
+	Pseudo Elements
+		::before
+		::after
+			content: 'what the content should be';
+				''
+				'some text'
+	Special classes
+		sr-only - means it doesn't read the text inside the span class of sr-only
+
+Advanced functions
+	.card:hover .card-title::after - When we hover over .card, css affects the .card-title::after
+
+	overflow: hidden; - HIDES THE OBJECT IF IT GOES OUTSIDE THE BOUNDING BOX OF THE PARENT DIV.
+						Insanely usefull for Masking things.
+
+	Making a css triangle
+		border-width: 5px 5px; - I honestly don't know how to control these. just mess around
+        border-style: solid;
+        border-color: transparent;
+        border-left-color: red; - This is the triangle
+
+Animation
+	OBS - You will always get smoother performance with OPACITY and TRANSFORM using animations
+		Transition - On the main object
+			transition: whattoaffect 500ms ease;
+
+			Types of transition
+				ease-in-out
+				linear
+				ease-in
+				cubic-bezier - For fine control
+
+			transition-delay:  - Add a manual delay of the transition happening
+
+		animation: customname seconds smoothing fowards timesx alterate delay- Use this where you want it to happen
+			forwards - keep all the properties in the 100% keyframes
+
+
+		@keyframes name {
+			0%
+			20%
+			50% e.t.c.
+			100%{
+				what happens at 100%
+			}
+		}
+		animation-play-state: 
+			paused
+			running
+
+Media queries, custom fonts
+	Custom Font
+		@font-face {
+		    font-family: 'Overpass';
+		    src: url(/fonts/OverpassBold.ttf) format("truetype");
+		    font-weight: bold;
+		}
+		OBS Put '' when you reference the font! Otherwise it won't be recognized
+	Media Queries
+		@media screen and (max-width: 769px) {
+		  
+		}
+
+
+
+GITHUB COMMANDS
+
+
+	GITHUB PERSONAL ACCESS TOKEN: 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
+
+	git add *
+	git commit -M "What has been changed"
+
+	git push https://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@github.com/william00771/Kentaka_CSS101.git
+
+
+SEO Search Optimization
+	<title> google title tag
+	<meta name="description" content="...">  google description tag
+	<image alt="">
+	schema marcup property="nutrition"
+
+
+META TAGS AND GOOGLE SEO
+
+The Main Title of the page
+	<title>Entertainment hub</title>
+Description of the page
+	<meta name="description" content="Get info for all your favorite movies and tv series"/>
+Page Keywords
+	<meta name="keywords" content="Movies, TV Series, Search Movies"/>
+Default Things
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -1,0 +1,143 @@
+Server=tcp:saltserver.database.windows.net,1433;Initial Catalog=salt_db;Persist Security Info=False;User ID=william00771;Password=mw2321??;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+
+dotnet user-secrets set "ConnectionStrings:saltdb" "Server=tcp:saltserver.database.windows.net,1433;Initial Catalog=salt_db;Persist Security Info=False;User ID=william00771;Password=mw2321??;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
+dotnet user-secrets set "ConnectionStrings:saltdb" "Server=tcp:saltserver.database.windows.net,1433;Initial Catalog=salt_db;Persist Security Info=False;User ID=william00771;Password=mw2321??;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
+
+
+azure db
+	mw2321??
+
+azure webapp deployment user set
+	william00771
+	mw2321??:;
+
+saltResourceGroup - resource group
+saltAppServicePlan - Service Plan
+saltApp - 
+
+'https://william00771@saltapp.scm.azurewebsites.net/saltApp.git'
+
+az webapp config appsettings set --name <app-name> --resource-group myResourceGroup --settings DEPLOYMENT_BRANCH='main'
+
+Deployment website (where you see your files) - https://saltapp.scm.azurewebsites.net/
+
+git checkout -b master
+git checkout master
+git merge main
+git push azure master
+
+npm ci
+ej --prefix
+node@v3
+checkout i den mappen. Bara den mappen
+när yml filer updaterar
+
+"ConnectionStrings": {
+    "saltdb": "Server=tcp:saltserver.database.windows.net,1433;Initial Catalog=salt_db;Persist Security Info=False;User ID=william00771;Password=mw2321??;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  }
+
+
+dotnet user-secrets set "ConnectionStrings:saltdb" "Server=tcp:saltserver.database.windows.net,1433;Initial Catalog=salt_db;Persist Security Info=False;User ID=william00771;Password=mw2321??;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
+az webapp deployment list-publishing-profiles --name AppName --resource-group MyResourceGroup --xml
+
+
+deploy-web.yml
+	name: Deploy Web App to Azure Static Web
+
+	on:
+	  push:
+	    branches:
+	      - main
+	    paths:
+	      - 'dogs.web/**'
+
+	jobs:
+	  build-and-deploy:
+	    runs-on: ubuntu-latest
+	    
+	    steps:
+	    - uses: actions/checkout@v2
+	    
+	    - name: Setup Node.js
+	      uses: actions/setup-node@v2
+	      with:
+	        node-version: '21'  # specify Node.js version here
+
+	    - name: Install dependencies
+	      run: npm install --prefix dogs.web
+
+	    - name: Build
+	      run: npm run build --prefix dogs.web
+
+	    - name: Deploy to Azure Static Web App
+	      uses: Azure/static-web-apps-deploy@v1
+	      with:
+	        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+	        repo_token: ${{ secrets.GITHUB_TOKEN }} # Provides GitHub token for authentication
+	        action: "upload"
+	        ###### Repository/Build Configurations - These fields are configured during the Azure SWA setup
+	        app_location: "dogs.web"  # Location for the source code of your app
+	        api_location: ""  # No API for static frontend
+	        output_location: "dist"  # Build output directory
+
+deploy-api.yml
+	name: Deploy API to Azure Web App
+
+	on:
+	  push:
+	    branches:
+	      - main
+	    paths:
+	      - 'dogs.API/**'
+
+	jobs:
+	  build-and-deploy:
+	    runs-on: ubuntu-latest
+	    
+	    steps:
+	    - uses: actions/checkout@v2
+	    
+	    - name: Set up .NET Core
+	      uses: actions/setup-dotnet@v2
+	      with:
+	        dotnet-version: '8.0'
+
+	    - name: Build and Publish .NET Core API
+	      run: |
+	        dotnet build dogs.API --configuration Release
+	        dotnet publish dogs.API -c Release -o ./publish
+
+	    - name: Deploy to Azure Web App
+	      uses: azure/webapps-deploy@v2
+	      with:
+	        app-name: 'SaltDogsAPI'
+	        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+	        package: ./publish
+
+
+{
+  "appId": "173a5cb8-8b50-4804-81af-724e9365300f",
+  "displayName": "william00771",
+  "password": "Gru8Q~JERaHOM~Hl7R6bqkuT7l-17l59fx2CBan_",
+  "tenant": "d17d19be-5997-47c9-9533-d86b928e7a56"
+}
+
+
+  - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Update connection string in Azure
+        run: |
+          az webapp config connection-string set \
+            --name ${{ env.AZURE_WEBAPP_NAME }} \
+            --resource-group saltResourceGroup \
+            --settings ConnectionStrings__saltdb='${{ secrets.SALTDB_CONNECTION_STRING }}' \
+            --connection-string-type SQLAzure
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        shell: bash

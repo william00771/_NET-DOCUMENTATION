@@ -1,0 +1,353 @@
+Classes
+	internal class, public class, static class, hybrid class
+Interfaces
+
+Static Namespace??
+
+Git
+	Atomic commits
+
+Naming Conventions
+	Ultra Descriptive names
+	No Comments
+	_PrivateInstanceFields
+	GlobalVariable/Method
+	privateVariable/Method
+Dependency Injection
+	private readonly Class _class;
+	+ constructor
+
+
+Dependency Injection 
+
+Declare
+	CLASS name = new CLASS;
+	Dependency Injection if Interface
+	array[] name = new array[] {}
+	IEnumerable<type> name = new IEnumerable<type>
+	string.Empty
+
+Dictionaries and Tuple
+	Tuples
+		(double, int) t1 = (4.5, 3);
+			t1.item1 t1.item2
+		(double Sum, int Count) t2 = (4.5, 3);
+			t2.sum t2.count
+	Dictionaries
+		private static readonly Dictionary<int, string> ArabicToRoman = new()
+        {
+            { 1, "I" },
+            { 9, "IX"},
+            {1000, "M"}
+        };
+        return ArabicToRoman[int input or string value];
+
+Syntax
+	Function syntax: aka methods
+
+	Anonymous functions/methods aka Lambda expressions
+
+	Callback Functions
+
+	foreach(var item in model){..}
+
+	If Else statement/expression
+
+	Switch statement - if you dont ad break then it goes through all the cases
+
+	Loops (For loop, for-of loop, forin loop, while loop)
+
+
+Async
+
+Colorful Commands
+
+	Path & File Related
+		Assembly
+			.GetExecutingAssembly().Location - Gets the assembly that contains the code that is currently executing.
+			Why does it seem to return bin/debug/net6.0/stars.csv
+		Path
+			.GetDirectoryName() - Returns the directory information for the specified path.
+			.Join(Path1,Path2) - Concatenates two paths into a single path.
+			.Exists(Path) - Determines whether the specified file exists.
+			.GetFileName(file) - returns the file name and extension of the specified path string.
+		IConfiguration
+			["ApiBaseUrl"] - Get the base API url dynamically
+		File
+			.WriteAllText(Path, string) - Creates a new file, writes the string to file, and then closes the file.
+			.ReadAllLinesAsync(Path) - Opens a text file, reads all lines of the file, returns string[]
+			.ReadAllText(Path) - reads all the text in the file, returns string
+			.WriteAllLinesAsync(Path, string) - creates a new file, writes lines, and then closes the file.
+			.AppendAllText(Path, string) - appends specified string to file, then closes file. tip \n for newline
+			Create string array where a certain matching value is Excluded
+				.Where(line => getHeroId(line) != heroId).ToArray();
+		StreamReader(file)
+		Directory
+			GetFiles(Directory) - Returns the names of files (including their paths) in the specified directory. returns string[]
+
+
+
+	Call API
+		HttpClient()
+			config
+				client.DefaultRequestHeaders.Accept.Clear(); - First basic setup - remove default header so we can add our own
+				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")); - Second Setup
+					application/json
+					application/vnd.github.v3+json
+				client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter"); - This is just "who am i"
+			call
+				msg = await client.GetStringAsync("https://www.swapi.tech/api/people/2");
+				msh = client.GetStreamAsync(url) - Simple Get request. Returns json object.
+				msh = client.PutAsJsonAsync(url, model) - Put Request
+				msg = client.PatchAsync(url, model) - Patch Request, currently doenst work???? ask mathias 
+			ReadCall (response.Content)
+				ReadAsStreamAsync() - Serializes the HTTP content
+			New Cool way of doing things
+				var client = new HttpClient { BaseAddress = new Uri("https://www.swapi.tech/api") };
+				var heroes = await Http.GetFromJsonAsync<Hero[]>("people"); - Put in api/people, into Hero[] object
+
+		HttpClientFactory()
+			
+
+	DESERIALIZE/SERIALIZE JSON - Moving JSON data back n forth
+		JsonSerializer
+			DeserializeAsync<Type>(await HttpTask) - Converts JSON Data to Model.
+				[JsonPropertyName("jsonproperty")] - Specify Properties (what to map to what) in Model itself.
+			var repos = await JsonSerializer.DeserializeAsync<List<RepositoryDTO>>(await streamTask)
+
+	Dates baby
+		DateTime()
+			overloads - year, month, day, hour, min, seconds, UTC timezone
+			DateTimeKind
+				.Utc
+			.ParseExact(string, formatspecifier)
+			.Year
+			DateTime.TryParseExact(input, formatSpecifier, CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
+    			- returns bool. Tries to parse a string input with a formatspecifier. Onsuccess returns true
+		Timespan()
+			represent time in days, hour, minutes, seconds, and milliseconds.
+			.subtract() - 
+
+	Generating Random Numbers
+		Guid
+			Guid.NewGuid(),
+
+	Dictionary
+		.TryGetValue(TKey, TValue)
+
+
+Conditionals
+	return bool && bool - If both true, method returns true
+
+Tool Commands
+	strings
+		string.Format (formattype: {0:d}, input"); - Formats strings (see formatting list below) 
+			Scientific
+			Currency
+			Percent
+			Hexadecimal
+	Math
+		.Sort(())
+			dates.Sort((left, right) =>
+            {
+                return left.Month.CompareTo(right.Month);
+            });
+        (double, int) t1 = (4.5, 3);
+	Lambda Understanding
+		(x => x < 15) - select x where x is less than 15
+		(x => x.Name) - selects x where x.Name is equal to TRUE, aka all the names
+		(x => new { Name = x.Name, Height = x.LengthInMeters }) - Returns anonomous type to help with formatting in the new list return. So you can basically remap 
+	LINQ Convert back to original Object
+		LINQ command on string[]
+			.Where(x => x).ToArray() - does the linq operation and then returns the array
+ 	LINQ commands - LINQ Input and Output is IEnumerable<T>
+ 		.Any(x => x) - If ANY OF THE VALUES inside matches with the citeria. returns true
+ 			like a linq if statement
+		.All(x => x) - If ALL OF THE VALIUES inside matches with the criteria. returns true
+		.Count(x => x or not) - How many that matches with the criteria. returns int
+			.LongCount(x => x) - For values that are larger than 2 billion
+		.Contains() - If Value is Present in collection
+ 		.OrderBy(x => x % 2 != 0) - order by the length, or count, or contains
+ 			.ThenBy(x => x) - So you can nest ordering, ex rating first price second
+		.OrderByDescending(x => x) - Sorts values in Descending order , order by length ..
+			.ThenBy(x => x)
+			.ThenByDescending()
+		.Reverse() - Reverses the order of values
+		.Min(x => x) - Find minimum value of criteria
+		.MinBy(x => x) - Find minimum value by criteria
+		.Max(x => x) - Find maximum value of criteria
+		.MaxBy(x => x) - Find maximum value by criteria
+		.Average(x => x) - Returns average value of criteria
+		.Sum(x => x) - Calculates the sum of values of criteria
+		.ElementAt(x => x) - Access the Element of a given index in IEnumerable<T> Which does not work w index
+		.First(x => x) - Return first element or first element of given criteria
+			.FirstOrDefault(x => x) - Will return default value if no match of given criteria
+		.Last(x => x) - Return last element or last element of given criteria
+			.LastOrDefault(x => x) - Will return default value if no match of given criteria
+		.Single(x => x) - Returns a single value based on criteria, gives exception if it contains more or none
+		.Where((x,i) => x) - Filters and returns values based on criteria / based on index selection also
+			.Where(x => x).Where(x => x).ToList(); - Does not return anything by default. Only selects
+		.Take(n) - Takes first 3-n values
+			.TakeLast(n) - Takes last n values
+			.TakeWhile(x => x) - Take Until a given criteria is met
+			.Skip(n) - Takes all values from collection except skipped ones n
+			.SkipWhile(x => x) - Skip Until a given criteria is met
+		.OfType<T> - Returns selected type, class or implementation (IFuelable or string, or Bird)
+		.Distinct(new EqualityComparer()) - method removes the duplicate elements from a sequence (list) and returns the distinct elements from a single data source.
+		.Prepend(x) - Add value at beginning of collection
+		.Append(x) - Add value to end of collection
+		.Concat(item) - Merges two collections with each other in sequence
+		.Union(item) - Merges two collections with each other in sequence AND removes duplicates
+		.ToArray() - Switch any IEnumerable<T> to array
+		.ToHasSet() - 
+		.ToDictionary() - 
+		.ToLookup() - 
+		.AsEnumerable() - 
+		.Cast<T> - Cast type of objects in collection to different type
+		The POWER of .Select
+			You can create a list dynamically with it (instead of a for loop)
+				var returnArr = allFiles
+            	.Select(fileName => new { Date = fileName, Rate = GetCurrencyRateFromFile(fileName, symbol) })
+            You can then on the same goddamn line Reformat it in a a different way
+            	.Select(x => $"Date: {x.Date.Split('.')[0]} Rate: {x.Rate}")
+            		- Chaining these two together effectivly creates a new list, transfers that list over to a new list with different format. And then adds it to the var. Coolest linq command ever.
+            Simplified
+            	var returnItem = arraytoloopthrough
+            		.select(arritem => new {new objectArr from these values})
+            		.select(arritem => "stringArr item {from these values}")
+            Other Usecases
+				.Select(x => x) - Selects a PROPERTY of an object. Ex Name, Adress, object, extracting data
+				.Select(x => x) - Change values based on criteria, ex double them, convert to string, toupper e.t.c.
+				.Select((x,i) => x) - do something with the index
+				.SelectMany(x => x) - Extracts nested collections, used to flatten collections
+			Select Nested Loops
+				myColl
+					.SelectMany(x => x.MyList.Select(item => new { List = x, Item = item }))
+					.Select(x => ...) //rest of the query, whatever you like
+		Enumerable
+			.Empty<Type>() - Creates an empty Collection
+			.Repeat(x, times) - Creates a collection with repeating values
+			.Range(x, y) - Creates a collection with a range between values
+		.GroupBy(x => x) - Group by character, or country, Returns an IGrouping
+		.Intersect(item) - Equal values between two collections get returned
+		.Except(item) - Returns all values except the ones in the given collection, like a subtract
+		.Join(item, item => index , item, item => index) - Joins items with matching keys together and joins the tables accordingly
+		.GroupJoin(item, ) - Joins Groups together
+		.Aggregate((x, nextx) => xnext operation w x) - Excecutes a function for each element of the collection, Crazy powerful for checking across values, or doing operations across the values. It goes to the next, and then checks the next and so on... May be 
+		the most powerful method.
+			.Aggregate( (a,b) => a + b);
+				words.Aggregate("", //To handle empty list case. (current, next) => current + ", " + next);
+				It's like looping through the values
+			.Aggregate((a, b) => a + b) Same as
+				int s = data[0];
+				s = s + data[1];
+				s = s + data[2];
+				s = s + data[3]; e.t.c.
+			.Aggregate(0, (a, b) => a + b);
+				int s = 0;
+				s = s + data[1];
+				s = s + data[2];
+				s = s + data[3]; e.t.c.
+		.Zip(item, (x, y) => (x, y)) - Zips two collections together, define what to do with the collections. Point calculate distance example
+		.Find(x => x) - Find FIRST ITEM that matches the criteria
+		.FindAll(x => x) - Find All or All with certain criteria
+		.ThenBy()
+		.StartsWith("")
+		.Chunk(x) - Split Collections into chunks of x values each
+
+	Reflection
+		new class with "caller" or something
+			[UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_privateFieldName")] - Creates the private field for it
+			private static extern ref int OurOwnSetterMethod(Counter counter); 
+				- Creates a new class from constructor
+
+			var counter = new Counter();
+				- Instanciate the external assembly method as our own method
+			Caller.OurOwnSetterMethod(counter) = 100; 
+				- we just called an external method and set the privat field inside it!!!
+
+
+
+Functions
+
+    params -  allows a method to accept a variable number of parameters. The keyword simplifies the method signature, making it easier to read and maintain.
+    can be used to declare method that does not know the number of parameters. Parmas are also useful to write "clean code". Instead of using various overloaded methods to pass multiple values,
+
+    params int[] - You can even feed in a single int. Or skip the int entierly
+
+
+	Method Chaining:
+	    The method Calculate returns an instance of FluentCalculator, allowing subsequent method calls to be chained together on the same instance. This pattern is commonly used in fluent interfaces to create more readable and expressive code.
+	    public FluentCalculator Calculate(CalculationCommand command)
+	    {
+	        return this;
+	    }
+
+	 public static implicit operator int(FluentCalculator calculator)
+	    {
+	        return calculator.GetResult();
+	    }
+
+	method override:
+	public override bool Equals(object? obj) => _result == (int)obj!; 
+
+	Collections
+	    ArrayList(); - Good for adding unknown data where you don't know types and size
+
+	When Inheriting from class
+	    public abstract void Speak() - You can create an abstract class to be overridden down the chain
+	    public override void Speak() - Override method from baseclass
+	    base.Print() - Call method from baseclass
+	    public OpenFrame(int FirstThrow, int SecondThrow) : base(FirstThrow, SecondThrow) - We are passing the values up the chain to the base class equivalent values
+
+
+	public record CustomerId(Guid Value);
+	You can use this in model. CustomerId.
+
+	Guid.NewGuid(); - Not sortable though
+
+	ulid nuget package (actually faster than guid also)
+	Ulid.NewUlid(); - It's a lexicograpghically sortable identifier			
+		
+Blazor
+	Url related
+		@page "/" - describes razor page directory
+	imports
+		@using - Use external libaries or reference models
+		@inject - dependency inject services and classes
+	Default Blazor Methods
+		protected override async Task OnInitializedAsync() - Runs on start
+	Running functions from html
+		@Onclick""
+			function()
+			() => SetStarRating(Hero.Id, 5)
+
+String formatSpecifier List
+	"yyyy-MM-dd HH:mm:ss,fff"
+	"yyyy"
+String formatting list
+	Date & TIme
+		Short Date					{0:d}	19-03-2021
+		Long Date					{0:D}	19 March 2021
+		Short Time					{0:t}	06:49:20
+		Long Time					{0:T}	06:49:20
+		Long Date Time				{0:f}	19 March 2021 06:49:00
+		Short Date Time				{0:g}	19-03-2021 06:49:44
+		Short Date					{0:M}	March 19
+		RFC1123 Date Time String	{0:r}	Thu, 19 March 2021 06:49:22 GMT
+		Sortable Date/Time			{0:s}	2021-03-19T06:49:11
+		Universal Sortable Date		{0:u}	2021-03-19 06:49:49Z
+		Universal full date			{0:U}	19 March 2021 00:18:55
+		Year month pattern			{0:Y}	March, 2021
+	Currency
+		Currency			{0:c}	$ 55,674.74
+		Scientific			{0:e}	5.567474e+004
+		Fixed point			{0:f}	55674.74
+		General				{0:g}	55674.73789621
+		Thousand Separator	{0:n}	55,674.74
+	Custom
+		Zero Placeholder	{0:00.00}	55674.74
+		Digit Placeholder	{0:(#).##}	(55674).74
+		Decimal Point		{0:0.000}	55674.738
+		Thousand Separator	{0:0,0}		55,675
+		Percent				{0:0%}		5567474%

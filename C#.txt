@@ -1,0 +1,744 @@
+Declaration Types
+	public - field can be used from outside the class
+	private - field can only be used inside the class
+	static - is not instantiated, exists like a method
+	internal - 
+	hybrid - 
+
+
+Types
+	(double, int) - Tuple
+	Dictionary<KEY, VALUE> - Dictionaries can have collections as values
+		KeyValuePair<char, string> - These are what dictionaries are made of. so using a foreach(kvp in dict) works fine
+	HasSet<KEY> - 
+	Grouping<KEY> - 
+	List<>, Enumerable<>, 
+
+
+Dependency Injection 
+	private readonly ILogger<PortfolioController> _logger; 
+	private readonly AppDbContext _context; - (Declare a private readonly NameOfInterfaceOrClass<Type> _contextName)
+
+	public PortfolioController(ILogger<PortfolioController> logger, AppDbContext context)
+	{
+	    _logger = logger;
+	    _context = context;
+	    OBS: Same AS this._logger = logger;
+	
+
+Exceptions
+	All exceptions inherit from System.Exception - Errors propagate upwards, so if it finds a trycatch block further up the chain it uses that
+	Trycatch - If any error happens we are redirected to the catch block, do something with the error. Don't trycatch everything like a loser
+		try{...}
+		catch (Exception ex) - Handles any exception
+		{
+			Console.WriteLine(ex.Message)
+		}
+	Throw Your own exceptions inside of your code if certain things don't flow the way they should (based on user input for example, invalid values returned, empty object returns e.t.c.)
+	
+		throw new Exception("message");
+			throw will ensure that the calling code ends up in a catch-block if it is present. It does NOT return data
+	exceptions
+		NotImplementedException
+
+
+	Without trycatch and throwing exceptions, it will go to the highest level of calling code and simply crash the program, with an error code. No questions asked. But we do get a message telling us what happened. Thank you c# developers!
+
+
+Async - Runs on multible threads
+    public IActionResult DeleteGrocery(long id){...}
+    public async Task<IActionResult> DeleteGrocery(long id){await ...}
+
+    public ActionResult<IEnumerable<Grocery>> GetGrocery(){}
+    public async Task<ActionResult<IEnumerable<Grocery>>> GetGrocery(){ await ... }
+
+    result = postasync(...)
+    await result
+
+General Syntax stuff
+	Function syntax: aka methods
+		Type returntype Name(int input1, Object input2) 
+		{
+			return
+		}
+
+	Anonymous functions/methods aka Lambda expressions
+		x => x = 1;
+
+	Callback Functions
+
+	foreach(var item in model){..}
+
+	If Else statement/expression
+		if(== != === !== < > && || !){} else if{} else{}
+		const userName = isLogin ? 'Max' : null - Ternary operator
+		 return condition1 ? value1
+			    : condition2 ? value2
+			    : condition3 ? value3
+			    : value4;
+		(Does not work to call functions, only assignments)
+
+
+	Switch statement - if you dont ad break then it goes through all the cases
+		switch(ev){
+			case LOG_EVENT_1:
+				...
+				break;
+			default:
+				...
+		}
+
+	Loops (For loop, for-of loop, forin loop, while loop)
+		starts on the i value, stops BEFORE the maxvalue - used alot with .length
+
+		can use commands inside loops
+			break; - Force a Break out of the loop
+			continue; - Forces the next iteration of the loop, so to skip this
+		
+		for loop
+			for (int i = 0; i < List.Length; i++) 
+			{
+			  Console.WriteLine(i);
+			}
+
+		OBS You cannot modify values in a foreach loop. Only Read. Use a for loop instead.
+		for-each arrays (You get a free index of object!) element.key - 
+			foreach (var element in array){
+				console.log(element);
+				console.log(i);
+			}
+
+		while loop
+			while (isLoggedIn){
+				...
+				i = i + 1;
+				if(){isLoggedIn = false}
+			}
+
+		do while loop (excecute BEFORE checking the condition, so always once)
+			do {
+
+<<<<<<< HEAD
+			} while (isloggedInChanged)
+=======
+			} while (isloggedInChanged)
+
+Exceptions
+	All exceptions inherit from System.Exception
+		Errors propagate upwards, so if it finds a trycatch block further up the chain it uses that
+	Trycatch - If any error happens we are redirected to the catch block, do something with the error
+		try
+		{
+
+		}
+		catch (System.Exception ex) - Handles any exception
+		{
+
+		}
+	Throw Your own exceptions inside of your code if certain things don't flow the way they should (based on user input for example, invalid values returned, empty object returns e.t.c.)
+	
+		throw new Exception("message");
+			throw will ensure that the calling code ends up in a catch-block if it is present. It does NOT return data
+
+	Without trycatch and throwing exceptions, it will go to the highest level of calling code and simply crash the program, with an error code. No questions asked. But we do get a message telling us what happened. Thank you c# developers!
+
+Async
+	convert methods
+		void GetAll(){}
+		async Task GetAll(){await ...}
+
+
+
+Commands
+	Data manipulation
+		Casting 
+			(char)(int + char) - Converts the int value to a char value.
+		Basics
+			.length - Returns the length of given object
+				.length === 0 (meaning it is empty)
+			var += 5;
+			var1++ var1-- ++var1 --var1
+			const additionResult = functioncall(1, object);
+			function() vs function - function() runs the function imediately wheras function does it after 
+		Converting
+			string.Join(", ", Value) - Convert ANY Array to string so you can WriteLine
+			parseInt() or + - Parses string into Int
+			parseFloat() - Parses string into Float
+			.toString() - Parses int or float to string
+			.toCharArray() - Converts string to Char array (array basically)
+			new string(charArray) - Converts Char array back to string
+			Convert.
+				ToChar() - 
+	Lambda Understanding
+		(x => x < 15) - select x where x is less than 15
+		(x => x.Name) - selects x where x.Name is equal to TRUE, aka all the names
+		(x => new { Name = x.Name, Height = x.LengthInMeters }) - Returns anonomous type to help with formatting in the new list return. So you can basically remap values
+ 	LINQ commands - LINQ Input and Output is IEnumerable<T>
+ 		.ToList() - Switch value to List, good for dbcontext, to create list from context so you can use linq on it
+ 		.Any(x => x) - If ANY OF THE VALUES inside matches with the citeria. returns bool
+		.All(x => x) - If ALL OF THE VALIUES inside matches with the criteria. returns bool
+		.Count(x => x) - How many that matches with the criteria. returns int
+			.LongCount(x => x) - For values that are larger than 2 billion
+		.Contains(x => x) - If Value is Present in collection
+ 		.OrderBy(x => x) - Sorts values in normal order
+ 			.ThenBy(x => x) - So you can nest ordering, ex rating first price second
+		.OrderByDescending(x => x) - Sorts values in Descending order 
+			.ThenBy(x => x)
+		.Reverse() - Reverses the order of values
+		.Min(x => x) - Find minimum value of criteria
+		.MinBy(x => x) - Find minimum value by criteria
+		.Max(x => x) - Find maximum value of criteria
+		.MaxBy(x => x) - Find maximum value by criteria
+		.Average(x => x) - Returns average value of criteria
+		.Sum(x => x) - Calculates the sum of values of criteria
+		.ElementAt(x => x) - Access the Element of a given index in IEnumerable<T> Which does not work w index
+		.First(x => x) - Return first element or first element of given criteria
+			.FirstOrDefault(x => x) - Will return default value if no match of given criteria
+		.Last(x => x) - Return last element or last element of given criteria
+			.LastOrDefault(x => x) - Will return default value if no match of given criteria
+		.Single(x => x) - Returns a single value based on criteria, gives exception if it contains more or none
+		.Where((x,i) => x) - Filters and returns values based on criteria / based on index selection also
+			.Where(x => x).Where(x => x).ToList(); - Does not return anything by default. Only selects
+		.Take(n) - Takes first 3-n values
+			.TakeLast(n) - Takes last n values
+			.TakeWhile(x => x) - Take Until a given criteria is met
+			.Skip(n) - Takes all values from collection except skipped ones n
+			.SkipWhile(x => x) - Skip Until a given criteria is met
+		.OfType<T> - Returns selected type, class or implementation (IFuelable or string, or Bird)
+		.Distinct(new EqualityComparer()) - Returns values without duplicates, equalitycompare is if objects
+		.Prepend(x) - Add value at beginning of collection
+		.Append(x) - Add value to end of collection
+		.Concat(item) - Merges two collections with each other in sequence
+		.Union(item) - Merges two collections with each other in sequence AND removes duplicates
+		.ToArray() - Switch any IEnumerable<T> to array
+		.ToHasSet() - 
+		.ToDictionary() - 
+		.ToLookup() - 
+		.AsEnumerable() - 
+		.Cast<T> - Cast type of objects in collection to different type
+		.Select(x => x) - Selects a PROPERTY of an object. Ex Name, Adress, object, extracting data
+		.Select(x => x) - Change values based on criteria, ex double them, convert to string, toupper e.t.c.
+		.Select((x,i) => x) - do something with the index
+		.SelectMany(x => x) - Extracts nested collections, used to flatten collections
+		Enumerable
+			.Empty<Type>() - Creates an empty Collection
+			.Repeat(x, times) - Creates a collection with repeating values
+			.Range(x, y) - Creates a collection with a range between values
+		.GroupBy(x => x) - Group by character, or country, Returns an IGrouping
+		.Intersect(item) - Equal values between two collections get returned
+		.Except(item) - Returns all values except the ones in the given collection, like a subtract
+		.Join(item, item => index , item, item => index) - Joins items with matching keys together and joins the tables accordingly
+		.GroupJoin(item, ) - Joins Groups together
+		.Aggregate((x, nextx) => xnext operation w x) - Excecutes a function for each element of the collection, Crazy powerful for checking across values, or doing operations across the values. It goes to the next, and then checks the next and so on... May be the most powerful method.
+		.Zip(item, (x, y) => (x, y)) - Zips two collections together, define what to do with the collections. Point calculate distance example
+		.Find(x => x) - Find FIRST ITEM that matches the criteria
+		.FindAll(x => x) - Find All or All with certain criteria
+		.ThenBy()
+		.StartsWith("")
+		.Chunk(x) - Split Collections into chunks of x values each
+	DbContext commands
+		.SaveChangesAsync() - Always save changes after operations
+		.AddAsync(Object) - Add Object to Context
+		.GetAsync(Object) - Return a single object from Context
+		.ToListAsync() - Return all Objects from Context
+		.ToListAsync(x => x) - Return all Objects that match a certain criteria from Context
+		.Remove(Object) - Remove Object from Context
+		.Update(Object) - Update Object in Context
+	Checks Types / If A certaint thing exists
+		typeof() - Evaluates what type the given var has
+		isNaN() - Check if a given value IS a number
+		value instanceof ObjectName - Checks if value is an instant of ObjectName
+		.Any() - Does anything exist, Made for IEnumerable
+		.Exists() - Does anything exist, made specifically for List
+	Char char.command()
+		char.Isletter(x) - Returns true if char is a letter
+		char.IsLower(name[0])
+	String. - string.Command()
+		Can just call
+			.StartsWith('')
+		´${Variable}´ - backticks and refeering to a variable inside string
+		@"stringContent" - Allows Multible Line Strings and prints them out accordingly
+		\n \' \\ - Linebreak, single quote, singlebackslash, 
+		.toUpper() - makes all characters uppercase
+		new Array.from(string) - Converts arraylike object aka string to real array so you can use tools
+		.split(';') - Splits to three elements after every ;, you can also limit with a second argument
+		.split('') - Converts string to array and removes the whitespace
+		.join() - Join back together a string from array after you've manipulated it
+		.join() - Joins seperated by comma all values of array/string. Add ' ' to define the separator
+		.trim() - removes whitespace from both ends of this string NOT INSIDE the text
+		.replace("", " "); - Remove whitespace INSIDE TEXT
+		.ToLower()
+		.toUpper()
+		.replace()
+		.sort - sorts string in alphabetical order (remember to join after)
+		.StartsWith("u") - Returns the value of the string that starts with u
+		.IsnullOrEmpty(x)
+	List Object
+		.Count - Returns the count of the list (number of objects)
+		.add(value) - Add to the list
+		.RemoveAt(index) - Removes list item at specific index
+		.foreach(item => ...do something... item) - Operation to each item of list
+		.add(item) - Adds a new item to the list
+		.Contains() - Returns true if a specified value is found in the list
+		.Where(item => *Boolean condition*) - Selects certain elements based on boolean expression, contains() returns a true boolean for example
+		.Select(item => ..item..)
+		AddRange() - 
+		InsertRange(0, item) - inserts item to frint of the list 
+		RemoveRange(1, 3) - Removes index 1-3 in the list
+		.Remove(item) - Removes a specific item
+		.Clear() - Removes all items
+	Array. - (Arrays)
+		.ToList() - Converts array to list object
+		.Length()
+		.push() - Add data to End of array without killing existing values
+		.unshift() - Add data to Beginning of array without killing existing values
+		.pop() - Remove Last Element of array and also returns the Last element
+		.shift() - Removes First Element of array and also returns the First element
+		array[1] = value1; - Replaces an Element of the array
+		.splice - Adding, removing, inserting items into an array
+			.splice(startindex, whattodeleteornotdelete 0/1 , insert element) - Inserts Element in given index
+			.splice(startindex, 1) - Delete startindex value
+		.slice(0) / .slice(0, 15) - returns a copy of the array or between two ranges of index DUPLICATE the array
+			-3, -1 - Select third last element to the first last element
+		.concat([]) - Pulls out all elements of arr and combines it into a new arr + Adds additional values
+		.IndexOf() - Returns the first index of the value you are passing in
+		.lastIndexOf() - Returns the last index of the value you are passing in
+		.find((item, idx, itemsArray) => { - 
+			return item.person === 'Manuel';
+		})
+			single object of array, index of that object, the full array
+			(Works like a for loop), it runs across the entire array
+			you can find and return an element you are trying to find
+			It Copies the Reference Value of the object
+		.findIndex((itemindex) => { - }) - It returns the index of that given object
+			ex .findIndex(p => p.id === inputId) 
+		.includes(10.99)
+			Returns true if an array includes a certaint value
+		.forEach((price, idx, prices) => {
+			const priceObj = { index: idx, taxAdjprice: price * (1 + tax) };
+			taxAdjustedPrices.push(priceObj);
+		})
+			single object of array, index of that object, the full array
+			you can edit each item in the array. It works like a for-of loop but you have built in index
+			Each time it creates a constant that stores the index, taxadjprice and converts it then pushes it
+			You CAN just create objects based on the price.value for example, and not modify the main object
+		.map((price, idx, prices) => { 
+			const newArrObj = {index: idx, name: item.name + 50, newValue: "true"};
+    		return newArrObj;
+		})
+			const transformedArray = originalArray.map(obj => obj.price);  'OBS! - Converts object array to normal array'
+			single object of array, index of that object, the full array +Has to return something!
+			IT RETURNS AN ELEMENT FOR EACH ITERATION OF THE LOOP IN THE ARRAY
+			It Returns A BRAND NEW array, copies
+			Works like .find() only you can actually change values inside of the array
+		.sort((a, b) => {
+			if(a > b){
+				return 1;
+			} else if (a === b){
+				return 0;
+			} else{
+				return -1;
+			}
+		})
+			Sort from Lowest -> Highest Number
+		.sort
+		.reverse()
+			Reverses the array
+		.filter((price, idx, prices) => {
+			return item < 40 ? true : 
+				   item === 5000 ? true : 
+				   item < 10 ? true : false;
+		})
+		for (int i = 0; i < MyObjectList.Count; i++)
+{
+    MyObjectList[i] = new MyObject();
+}
+			IF ITS FALSE THE FILTER DROPS IT FROM THE ARRAY
+			.filter(p => p > 6); - Arrows help alot with shortening these types of functions
+			.filter(movie => movie.includes(filterValue));
+			single object of array, index of that object, the full array +Has to return something!
+			Everything that returns true it will keep in the new array
+			Can remove items using filter ex:
+			this.projects = this.projects.filter(p => p.id !== projectId); - It keeps all items where this is NOT true.
+		.reduce((prevValue, curValue, curIndex, Array) => {
+			return prevValue + curValue;
+		}, 0)
+			const sum = transformedArray.reduce((sumVal, curVal) => sumVal + curVal, 0)
+			previous value(startvalue set after the function), current value of object, index of that object, the full array
+			In this case returns the sum of the array
+			Not sure what to use this for... =???
+		const [firstname, lastname] = arr;
+			Stores the arr[0] arr[1] in two variables. Instead of accessing arr[0], arr[1] every single time'
+		const [firstname, lastname, ...otherInformation]
+			Stores arr[0] arr[1] inside firstname lastname and then all the rest inside otherInformation
+		.flat(Infinity) - convert nested arrays to one array
+	Sets
+		.has() - look if a set has a certaint value
+		.add() - adds a value to the set
+		.entries() - returns all entries of a set (double value)
+		.delete() - delete certain value
+	Maps
+		.get(key) - Returns the object of the key of the map
+		.set(key, [{date: 'two weeks ago', price: 20}]) - Sets a object to a certaint key
+		.entries
+	Objects
+		.newProperty = true; - Declare a new property on object
+		delete object.propertyName - Deletes a property
+		Object with numbers will always be sorted
+		Destructuring Objects aka extracting objects
+			const {info, ...otherProps} = movie; - Seperates the info and the otherprops from movie object
+			const {title} = info; - seperate title from info object
+			const {title: newName} = info; - Create a newvariable useful if you already have a var with same name
+		if (!('info' in movie)) - Check if value is in object
+	Prototypes
+		.getOwnPropertyDescriptors(object) - Metadata that influences how properties can be used
+			ex writable, enumerable
+		.defineProperty(object, 'name', {configurable: true, enumerable: true, writable: false}) - To change these properties
+		.getPrototypeOf(object)
+		.setPrototypeOf(object, {add function})
+	This
+		.call(movie) - Excecutes function and Overrides what this refeers to when calling the function (can pass arguments in ,)
+		.apply(movie, []) - Same as call but can pass additional arguments as only array
+	Callbacks
+		setTimeout(() => {...}, 2000); - Runs after 2000 milliseconds
+		setTimeout(code, delay)
+		setTimeout(functionRef, delay)
+		setInterval(() => {...}, 2000) - Runs every 2000 milliseconds
+		clearTimeout(timeoutId) - Stops a timeout
+		clearInterval(intervalId) - Stops an interval
+	DateTime. - (DateTime Object)
+		.getDate() - gets date and month
+		.getDay() - gets current day in this week
+		.getTime() - gets the current time based on time since javascript begun
+		.parse(string) - 
+		.subtract() - 
+		.Second()
+	TimeSpan
+		.subtract() - 
+	Error Object - throw new Error() 
+		.code
+		.message
+		.stack
+	Symbols
+		.
+	Console.
+		Write() - 
+		WriteLine() - 
+		ReadLine() - Gets user input from the console
+	Math
+		% 2 == 0 - checks if iseven number
+		Math.random() - Generates a random number between 0 and 1
+		Generate number based on user set values
+			let min = 2; min = Math.ceil(min);
+			let max = 4; max = Math.floor(max);
+		    Math.floor(Math.random() * (max - min + 1)) + min;
+		Math.PI() - Gives value of Pi
+		Math.Pow() - PowerOf
+		Math.abs() - absolute number
+		Math.sin() - sinddd
+		Math.Sqrt() - Gives square root
+	alert()
+	prompt() - Returns a string
+	debugger;
+
+Validations
+
+Error Handling
+
+Expressions
+	Lambda Expression
+		x => x.*
+
+Functions
+	.ToList() - (Uses nothing as input, Returns a List or IEnumerable)
+	.FirstOrDefault(x => x.CourseId == id) - (Uses id as input, Returns a single Object)
+	.FirstOrDefault(x => x.Id == courseid.AuthorId) - (Find the first item where Id matches courseid.AuthorId)
+	.Where(x => x.CourseId == id) - (Many Ids. Find where CourseId matches Id on all the files)
+	.SaveChanges()
+	.Remove(Object) - (Uses object as input, returns nothing)
+	.Update() - (Modifies Object, uses object as input to match, returns object)
+	.Add() - (Adds a new Object WITH DATABINDING, takes object as input, returns null)
+            [Bind("Id,Stuff,To,Bind")] - Databinding keyword used when getting the data (inside action controller or wherever the data is coming to from view)
+   	.Where(x => x.Name.Contains(Searchstring) - (Check if One of the movie objects contains the searchstring)
+   	x.Name.Contains(Searchstring)) 
+
+
+Convert syncronous to asyncronous (Single threaded to multi threaded)
+	Specific Type - public List<Grocery> get(){}
+        Returns a primitive or complex datatype, 
+        can be asyncronous or syncronous
+            public IEnumerable<Grocery> GetGrocery()
+            {
+                return _context.Grocery.ToList();
+            }
+            public async Task<IEnumerable<Grocery>> GetGrocery()
+            {
+                return await _context.Grocery.ToListAsync();
+            }
+    IactionResult - public IActionResult GetById(int id){}
+        When multible actionresult return types are possible in an action, for example http codes
+        can be asyncronous or syncronous
+            public IActionResult DeleteGrocery(long id)
+            {
+
+            }
+            public async Task<IActionResult> DeleteGrocery(long id)
+            {
+
+            }
+    ActionResult<T> - public ActionResult<IEnumerable<Grocery>> Get(){}
+        ActionResult is the default implementation of Iactionresult
+        can be asyncronous or syncronous
+            public ActionResult<IEnumerable<Grocery>> GetGrocery()
+            {
+                return _context.Grocery.ToList();
+            }
+            public async Task<ActionResult<IEnumerable<Grocery>>> GetGrocery()
+            {
+                return await _context.Grocery.ToListAsync();
+            }
+
+Relationships
+    One To One
+        Teacher Must have ONE classroom - (Inside teacher) define: Classroom Classroom + int ClassroomId
+        Teacher can have ONE classroom - (Inside teacher) define: Classroom Classroom + int? ClassroomId
+        (You can do it both ways since its a one to one relationship)
+    One To Many
+        Classroom can have Many students - (Inside Classroom) define: ICollection<Student> Students [Now a student can get assigned to a classroom] - Inside Student define Classroom Classroom. (Add a classroom Id and foreign key to it) To referense back the one
+        Make so the student HAS to be assigned to a classroom - (Inside student) define: [Required] Classroom Classroom
+    Many to Many
+        A course can have Many students - (Inside course) define: ICollection<Student> Students
+        A student can have Many courses - (Inside studeny) define: ICollection<Course> Courses
+        (It creates a joint table automatically)
+
+    Foreign key refeers to the primary key of a different object
+
+
+Implement Repository Pattern - (The methods should happen behind the scenes)
+	Contracts - (Represents the abstraction of a class)
+			Interfaces. They are like the contracts
+			IGenericRepository<T> where T : class
+	Repository - (Represents the implementation of that class)
+
+
+Lambda Expressions
+	number => number > 15;
+	Is same as
+		public bool IsNumberGreaterThan(int number)
+		{
+		  return number > 15;
+		}
+	and same as
+		public bool IsNumberGreaterThan(int number) => number > 15;
+		numbers.FindAll(IsNumberGreaterThan());
+	And same as
+		bool (int number) => number > 15;
+	Which becomes
+		number => number > 15;
+
+Generics
+
+
+
+.NET Core dotnet
+Theory
+	C# Code is structured in Projects
+	When you compile the project it becomes an executable unit called .NET Assembly.
+	Normally you have two projects. One where the production code lives, and one where the development code lives
+	solution - Is multible projects bundled togeher. It builds the entire cohesive unit/application together
+
+	Solution
+		global.json - Describes a bit about the solution
+		solutionName.sln - Used to keep the projects grouped together. You do not manually edit this file
+	Project
+		ProjectFile.csproj - Written in XML, Describes the project
+			<TargetFramework> - Which framework project will be compiled for
+			<PackageReference> - Lists the packages used in the project
+			<ProjectReference> - References another project outside of this one so they are both used as one cohesive unit
+		bin - contain our build output
+		obj - contain our build output
+		program.cs - The very basics
+			var builder = WebApplication.CreateBuilder(args); - Creates a builder we can add services to
+				...Here we put all out services that build
+			var app = builder.Build(); - Builds The application after all Services Have Built
+				...Here we put all our configuration options for the application itself
+			app.Run() - Runs The application
+		appsettings.json - Here you put in basic configuration strings. It's like a blank sheet of JSON text if a configuration wants json text. *contains our application secrets*
+
+		So:
+			1. Create a builder
+			2. Add services to the builder
+			3. Build the application
+			4. Add configurations
+			5. Run the application
+
+		Folder Structure (Class/interface Usecases)
+			Controller - Special Class that handles HTTP Routing inside ex .NET Core
+			Model - Describes a user, person, product, Nested Model, Relationship e.t.c.
+			Service/IService - Holds the service related methods, functionality and interfaces that interact between the user class and service
+			ViewModel VM - DOM uses these classes for display/input
+			ViewComponent VC - DOM uses these classes for display of information
+			Services
+			enum - Class that describes a custom property set
+			BaseRepositories - The service that handles the entity-based repo classes
+			An interface is a contract for a classClass/interface Usecases
+			Controller - Special Class that handles HTTP Routing inside ex .NET Core
+			Model - Describes a user, person, product, Nested Model, Relationship e.t.c.
+			Service/IService - Holds the service related methods, functionality and interfaces that interact between the user class and service
+			ViewModel VM - DOM uses these classes for display/input
+			ViewComponent VC - DOM uses these classes for display of information
+			Services
+			enum - Class that describes a custom property set
+			BaseRepositories - The service that handles the entity-based repo classes
+			An interface is a contract for a class
+
+Setup
+	1. Create a builder
+		var app = builder.Build(); - Builds The application after all Services Have been added
+	2. Add services to the builder
+		AddTransient<Interface, Class>()
+		AddScoped<Interface, Class>() - that will create a new instance for each request.
+		AddSingleton<Interface, Class>() -  Means the service can only exist Once. Like a db for example.
+		AddDbContext<Class>(x => {x})
+			.UseSqlServer(connectionstring)
+		AddIdentityCore<Class>
+		AddCors
+		AddApiVersioning
+		AddAuthentication
+		AddJwtBearer 
+	3. Build the application
+	4. Add configurations (middleware)
+		app
+		.UseHttpsRedirection() - to do redirection to https when using http
+		.UseAuthorization() - allows users to be authorized
+		.MapControllers() - use a controllers with the default conventions.
+
+		.UseSwagger() - swagger config
+		.UseSwaggerUI() - swagger ui config
+		if(app.Environment.IsDevelopment()){}
+
+	5. Run the application
+		app.Run() - Runs The Application Always put at end
+
+Entity Framework Core - Used to connect to Database
+	Usage
+		Just Instansiate the Dbcontext as var context and convert it to list to use linq commands on it
+	Services
+		AddDbContext<Class>(x => {x})
+			.UseSqlServer(connectionstring)
+	Middleware
+	Config
+		"ConnectionStrings": {"Name: "DatabaseLocationNameAndPassword"}'
+		builder.Configuration.GetConnectionString("Name")
+	Setup
+		Entity Framework Core knows automatically that any model with prop named Id is automatically the primary key
+
+		DbContext - A class that inherits from : DbContext - Turns the regular c# class to a database context class that represents the database
+
+		You get access to two methods with protected ovveride void
+			
+
+			OnConfiguring(DbContextOptionsBuilder optionsBuilder) - Stuff with dbconnection n basic configs
+				.UseSqlServer("ConnectionString")
+				.UseSqlLite($"ConnectionString")
+				.LogTo(Console.WriteLine, LogLevel.Information) - Logs Information to the console
+				.EnableSensitiveDataLogging() - Enables datalogging more information
+				.EnableDetailedErrors() - More detailed errors
+
+			OnModelCreating(ModelBuilder modelBuilder) - You define configuration for the tables
+				Entity<T>().HasData(new Object{.}, new Object{}) 
+					- Seeds Database with given Type using HasData which checks If it has data. if not it builds the objects
+				
+		Followed by DbSet<T> props that represent the actual tables inside the SQL Database
+
+		Migrations - Essentially like Git, for Databases. A snapshot and change track history track. You can even roll back to a specific point in time (With Visual Studio Code you need dotnet ef installed)
+
+			Brand New Db
+				Add-Migration Name - 
+					dotnet ef migrations add InitialMigration --startup-project ./ --project ../EntityFrameworkCore.Data/
+				Update-Database - 
+					dotnet ef database update --startup-project ./ --project ../EntityFrameworkCore.Data/
+
+			Reverse Engineering Existing Database - If we already have an existing Db
+				Scaffold-DbContext 'ConnectionString' Microsoft.EntityFramework.Provider -ContextDir ScaffoldContext -OutputDir ScaffoldModels
+					dotnet ef dbcontext scaffold "ConnectionString" Microsoft.EntityFramework.Provider --context-dir ScaffoldDbContext --output-dir ScaffoldModels --startup-project ./ --project ../entityFrameworkCore.Data
+				When Updating if the Database first approach changes simply add the command -Force / -force, so it overrides the existing files
+
+			When Using Multible DbContext Files
+				-Context Name / --context Name - At end of command to specify which DbContext to change
+
+		Providers
+			Migration Provider
+				Microsoft.EntityFrameworkCore.Tools - So we can run in package manager console
+				Microsoft.EntityFrameworkCore.Design - Cross platform line tooling
+			EfCore Providers
+				Microsoft.EntityFrameworkCore.SqlServer
+				Microsoft.EntityFrameworkCore.Sqllite e.t.c.
+
+MVC
+	Usage
+		MVC uses a Model View Controller Relationship with special Razor Pages <html> mixed with c# and js
+		@ before writing C# code always
+		@model NameSpace.Models.NameOfModel - To Import Models
+		@using entityframework.core6.0 - Import Namespace
+		ViewData["Title"] = "" - Sets the title of the page
+
+		Inside the IActionResult methods, Simply create an instance of the model or whatever you want to do, then inside return view(*) - Put the model in. Now you can refeer to it inside the view
+	Folder Structure
+		wwwroot - Where you place css, Js and external libary files
+		Controllers - Connects views to models
+		Models - 
+		Views - All Html content views are here
+			Layout.cshtml - Where all the Universal content is (navbars, footers e.t.c.)
+					@RenderBody() - Where the views content is located 
+		Appsettings.json - Configuration File
+		Program.cs - The Main application services
+	Controllers
+		return view() - Returns the view inside the folder of same name as controller index.cshtml
+		method called ContactPage return view() will return ContactPage.cshtml in controllerName folder
+
+		Inside the IActionResult methods, Simply create an instance of the model or whatever you want to do, then inside return view(*) - Put the model in. Now you can refeer to it inside the view
+
+		return RedirectToAction(nameof(Index)) - Redirect actually runs the IActionResult Index Again.
+		return view("Index") - view skips the IActionResult and goes straight to the view.
+			This can cause errors if for example i create an object inside an IActionResult
+	Http Links
+		<a asp-controller="Controller to refeer to" + asp-action="View to go to in the given controller">
+		<a asp-controller="" asp-action="Name of request" - for example to do the post version of the controller
+
+		asp-route-id="@model.id" - Data Routing HTTP from view to view
+
+		Form
+			asp-controller="" - Name Of The Controller to communicate with
+			type="submit" 
+			asp-for= - Is databinding. This way you can bind data from ex input to model
+			asp-validation-for - Error Handling Has to do with error handling display, which you can set in the model
+	View
+		Display List model. Same as in c# 
+			foreach(var item in model){..}
+		@model.Name - Access Model
+		@Html.DisplayNameFor(modelItem => item.PropertyName)
+		@Html.DisplayFor(modelItem => item.PropertyName)
+Xunit
+	using System.Linq;
+		Divide into .tests and the code itself
+
+		Test Method
+		create void return method with [Fact] attribute
+
+		Arrange - Import the class/write the thing to test and assign it to a variable
+		Act - Create an individual/Run function on the class.
+		Assert - 
+			Assert.Equal("what it should equal", Object)
+			Assert.NotNull(Object)
+			Assert.IsType(typeof(Employee), Object) 
+
+		dotnet test - tests all the tests in the solution
+		dotnet watch test --project TrainingGround.Tests - Add continous testing to file
+
+
+C# General Info
+	C# is a compiled language which means that the code that we write will be transformed or compiled before it can be executed. The compilation is done to something called Common Intermediate Language (CIL, or just IL). It's called common intermediate language since other languages on the .NET platform also is compiled to similar IL code.
+
+	When you compile C# code you will get executables (.exe or .dll-files) that contain this IL code and that then gets translated to binary executables for the platform that the .NET framework happens to be running on. This is known as Just-In-Time (JIT) compilation and happens when the code is executed.
+>>>>>>> a72a494eb85f64727f2e4ab5f8007b77db261153

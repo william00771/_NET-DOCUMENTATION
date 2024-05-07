@@ -1,0 +1,407 @@
+Installation
+	npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+
+Good things to know
+	if(ks){
+		...
+		return - Now it never excecutes code after the if statement
+	} 
+
+event handling
+	e: FormEvent<HTMLFormElement>
+    const target = e.currentTarget as HTMLFormElement;
+
+Components
+	basics
+		export default function ComponentName(){
+			... internal logic
+			return (
+				...html and logic
+			)
+		}
+
+	<> </> - Fragment wrapper
+
+Props
+	<Component data={input}>
+	export Component({props})
+
+	instead of props.message ({ message } : Greetingprops)
+		type Greetingprops {message: string}
+
+Destructuring objects
+	with curly braces you get the values out of the object as direct variables 
+	[first, second ...theRest] = person.languages; - Destructuring array
+	{firstName, lastName} = person; - Destructuring Object
+
+Events
+	onclick={() => command()}
+	onChange, onClick
+
+Rendering components - You use map
+	{languages.map((lang, index) => (
+		<li key="lang.id">{lang}</li>
+	))}
+
+UseState - Do not overuse
+	const [activities, setActivities] = usestate<string[]>([]);
+
+Gotchas
+	We can't use setCount and then line under to get the count, you get the old count
+	setCount((oldCountVal) => {
+		return oldCountVal + 1;
+	})
+
+UseEffect - Do not overuse
+	Lifecycle stages
+	useeffect runs on start, runs only once, unless providing [] conditions for it to run again
+
+	useEffect(() => { - On mount it runs the lambda
+
+	}, []) - [all] - Run on initial mounting
+
+	useEffect(() => {
+
+		return() => { - When component unmounts you do this
+			//run cleanup tasks here
+		}
+	})
+	You can useeffect inside a component.
+
+Context api - To prevent prop drilling, things that are shared between things
+	ex Light Theme, Dark Theme
+	The context make things globally accessible
+
+	Sending up the chain from one component to another in a different part of the tree
+
+	React.createContext({name: "siri"})
+	l = useContext(logged)
+	l.name 
+
+	ThemeContext = createContext('light')
+	<ThemeContext.Provider value="dark">
+		<Toolbar />
+	</>
+
+	inside toolbar
+		useContext(ThemeContext)
+
+UseRef
+	useRef<HTMLInputElement>(null);
+
+	ref={myref}
+
+	then inside clickHandler you can refeer to it
+	myref.current.focus();
+
+UseMemo - Whenever something takes alot of time, this helps with performance alot by "caching it"
+
+	useMemo(() => {
+		expensiveFunction(value)
+	}, [value])
+
+	usememo and reference the usememo instead.
+
+
+Params
+	key="" - uid
+
+The event object
+	How to tell typescript the .value actually exists?
+		export type CustomFormValues ={ details: {value: string}; }
+		const target = event.target as typeof event.target & CustomFormValues;
+	e.preventdefault
+
+You can use eventlisteners
+	Don't forget to remove the eventlistener on unmount!
+
+Forms & Validation
+	Typical HTML form
+		form around everything!
+		form onclick(submithandler)
+		section control-row + control margin - All labels/inputs are incapsulated by divs!
+			label htmlfor email + 
+			input type email name email (htmlfor is same as for)
+		section control-row + control margin
+			label htmlfor password + 
+			input type password name password (htmlfor is same as for) - onchange handleEmailChange
+		p form actions
+			button reset
+			button login - Submit is the default type of a button
+	handling the data
+		Global
+			SubmitHandler
+				ev.preventDefault();
+
+		Good Generic way (state way)
+			state of enteredvalues ({email: '', password: '' e.t.c...})
+
+			handleInputChange(id, value){
+				setEnteredValues(prevValues => ({
+					...prevValues,
+					[identifier]: value
+				}))
+			}
+
+			inside email input - onChange (e => handleInputChange('email', e.target.value))
+								 value (enteredValues.email)
+		Good (ref way, less code overall, downside is resetting stuff. Can actually get more complex)
+			const email = useRef();
+			inside email input - ref={email}
+
+			submitHandler
+				email.current.value;
+
+		Good (Using FormData) (Two Ways)
+			HandleSubmit
+				const formData = new FormData(e.target) - This gets extracted based on the name property
+					fd.get('email') - Gives me enetered email adress
+					fd.Entries() - returns array of all names, values
+				best way!
+					const data = Object.fromEntries(fd.entries()); - returns key value pairs for all forms
+					if you have multible checkboxes with same name attribute just:
+						const acquisitionChannel = fd-getAll('acquisition')
+						data.acquisition = acquisitionChannel;
+
+				Or
+					data = new FormData(event.currentTarget);
+					email: data.get('email');
+					passwor: data.get('password ')
+			
+		Resetting FormData
+			there is a button with reset type that resets the form
+			event.target.reset(); - Crazy!
+
+		Validation Global
+			add new class called 'control-error' with emailisinvalid && <p> ...
+
+		Validation (state - When user types)
+			new state [didedit] {email: false, password: false}
+
+			emailIsInvalid = didEdit.email && !enteredValues.email.includes('@');
+
+			handleInputBlur(id){
+				setDidEdit(prevEdit => {
+					...prevEdit, 
+					[id]: true
+				})
+			}
+
+			onBlur(() => handleInputBlur('email')) - Whenever input loses focus
+			inside handleInput Change
+				setDidedit((prevEdit) => ({ - So onfocus the error message goes away again
+					...prevEdit,
+					[identifier]: false,
+				}))
+
+		Validation (ref - When user submits)
+			usestate emailIsInvalid
+
+		Validation (FormData)
+			Just use some built in html stuff in the input
+				required, type, pattern(regex), minlength, maxlength
+			Then add your own custom ontop of the default ones
+				passwords not equal
+					new state [passwordsnotequal] = false
+					if(data.password !== data['confirm-password']){
+						setPasswordsNotEqual = true
+						return
+					}
+
+Fetching in react
+	useeffect
+		fetch url
+		then joke => data.json()
+		.then joje => setJoke(joke)
+	[jokeId, totalJokes]
+
+	all these fetch things are seriously
+
+	use loading state
+	use error state
+	use stoploading state (if user clicks somewhere else while loading)
+		return () => setStoploading(true); - with the json request - just return
+
+	Lets use libaries for fetching!
+
+React Query (Tanstack Query)
+	installation
+		npm i react-query
+		npm i @tanstack/react-query
+		inside main.tsx
+			const queryClient = new QueryClient();
+			<QueryClientProvider client={queryClient}> </QueryClientProvider>
+	basics
+		it takes a function that returns a promise
+		it has a unique key and values where if they change queryfn runs again
+		it RETURNS certains build in objects, most importantly data. But also useful things like isPending/isLoading/isError, Error
+		Also returns stuff like refetch, that you can use to recall the fetch
+
+		const { data , isLoading, isError, error} = useQuery({
+			queryKey: ['id', e.t.c..], - Array of values, first is a id, you can use objects, states e.t.c.
+			queryFn: - Takes a function that returns a promise aka a fetch
+		})
+
+
+		Lab usecase
+			useQuery being part of the component itself
+			const {isLoading, error, data} = useQuery<UnsplashResponseObject | UnsplashResponseObjectwithSearch>({
+		      queryKey: ['imagesQuery', searchTerm, pages, scrollPage],
+		       queryFn: () => fetch('apilink and parameters') (OBS You should break this into your own fetch http.js function)
+		        .then((res) => res.json()
+		      ),
+		    })
+
+		    return(
+		    	{isLoading ? <loading objects/> : <Success objects/>} - 
+		    	{error && <error objects/>}
+		    )
+
+	Tanstack Query 
+
+
+Axios - nicer than fetch and comes with interceptiors
+	installation
+		npm i axios
+		import axios from 'axios';
+	commands
+		axios.get('url') - GET REQUEST - returns a promise
+			.then(response => ex setActivities(response.data))
+
+
+React Router
+	installation
+		npm i react-router.dom
+		inside app create map router -> router.tsx
+		import {createBrowserRouter} from "react-router-dom"
+		config export const router = createBrowserRouter([{}])
+			path: '/' - Root 
+			element: <App />, - the main application component to load
+			children: [
+				{path: '', element: <Homepage />)},
+				{path: 'catalog', element: <catalog />)},
+				{path: 'catalog/:id', element: <ProductDetails />)},
+				{path: 'about', element: <Aboutpage />)},
+				{path: 'contact', element: <Contactpage />)},
+			]
+		inside index.tsx just import {router} from 'app/router/Routes'
+		and load the <RouterProvider router={router}/> instead of <App />
+		Linking inside the components
+			<Link to={'/precviewpage/${course.id}'}>
+				const {id} = useParams(); - In next page to fetch passed in id that was used in the Link tag
+				{path: 'kurspreviewpage/:id', element: <KursPreviewPage />}, - To make id value passable
+
+		You can useparams from react router dom to access the parameters in react dom
+
+		New React Router thing - We also want to manage the whole data
+			So we can now attatch fething functions to 
+			element '<aoo'
+			loader: customloader,
+
+			then useLoaderData
+
+			{path: 'contact', element: <Contactpage />, loader: oneHeroloader)},
+
+			useLocation (same as window.location)
+			useMatch - access route matches on a page
+			useParams - accesses url params also accessible via match.params
+Jest
+	installtion
+		npm i -D vitest jsdom @testing-library/react @testing-library/jest-dom
+		vitetest.config.ts
+			import { defineConfig } from 'vitest/config'
+			export default defineConfig({
+			  test: {
+			    environment: 'jsdom',
+			    setupFiles: ['./tests/setup.ts'],
+			    include: ['./tests/**/*.test.tsx'],
+			    globals: true
+			  }
+			})		
+		in package.json
+			{
+			  ...
+			  "scripts": {
+			    ...
+			    "test": "vitest --config ./vitest.config.ts"
+			  },
+			  "dependencies": {},
+			  "devDependencies": {}
+			}
+			npm run test
+		Create a folder named test
+			create setup.ts
+				import { expect, afterEach } from 'vitest';
+				import { cleanup } from '@testing-library/react';
+				import matchers from '@testing-library/jest-dom/matchers';
+				expect.extend(matchers);
+				afterEach(() => {
+				  cleanup();
+				});
+			app.test.tsx
+				import { render, screen } from '@testing-library/react';
+				import App from "../src/App";
+				import React from 'react';
+
+				describe('App', () => {
+				  it('renders headline', () => {
+				    render(<App />);
+				    const headline = screen.getByText(
+				      /Click on the Vite and React logos to learn more/i
+				    );
+				    expect(headline).toBeInTheDocument();
+				  });
+				});
+
+
+Leaflet
+	installation
+		npm i react-leaflet
+		import { MapContainer } from 'react-leaflet'
+
+Animation Tips
+	Proper state trigger
+		className={"form__input " + (active? "active" : "inactive")}
+
+	.dropdown.active
+		visibility: visible
+		opacity: 1
+		transform: translateY(0)
+	.dropdown.hidden
+		visibility: hidden
+		opacity: 0
+		transform: translateY(-20px)
+
+	.content.active
+		height: auto;
+		max-height: 9999;
+	.content.hidden
+		max-height: 0
+		overflow: hidden
+
+	on parent
+		display: grid
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 500ms
+	kid.show
+		grid-template-rows: 1fr
+	kid.hidden
+		overflow: hidde;
+
+
+React Hook Form
+	const {register, handleSubmit, formState: {isSubmitting}} = useForm();
+
+	async function submitForm(data: ...){
+		await agent.Account.login(data);
+	}
+
+	isSubmitting is the loading state.
+
+	inside components
+		{...register('password')} - It comes with its own onchange, onblur, ref handler, name
+		{...register('username', {required: true})}
+
+
+
+Material UI - Great Libary

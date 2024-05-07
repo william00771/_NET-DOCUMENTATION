@@ -1,0 +1,6 @@
+What I've Learnt
+	Selecting last 4 digits of string - with Substring
+	Selecting everything before 4 last digits of string - with Substring
+	Creating a new string that has same symbol and specified length - with string declaration
+	To check for uneven string content - with modulo operator
+	To add to a string - using add operator

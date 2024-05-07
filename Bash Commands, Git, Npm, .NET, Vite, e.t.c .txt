@@ -1,0 +1,260 @@
+Bash
+	cmd + shift + p - reload window
+	cd directory - Moves into a given directory
+	cd 'directory' - moves to copied windows\directory
+	cd - - Go back to the folder you were in
+	start . - Opens a folder/file inside the windows browser
+	code . - Opens a folder with visual studio code
+	up arrow - Cycle through previous commands
+
+	mkdir Name - Makes a directory (new folder)
+	touch Name.ext - Creates a new file of given ext
+	cat Name.ext - shows the content of a given file in the terminal
+	start Name - Starts a file or folder in default program
+	cp file directory/filename - copies a file to a given directory
+	mv file directory/filename - moves a file to a given directory 
+	rm file - remove a given file
+	rmdir directory - remove a given directory (does not work if files in it)
+
+	rm -rf directory - Removes directory recursive and forced
+		-r - Recursive (Includes all subfolders and files)
+		-f - forces (doesn't ask any questions)
+
+	cp -r source_file destination
+
+	ls, ls *.md - is used to list files and directories (like the search function in explorer)
+			. - This directory
+			.. - Above current directory
+			~ - Root directory
+			- - Previous directory
+
+	man + pwd (shows manual for given command)
+	pwd - Shows where we are
+	Command --help - Gives you documentation of certain command
+	clear - Clears the screen
+
+	- short flag for something
+	-- full name of something
+
+dotnet
+	Setup
+		dotnet run
+		dotnet watch --no-hot-reload - Perfect! Very reliable
+		flags
+			-n - The tname of the output
+			-o - The name of the output direcotry
+			--dry-run - Show what would happen
+		new gitignore - So you don't upload the wrong stuff to github
+		new globaljson --sdk-version * - if you want to specify version of .NET used
+		new sln - Creates a new empty solution
+		new *ProjectTemplate* -n Name - Creates the Project Itself, if no name then same as foldername
+				-o name - to specify name
+				-o name.Tests - specify name
+				list - To list all possible .net applications you can build
+			console - Creates a new basic console app for testing purposes
+			webapi - Creates a basic WebAPI template like the one in visual studio with swagger
+			webapi -n API --use-controllers - USE CONTROLLERS in the WebAPI Template
+			mvc - Creates a basic Model View Controller Project
+			classlib - Creates a plain code project, Ex API, Data e.t.c.
+			xunit - Creates a test project xunit for testing classes and functions!
+			nunit - 
+			blazorwasm -o BlazorEcommerce --hosted - CREATES BLAZOR WITH API
+			
+		sln add *.csproj - Connects csproject to solution file
+		add reference *.csproj - 
+		dotnet add reference - Adds reference to other project (Inheritance)
+		dotnet add 'project1' reference 'project2'
+
+		dotnet new blazorwasm -o BlazorWebAssemblyApp
+
+		add package packageName - Installs Nuget package
+		dotnet --help
+		dotnet -help
+
+		dotnet watch --no-hot-reload
+
+	Help
+		dotnet --info - Check all info about .net installed on system
+		dotnet --version - check the installed versions 
+		--help tag
+		build always!!!!
+
+		dotnet dev-certs https --clean
+      		dotnet dev-certs https --trust
+	Run
+		run - Combination of dotnet restore + dotnet build
+			dotnet restore - Downloads dependencies
+			dotnet build - Builds the application
+		test - Tests using xunit test file
+		test --nologo -v:q
+		watch run --urls http://localhost:5001 - Run the watch on specified url
+		watch test --project Name - Add continous testing to csproject
+<<<<<<< HEAD
+=======
+		test - Tests using xunit test file
+		test --project salt.kkk.test
+>>>>>>> a72a494eb85f64727f2e4ab5f8007b77db261153
+	SERVE from API
+		app.UseDefaultFiles(); - Look for wwroot/index.html
+		app.UseStaticFiles(); - so that it can serve static content
+
+		app.MapControllers();
+		app.MapFallbackToController("Index", "Fallback"); - What API should do with roots it does not know about
+
+		Create a controller that returns that view
+			[AllowAnonymous]
+			FallbackController that inherits Controller
+			IActionResult Index that returns 
+				PhysicalFile(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "index.html"), "text/HTML");
+
+	Creating a dotnet scaffold
+		dotnet new web -o Scaffold.Web
+			Remove use endpoints
+			add useDefaultFiles and StaticFiles
+			wwwroot - this is the serving folder
+		client
+			npm init -y - Set to private
+			npm install -D -E clean-webpack-plugin@version css-loader@ html-webpack-plugin@version mini-css-extract-plugin@version ts-loader@version typescript@version webpack@version webpack-cli@version
+
+
+Vite
+	npm 
+		create vite@latest 
+	Running on wifi so other devices can dev site
+		npm run dev -- --host
+		"watch": "vite build --watch" - npm run watch
+	vite.config.ts - (imports defineConfig from 'vite', exports default defineConfig) ({...})
+		build: {outDir: '../API/API/wwwroot'}, 
+		build: {
+		    outDir: '../Api/wwwroot', - Where to put npm run build
+		    rollupOptions: {
+		        input: { - Build other files
+		            main: './index.html',
+		            slide: './slide.html',
+		            client: './client.html'
+		        }
+		    }
+		   }
+		server: {port: 3000}, - Specify port to run vite from
+		plugins: [react()], - Use react
+	package.json
+		"start": "vite" - So you can just run "npm run" instead of npm run dev
+	Setting Up for production
+		.env.development
+			REACT_APP_API_URL=https://localhost:5000/ - Or whatever host you are locally running from
+				import.meta.env.REACT_APP_API_URL; - Import It Dynamically into your program
+				process.env.REACT_APP_API_URL - Import It Dynamically into your program
+		.env.production
+			REACT_APP_API_URL= 'EmptyString' '/' '/api/'' - Or whatever host you will production wise be running from
+			BUILD_PATH=../API/API/wwwroot + npm run build
+				We want to output the static application to the wwwroot directory inside the API
+Cypress Testing	Suite
+	npm test cypress
+	npm run cypress
+
+	pnpm
+	nvm
+	powershell
+	
+Npm/Nvm
+	npm 
+		init - inside project to enable node package manager
+		install --save-dev Name - Installs a package inside development enviroment
+		start - Starts the node.js app
+		run
+		npm list - List all packages
+		npm run build
+		--save-dev - Saves package as dev dependency. Sass or compiler tools for example
+	nvm (Node version)
+		use lts - Use latest node version
+		use 14.17.4 - Use Specified node version
+		install --lts - Install Latest node version
+	pnbn
+	barn
+	yarn
+	
+GIT
+	git
+		git init folder - Creates a repository in given folder with init values
+		git clone url folder - clone a repository from online (github for example)
+		git status - current status of the files in your current repository
+		q - to quit and get out of current information screen
+
+		add *files - Adds files to staging area
+		add --all - Adds all files and folders to staging area
+		rm *files - Removes files from staging area
+
+		commit -m "title/comment" - Saves all staged files into the git repository
+		log - Shows the log of commits
+
+		pull - 
+
+		git remote -v - Lists all origins attatched to git project
+
+		git remote add origin https://github.com/c0ldlimit/vimcolors.git
+		git push -u origin master 
+		git push whereName Branchname -
+
+		git branch - Lists all the branches
+		git branch Name - Creates a new branch from the master
+		git checkout Name - Switches over to a certain branch
+		git push -u origin test-branch1 - To push to a remote repo
+		git branch -D Name - Deletes a branch
+		git merge Nametomerge - Merges given branch into the CURRENTLY SELECTED ONE
+
+		git remote origin -change branch???
+		git remote set-url origin new.git.url/here - Change remote origin URL
+		git remote show origin - Show Remote origin URL
+		
+
+		git config --global --add safe.directory 'D:\Edits_In_Motion\_.NET_Core_Projects\102_Medium Projects\Exercise4_Digg_Webshop'
+
+		git push -u origin HEAD
+
+		git config --global --list
+
+		help Command - gives a bit of help of a given command
+		
+		git checkout -b 
+		git branch version-1
+		Git checkout version-1
+		git push 
+
+		oh shit git.com
+		good commits
+			Add,fix,remove,update,dump: * in *.cs
+
+
+		git fetch --all
+		git rebase origin/main
+		Fix merge conflicts
+		then git rebase continue -> vidare vidare
+		push force -
+		git push --force-with-lease
+		fast forward only, rebase, Merges		
+
+
+
+Concepts
+	shell (win) / bash (osx) - exposes operating system services to human user
+	use Git Bash to run bash commands inside windows (create new profile and add %ProgramFiles%\Git\bin\bash.exe)
+	Now install zsh from MSYS2 Packages and then u can use git bash to install oh my zsh originally made for bash
+	
+	winget - (Windows Package Manager)
+		Installation
+			Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile $ENV:TEMP\winget.msixbundle; Add-AppXPackage $ENV:TEMP\winget.msixbundle;
+		Commands
+			winget search Name
+				terminal - Lists all packages
+			winget install packageName
+				Microsoft.WindowsTerminal
+				Git.Git - installs goit
+			winget uninstall packageName 
+
+	WSL 2 - So you can run linux shell in cmd windows (able to use Oh My Zsh! on windows)
+		wsl.exe --install
+
+	Oh My Zsh! - Ease Of Life extension for shell
+		Custom Themes
+		Up/Down arrow scrolls through earlier commands
+		When you have written part of a command you can use the Tab-key (looks like ->| on a Mac) to get the rest of the command filled out.

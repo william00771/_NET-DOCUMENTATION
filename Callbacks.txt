@@ -1,0 +1,106 @@
+Callbacks - First function gets the thing it needs, second e.t.c. 
+	const cuntionThatTakesCallback = (callback : (str: string) => void => {
+		callback();
+	};
+
+	Function that takes a callback is a higher form function
+
+	async and await - You can click around while fetching in background
+		async function() => {}
+		await ... .then
+
+		type GetUser = (id: string) => Promise<User>;
+
+		const createThenGetUser = async (
+			createUser: () => Promise<number>, 
+			getUser: GetUser ): Promise<User> => {
+				const userId = await createUser();
+
+				const user = await getUser(userId);
+
+				return user;
+			};
+
+			- You can change this if you want
+
+	async and promises
+		const name = new Pronise<Traffic>(resolve => resolve(.....)) 
+			resolve() - Resolve is the container that holds the expected response
+			reject() - Reject is the container that holds any error
+			You create the logic inside the resolve / reject object
+
+			It's basically just a callback function like the 'click' (event) {...} - object relationship
+
+			.then -  catches that object and does something with it
+				.then - Takes the output of previous .then and does something with it.
+				
+			.catch - catches any object that has an error type. If shit goes south.
+
+
+		new Promise<boolean>((resolve, reject() => {
+			if(){
+				resolve(numberoperation)
+			}
+			else(){
+				reject(new Error(""))
+			}
+			
+		}));
+
+		instead of const functionname = () => {}
+
+
+		.then(result => console.log(result))
+		.catch()
+
+		new Promise<string>(resolve => resolve('foo'))
+		txt
+			.then(t => `$(t) bar`)
+			.then(t => `$(t) bar`)
+			.catch(err => err)
+		Error Handling (inside .then)
+			.then(response => { 
+				if (response.status is good){
+					return response.json();
+				}else {
+					return response.json().then(errdata => { - So you return the body errdata and the response.json in one
+						log errdata
+						throw new Error('server side error')
+					});
+				}
+			})
+			.catch(error => {
+				log error
+				throw new Error('client side error')
+			})
+
+	async callbacks
+
+	Callback Hell - It goes all the way down. Use promises instead, much more readable
+
+
+	Promises (older way) - Still alot of code
+		.then((res) => { return res.json() }) - the res object is a promise object of any specified type
+		so set the return type in function return
+			Promise<LikeSkyWalker>
+			Promise<String>
+
+		Promise that represents Type
+
+	With a promise you don't get a value out until await
+
+	instead of promise hell
+
+	assign the promise a variable
+
+	await (newer way) - async await
+		async returns promise
+		await unwraps promise
+
+		.then() catches than promise and manipulates it
+		await - instead of .then is the old way
+
+		await promise.all(promise, promise);
+
+	
+		

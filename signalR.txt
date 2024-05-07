@@ -1,0 +1,72 @@
+signal R - Uses websockets
+
+send from client to hub
+    connection.invoke("hubMethodName", param1, param2);
+
+Connecting to hub
+
+
+
+
+
+
+	Websockets - 
+		Always available connection
+		open connection between client and server
+		Socket pools can be exhausted when multible users and tabs are connected
+	Server-Sent Events - 
+		Good fallback for when websockets do not work
+		Client cannot use EventSource to send messages
+	Long Pooling - 
+		It works on ALL browsers
+		Constant connection/disconnection cyclas are not ideal. Slower. You are constantly killing and starting new connections.
+
+	Setup type
+		.withUrl("/hubs/view", { 
+	        transport: signalR.HttpTransportType.WebSockets | 
+	        signalR.HttpTransportType.ServerSentEvents})
+
+
+	.invoke()
+	.send()
+
+
+Basic setup
+
+	import * as signalR from "@microsoft/signalr";
+
+	let connection = new signalR.HubConnectionBuilder()
+	    .withUrl("/hubs/view")
+	    .build();
+
+	function startSuccess(){
+	    console.log("Connected.");
+	}
+
+	function startFail(){
+	    console.log("Connection failed");
+	}
+
+	connection.start().then(startSuccess, startFail);
+
+
+
+Configure logging
+	.configureLogging(signalR.LogLevel.Trace)
+    .configureLogging(new CustomLogger())
+
+	.ConfigureLogging(logging => {
+        logging.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Trace);
+        logging.AddFilter("Microsoft.AspNetCore.Http.Connections",LogLevel.Trace);
+    })
+
+
+
+
+let connection = new signalR.HubConnectionBuilder()
+    //.configureLogging(signalR.LogLevel.Trace)
+    .configureLogging(new CustomLogger())
+    .withUrl("/hubs/stringtools", { 
+        transport: signalR.HttpTransportType.WebSockets | 
+        signalR.HttpTransportType.ServerSentEvents}) //here you can pass in transportoptions, fallbacks
+    .build();

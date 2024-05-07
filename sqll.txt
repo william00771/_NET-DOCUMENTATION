@@ -1,0 +1,161 @@
+filtering
+	selecting item
+		SELECT entity FROM table
+		SELECT entity, entity FROM table
+		SELECT entitygdp/entitypopulation FROM table - Selects gdp per capita
+			   population/1000000
+	filtering item
+		WHERE prop = 'Germany' - Selects one prop parameter
+		WHERE prop IN ('Brazil','Germany') - Selects multible prop parameters
+		WHERE prop BEWTEEN 25000 AND 30000 - Select props between specified range
+		WHERE population > 200000000 - Qualifiers
+
+
+	nter the server details:
+	Server: localhost
+	Authentication Type: SQL Login
+	Username: sa
+	Password: Password_2_Change_4_Real_Cases_&
+
+
+EXAMPLES
+	docker-compose.yml file
+		version: '3.2'
+		services:
+		  sql-server-db:
+		    container_name: sql-server-db
+		    image: mcr.microsoft.com/azure-sql-edge:latest
+		    ports:
+		      - '1433:1433'
+		    environment:
+		      SA_PASSWORD: 'Password_2_Change_4_Real_Cases_&'
+		      ACCEPT_EULA: 'Y'
+
+	Docker Commands
+		docker-compose up -d - Start the Database
+		docker stop sql-server-db - Stop the database
+
+	Inside AZURE Data Studio
+	Enter the server details:
+		Server: localhost
+		Authentication Type: SQL Login
+		Username: sa
+		Password: Password_2_Change_4_Real_Cases_&
+
+	CREATE DATABASE CRMSystem;
+
+	USE CRMSystem;
+
+	CREATE TABLE Customers (
+	    CustomerId INT PRIMARY KEY IDENTITY(1,1),
+	    Name NVARCHAR(100),
+	    Email NVARCHAR(100),
+	    PhoneNumber NVARCHAR(20)
+	);
+
+	Translate into c#
+		public class Customer
+		{
+		    [Key]
+		    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		    public int CustomerId { get; set; }
+
+		    [Required]
+		    [MaxLength(100)]
+		    public string Name { get; set; }
+
+		    [Required]
+		    [MaxLength(100)]
+		    public string Email { get; set; }
+
+		    [MaxLength(20)]
+		    public string PhoneNumber { get; set; }
+		}
+
+	CREATE TABLE Address (
+	    AddressId INT PRIMARY KEY IDENTITY(1,1),
+	    StreetName NVARCHAR(100),
+	    StreetNo NVARCHAR(20),
+	    City NVARCHAR(50),
+	    Country NVARCHAR(50),
+	    IsPrimary BIT,
+	    CustomerId INT,
+	    FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId)
+	);
+
+	Translate into c#
+		public class Address
+		{
+		    [Key]
+		    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		    public int AddressId { get; set; }
+
+		    [MaxLength(100)]
+		    public string StreetName { get; set; }
+
+		    [MaxLength(20)]
+		    public string StreetNo { get; set; }
+
+		    [MaxLength(50)]
+		    public string City { get; set; }
+
+		    [MaxLength(50)]
+		    public string Country { get; set; }
+
+		    public bool IsPrimary { get; set; }
+
+		    public int CustomerId { get; set; }
+
+		    [ForeignKey("CustomerId")]
+		    public Customer Customer { get; set; }
+		}
+
+	INSERT INTO Customers (Name, Email, PhoneNumber) VALUES
+	('John Doe', 'john@example.com', '1234567890'),
+	('Jane Smith', 'jane@example.com', '9876543210');
+
+	Translate into c#
+		context.Customers.AddRange(
+                new Customer { Name = "John Doe", Email = "john@example.com", PhoneNumber = "1234567890" },
+                new Customer { Name = "Jane Smith", Email = "jane@example.com", PhoneNumber = "9876543210" }
+            );
+
+        context.SaveChanges();
+
+	INSERT INTO Address (StreetName, StreetNo, City, Country, IsPrimary, CustomerId) VALUES
+	('123 Main St', 'Apt 101', 'New York', 'USA', 1, 1),
+	('456 Elm St', 'Unit B', 'Los Angeles', 'USA', 0, 1),
+	('789 Oak St', 'Suite 3', 'Chicago', 'USA', 1, 2);
+
+	Translate into c#
+
+		context.Addresses.AddRange(
+	        new Address { StreetName = "123 Main St", StreetNo = "Apt 101", City = "New York", Country = "USA", IsPrimary = true, CustomerId = 1 },
+	        new Address { StreetName = "456 Elm St", StreetNo = "Unit B", City = "Los Angeles", Country = "USA", IsPrimary = false, CustomerId = 1 },
+	        new Address { StreetName = "789 Oak St", StreetNo = "Suite 3", City = "Chicago", Country = "USA", IsPrimary = true, CustomerId = 2 }
+	    );
+
+	    context.SaveChanges();
+
+	-- Get all addresses for a specific customer
+	SELECT c.Name, a.StreetName, a.StreetNo, a.City, a.Country, a.IsPrimary
+	FROM Customers c
+	JOIN Address a ON c.CustomerId = a.CustomerId
+	WHERE c.Name = 'John Doe';
+
+	Translate into c#:
+
+		var results = context.Customers
+                .Where(c => c.Name == "John Doe")
+                .SelectMany(c => c.Addresses)
+                .Select(a => new
+                {
+                    CustomerName = a.Customer.Name,
+                    StreetName = a.StreetName,
+                    StreetNo = a.StreetNo,
+                    City = a.City,
+                    Country = a.Country,
+                    IsPrimary = a.IsPrimary
+                });
+
+           
