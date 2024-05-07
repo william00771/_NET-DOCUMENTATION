@@ -1,0 +1,445 @@
+When building The application
+	Client -> request -> Server -> Response -> Client
+	backend should give out the proper validation
+	return proper error codes from the backend
+
+	Start from usecasaes and get from there. Otherwise you end up with a front-end that has to do all the heavy lifting.
+
+	MVC pattern
+		Model - The stuff we own, services, repositories, dtos, db
+		View - A representation of our models, the arranged data.
+		Controller - The Thing in charge of the flow. Only manages the flow between web and model, the view gets delivered with controller action
+
+	Use HTTP Request Objects and HTTP Repsonse Objects (DTO's) Req DTOs and Res DTOs!
+
+	When you download a file=? Streaming data?
+
+REQUEST:
+	HTTP Command - (Request/Response Line)
+		GET - We can cache the get, since it never changes
+		POST - Add one everytime
+		DELETE
+		PUT - Update Resource, put on developers, replace everything
+		PATCH aka UPDATE - Partial Update, Patch is relativly new, patch on developers, patch developers
+		OPTIONS
+		HEAD
+		CONNECT
+		TRACE
+	HTTP Header - (Headers)
+		Request (GET) header
+		Accept-Language: - 
+		Response (Status) header
+			Access-Control-Allow-Origin: -
+			Content-Encoding: - 
+		Representation Header - 
+			Content-Type: -  
+				text/html - Html Data
+				text/javascript - JS Data
+				application/json - Json Data
+			Content-Encoding: -  
+			Content-Language: -  
+			Content-Location: - 
+		Payload header - 
+			Content-Length: - 
+			Content-Range: - 
+			Trailer: - 
+			Transfer-Encoding: -
+		Connection
+			Closed
+	HTTP Body - (Body of data)
+		ex 	text/html - Html Data
+			text/javascript - JS Data
+			application/json - Json Data
+	HTTP Response
+		Status Line (STATUS CODES)
+			100 information 
+			200 OK, Successful - Everything was done as requested
+			201 Created - Created new data, should be sent to Location Header by convention
+			300 - Redirecting
+			301 - Moved permanently
+			400 Bad Request - Request not formatted correctly (Client Error)
+			401 Unauthorized - User not Authenticated (Client Error)
+			404 Not Found - Resource not found (Client Error)
+			500 Internal Server Error - Server Crash
+			503 - Service Unavailable
+		Headers
+			Content Type - Tells browser the content type
+				text/html - Html Data
+				text/javascript - JS Data
+				application/json - Json Data
+		Response Body
+			ex Html Data
+			JS Data
+			Json Data
+
+	DTOS - Maps request and response objects, seperate classes - That makes sense for the CLIENT
+		This is called MAPPING. Mapping object to RESDTO and Mapping REQDTO to object
+		AUTOMAPPER helps alot with dtos!
+
+Controller - Basic Setup
+	basics inside program.cs
+		AddControllers() - service inside .net config
+		AddEndpointsApiExplorer() - service inside .net config
+		MapContollers() - to application
+		NameController inside Controllers folder. - Naming convention
+		optional indevelopment:
+			.AddSwaggerGen() - swagger service
+	Declare
+		class : controller / controllerbase - Enables all controller functions
+		properties
+			[ApiController] - Tells .net that the class is an APIController
+			[Route("/API/[Controller]")] - Tells .net the url path of the controller
+	Typical Setup
+		[HttpGet] - Getall
+			return Ok - 200
+		[Route("api/[controller]")]
+			return Ok(object) - 200
+		[HttpGet("{id}")] - GetId
+			check for null - NotFound
+			return Ok(object) - 200
+		[HttpPut("{id}")] - PutId
+			check for modelstate - BadRequest()
+			trycatch any errors ex KeyNotFoundException
+			return Ok(Object)
+		[HttpPost] - Post new
+			check for Modelstate - BadRequest()
+			return CreatedAtAction(nameof(get), new {id = obj.id}, obj)
+		[HttpDelete("{id}")] Delete Id
+			check for null - NotFound()
+			return NoContent() - 
+	Controller Method
+		properties - Look at ROUTING for proper url in controller / prop 
+			[HttpGet("{input}")]
+			[HttpGet("/cars/{id}")]
+				[HttpGet(name = "Getweatherforecast", )]
+				[Route("/input")] - To specify route
+			[HttpPost("{input}")]
+			[HttpGet("{input}")]
+			[HttpPut("{id}")]
+			[HttpDelete("{id}")]
+		returns an IActionResult or ActionResult - statusCode with information from the API.
+		a simple return example
+			return new List<Person>()
+			{
+				new Person(){name = "michael"}
+			}
+
+	Controller Returns
+		actionresult - Unique return type for controllers, returns full httpheader,body so you can control return ex Ok(responseDTO);
+			IActionResult - The INTERFACE, return status code
+				properties above
+					[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Car))] - Now you can return Ok(car)
+					[ProducesResponseType(StatusCodes.Status404NotFound)]
+			ActionResult<T> - ActionResult status code with a bundled object
+				with actionresult<T> we can literally just return the model itself
+				Actionresult is much better for explicit return things.
+			Async versions - Eg. Task<ActionResult<Car>>
+		ActionResult Returns
+			Ok(); - Http status code 200
+			Created(); - Http status code 201
+			Created("/api/employees/1", model); - 201, Location=/api/employees/1
+			Created("https://myserver.com/api/employees/1", model); -  201, Location=https://myserver.com/api/employees/11
+			CreatedAtAction(nameof(GetEmployeeById), new { id = newEmployeeId }, model); -  201, Location = https://myserver.com/api/employees/1
+			Accepted();  - 202, AcceptedAtAction, AcceptedAtRoute
+			NoContent(); - Http status code 204
+			LocalRedirect("/api/cars");  - Http status code 301
+			LocalRedirectPermanent("/api/cars");  // Http status code 302
+			BadRequest(); - Http status code 400
+			Unauthorized(); - Http status code 401
+			Forbid(); - Http status code 403
+			NotFound(); - Http status code 404
+		Convention in REST - Part Of IActionResult - Creates a 201 WITH Location Header also. 
+			CreatedAtAction(actionName/&controllername, routeValues, createdResource) - 
+				nameof(Controller), new {id = createdResource.Id} (basically an object that specifies the new Id assigned to the new resource) and then the actual resourceInput itself
+			CreatedAtRoute("NameForGetValueEndpoint", routeValues, createdResource) - 
+			Created(uri, createdResource) -
+		Proper returns
+			POSTCreatedAtAction(nameof(GetItem), new { id = Item.Id }, Item)
+		Status code
+			 throw new HttpResponseException(HttpStatusCode.NotImplemented); // 501
+
+Data annotations / validation
+	You should use annotations in the actual DTO. NOT The model.
+	Value objects SHOULD BE USED. With the more complex validations
+	Don't use validation for goddamn names lol
+
+	Validation Properties, you can always give an error message so you can reflect it in the frontend
+		[Required]
+		[Required(ErrorMessage = "")] - Sends 400 response if automatically If Not Filled In 
+		[Required(ErrorMessage = "The car must have an owner!")]
+		[MinLength]
+		[MaxLength]
+		[EmailAddress]
+		[MaxLength(35)]
+		[Range(1850, 2030, ErrorMessage = "Value for for the field '{0}' must be a year between {1} and {2}.")]
+			specify minmax value
+		[Compare] 
+			Compare two properties and the have to fit
+	? Display properties
+		[DisplayName("Email address")] - 
+		[RegularExpression(@"^[a-z]{3}-\d{3}$")]
+
+
+REST, Reprepresentational State Transfer
+	What makes sense? When not to use rest
+		/CancelOrder
+		/PayOrder
+
+	Start from usecasaes and get from there. Otherwise you end up with a front-end that has to do all the heavy lifting.
+
+	Rest is not the bible. != Really question whether you need it
+
+	a location with collection of something
+		an instance of that collection
+			a collection from an instance of that user
+
+	Do not use GET for state change, should not affect what the user gets. Always do a post or put
+
+	/developers
+		[HttpGet("/developers/")]
+	/developers/26722523
+		[HttpGet("/developers/{id}")]
+	/developers/26722523/articles
+		[HttpGet("/developers/articles/{id}")]
+	/customers/{id}/accounts - Sub Collection Resource
+
+	/developers/{id}
+	/device-management/managed-devices 
+	/device-management/managed-devices/{device-id} 
+	/user-management/users
+	/user-management/users/{id}
+	/device-management/managed-devices/{device-id}
+	/user-management/users/{id}
+	/user-management/users/admin
+	/device-management/managed-devices
+	/device-management/managed-devices?region=USA
+	/device-management/managed-devices?region=USA&brand=XYZ
+	/device-management/managed-devices?region=USA&brand=XYZ&sort=installation-date
+
+	API/getName - 
+	API?input -
+		input 
+			Object=Name, result=30
+			& - To include more than one value
+
+	/developers - all developers
+	/developers/1 - the developer with id 1
+	/developers/1/address - the address of the developer with id 1
+	developer and address above are just examples. The generic structure is {resource}/{identifier}. By convention, the resources use the plural form in the URL; /developers/1 not developer/1.
+
+	Pagination
+		/cars?offset=10&limit=5
+
+		 <https://somehost/api/cars?offset=15&limit=5>; rel="next",
+	      <https://somehost/api/cars?offset=50&limit=3>; rel="last",
+	      <https://somehost/api/cars?offset=0&limit=5>; rel="first",
+	      <https://somehost/api/cars?offset=5&limit=5>; rel="prev",
+
+	HTTP HEADERS FOR META-DATA, EXAMPLES
+		Content is JSON: Content-Type: application/json
+		Cache expires at new year: Expires: Wed, 1 Jan 2022 00:00:00 GMT
+		Resource is located at url: Location: /cars/21345113515
+		Date is now: Date: Tue, 1 Jun 2021 09:37:00 GMT
+
+	EXAMPLE FLOWS
+
+	Add a new car
+		CLIENT request:
+			POST to /api/cars
+			Body: { name: 'Marcus car', regnr: 'EOF967'}
+		SERVER response:
+			201 Created
+			Location header /api/cars/72782345/
+			Content-Type: application/json
+			Body ??? (yes, maybe)
+	Get car
+		CLIENT request:
+			GET to /api/cars/72782345/
+		SERVER responds
+			200 OK
+			Content-Type: application/json
+			Body: { id: 72782345, ownerGivenName: 'Marcus car', regnr: 'EOF967'}
+	Update a new car information
+		CLIENT request:
+			PUT to /api/cars/72782345/
+			Body: { name: 'Elins car', regnr: 'EOF967'}
+		SERVER response:
+			200 OK
+			Location header /api/cars/72782345/
+			Content-Type: application/json
+			Body: { id: 72782345, ownerGivenName: 'Elins car', regnr: 'EOF967'}
+	Delete car
+		CLIENT request:
+			DELETE to /api/cars/72782345/
+			SERVER response:
+			204 Ok, No content
+			Get car, aer delete
+		CLIENT request:
+			GET to /api/cars/72782345/
+			SERVER responds
+			404 Not found
+
+
+	Example flows v2
+
+	Creating a new developer
+		stores the developer in the database
+		with content-type application/json
+		returns status 201 Created
+		returns a header Location /developers/26722523 (a generated id)
+
+	Client updates the developer
+		updates the information in the database
+		with content-type application/json
+		responds with 200 Ok
+		returns a header Location /developers/26722523 (a generated id)
+
+	Get the user data for a user
+		with content-type application/json
+		returns status 200 OK
+		return JSON for the developer in the body {"id": "26722523", "name":"Marcus Dev","email": "marcus@salt.dev"}
+
+	Get a list of all developers
+		with content-type application/json
+		returns status 200 OK
+		return JSON for the developer in the body
+
+	Delete a user
+		with content-type application/json and specified ID
+
+Program.cs setup options (IN ORDER)
+	Services - Createbuilder
+		 Add services to the builder
+			AddTransient<Interface, Class>() - Everytime you call anything in that class, if you need a random generator for example, very rare
+			AddScoped<Interface, Class>() - that will create a new instance for each request.
+			AddSingleton<Interface, Class>() -  Means the service can only exist Once. Like a db for example. 
+			AddDbContext<Class>(x => {x})
+				.UseSqlServer(connectionstring)
+			AddIdentityCore<Class>
+			AddCors
+			AddApiVersioning
+			AddAuthentication
+			AddJwtBearer 
+		AddControllers()
+			AddNewtonsoftJson
+
+		AddEndpointsApiExplorer(); (SWAGGER)
+		AddCors();
+		AddDbContext<>();
+		AddScoped<>()
+		BuildServiceProvider();
+			GetRequiredService<Iconfiguration>();
+		AddCors()
+			var frontendURL = configuration.GetValue<string>("frontend_url");
+
+		    options.AddDefaultPolicy(builder =>
+		    {
+		        builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
+		    });
+		global addcors
+			Builder.Services.AddCors(options =>
+			{
+			    options.AddDefaultPolicy(builder =>
+			    {
+			        builder.AllowAnyOrigin()
+			               .AllowAnyMethod()
+			               .AllowAnyHeader();
+			    });
+			});
+	App - builder.Build();
+		UseDefaultFiles(); - look for wwwroot index.html
+		UseStaticFiles(); - so api can serve static content
+		app.UseCors(policy =>{})
+			.AllowAnyOrigin() - 
+			.AllowAnyMethod() - 
+			.AllowAnyHeader() - 
+			
+		if (app.Environment.IsDevelopment()) - SWAGGER
+		{
+		   app.UseSwagger();
+		   app.UseSwaggerUI();
+		}
+
+	UseHttpsRedirection();
+
+	UseCors();
+
+	UseAuthorization();
+
+	MapControllers();
+	MapFallbackToController("Index", "Fallback");
+
+	AppDbSeeder.Seeddata(app);
+
+	app.run()
+
+SERVE static content from API
+	app.UseDefaultFiles(); - Look for wwroot/index.html
+	app.UseStaticFiles(); - so that it can serve static content
+
+	app.MapControllers();
+	app.MapFallbackToController("Index", "Fallback"); - What API should do with roots it does not know about
+
+	Create a controller that returns that view
+		[AllowAnonymous]
+		FallbackController that inherits Controller
+		IActionResult Index that returns 
+			PhysicalFile(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "index.html"), "text/HTML");
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Info--------------------------------------------------------------------------------------------------
+HTTP
+	HTTP dictates a few simple verbs that the client can send to the server to indicate what it wants to have done (GET, POST or DELETE for example). HTTP also has a set number of status codes to indicate how the communication when (200 OK - 400 Bad Request and 500 Server error).
+
+	simple model for client and server communication: A client sends a Request for information, A server sends a Response back in a simple, but powerful way
+
+	That's it. There's no connection maintained between the client and the server after the Request and Response. HTTP is, in other words, stateless. 
+
+	Interestingly enough HTTP has not changed much since it was invented.
+
+	multi-page application - Complete Reload of the page everytime url/navigation changes
+	single-page applications - No need for Reload. The Browser Changes only UI
+		We need to get data not page content from the server
+		We need to be able to change the page in the browser without getting a new page.
+
+	APIs are ways that you can write code in JavaScript (or other languages) to send or get data from the application.
+	APIs that are exposed over HTTP are called Web APIs.
+	Applications can connect directly with an API, but use HTTP with the HTTP status codes, request/response communication patterns, etc.
+	This means that the server doesn't return HTML pages, but rather data, often in the form of JSON (JavaScript Object Notation). The client can then make use of this data and build its own user interface.
+Info
+	When fetches the webpage itself
+	1. In the GET request the server can read which file was requested (index.html)
+	2. The web server reads the file and then sends a response to the GET request
+	3. This GET response includes the content of the index.html file, and some headers describing some meta-information about the response
+
+	ex one for index.html, one for styles.css, one for scripts.js, and finally one for /assets/animated.gif. All of these need to be downloaded to the browser, before the page is shown properly.
+
+	Later html-pages were built dynamically on the server before returning the. Active Server Pages (ASP and ASP.NET), PHP, and JSP (Java Server Pages)
+
+	The webserver would then receive the request, analyze the information in the request (for example, who is logged in, what search the user did, etc.), and then create the appropriate HTML, CSS, and JavaScript for that individual request. But a big problem with that approach is that it puts the load of generating the page on the server.
+
+	To solve this we started to generate the pages on the client, inside the browser,. also known as client-side rendering. This means that the webpage will request data and then build up the HTML based on that data.
+
+	This solves the problem of having the page being created on the server, so the servers are offloaded considerably.
+
+	But it raises another challenge - we need to get data from the webserver; not pages. Luckily the simple but powerful design of the HTTP protocol supports this very well.
+
+	Webservers that are serving up data rather than files are often referred to as backend service, web API (application programming interface)
+
+	URI - Unform Resource id
+	URL - Uniform Resource Locator, stores the URI and Location of URI, ex https

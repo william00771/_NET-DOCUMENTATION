@@ -1,0 +1,8 @@
+Azure
+	App
+		https://domain.scm.azurewebsites.net/ - Deployment config website (where you see your files)
+
+	Console
+		azure setup with github (manual) - az webapp config appsettings set --name <app-name> --resource-group myResourceGroup --settings DEPLOYMENT_BRANCH='main'
+
+		ex 'https://william00771@saltapp.scm.azurewebsites.net/saltApp.git'

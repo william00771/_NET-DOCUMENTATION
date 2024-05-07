@@ -1,0 +1,23 @@
+HTTPClient / HTTP Factory
+	HttpClient client = new HttpClient();
+	  client.DefaultRequestHeaders.Accept.Clear();
+	  client.DefaultRequestHeaders.Accept.Add(
+	      new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+	  client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+	  var msg = await client.GetStringAsync("https://www.swapi.tech/api/people/2");
+	  Console.Write(msg);
+	}
+
+	var client = new HttpClient { BaseAddress = new Uri("https://www.swapi.tech/api") };
+	var heroes = await Http.GetFromJsonAsync<Hero[]>("people");
+
+	var client = new HttpClient();
+	client.DefaultRequestheaders.accept.clear()
+		.add(new mediatypewithqualityheadervalue("application/json"))
+
+		var url = dollar"url"
+		var getPeopleTask = client.GetStringAsync(url)
+
+		await console(getpeopletask.response)
+
+		JsonSerializer.Deserialize<Person>(persontype)

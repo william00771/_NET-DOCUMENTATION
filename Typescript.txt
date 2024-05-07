@@ -1,0 +1,2 @@
+Proper Fetching (header, body?)
+Reading (json file?)

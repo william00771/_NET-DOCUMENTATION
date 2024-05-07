@@ -1,0 +1,51 @@
+Cloudinary - Uploading Images
+	installation
+		CloudinaryDotNet
+		inside json
+			"Cloudinary" - "Cloudname", "ApiKey", "ApiSecret" - Add them
+		CloudinarySettings.cs
+			prop string CloudName
+			prop string ApiKey
+			prop string ApiSecret
+		program.cs
+			s.Configure<CloudinarySettings>(config.GetSection("Cloudinary"))
+		PhotoUploadResult
+			prop string PublicID
+			prop string Url
+		Service
+			Create interface / service that returns photoUploadResult and input IFormFile file
+			to delete use publicId
+			private field from Cloudinary _cloudinary
+			ctor IOptions<CloudInarySettings> config
+				var account = new Account (
+					config.Value.CloudName,
+					config.Value.ApiKey,
+					config.Value.ApiSecret,
+				);
+				_cloudinary = new Cloudinary(account)
+		Adding photo method
+			if(file.Length > 0)
+			await using var stream = file.OpenReadStream() - 
+			var uploadParams = new ImageUploadParams
+			{
+				File = new FileDescription(file.FileName, stream),
+				Transformation = new Transformation().Height(500).Width(500).Crop("fill");
+			}
+			var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+			if(uploadresult.Error != null)
+			{
+				throw new Exception(uploadResult.Error.Message)
+			}
+			return new PhotoUploadResult
+			{
+				PublicId = uploadResult.publicId,
+				Url = uploadResult.SecureUrl.ToString();
+			}
+		Delete photo method
+			var deleteParams = new DeletionParams(publicId);
+			var result = await _cloudinary.DestroyAsync(deleteParams);
+			return result.Result == "ok" ? result.Result : null;
+		Create Photo entity
+			Id, Url, IsMain
+			One user can have many Icollection<Photos>
+			also DbSet<Photos>
