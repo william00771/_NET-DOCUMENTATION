@@ -1,0 +1,57 @@
+SaSS - CSS Preprocessor
+	SaSS Compiler adds power to css. We write Sass code and then compile down to css
+	We have two syntaxes
+		Sass, SCSS (SCSS much better cause it preserves the way css syntax looks like)
+	Installation
+		npm init
+		npm install node-sass --save-dev
+		sass folder -> main.scss
+		Inside package.json scripts
+			"compile:sass": "node-sass sass/main.scss css/style.css"
+			"compile:sass": "node-sass sass/main.scss css/style.css -w" - Now compiles as soon as we change something in the file
+	Features
+		Variables
+		Nesting
+		Operators
+		Partials and imports
+		Mixins
+		Functions
+		Extends
+		Control directives
+	Folder structure
+	@import "base/animations" - Importing Folders
+
+
+	Variables
+		$variable-name: value; - Declare Variable
+		$variable-name; - Use variable
+	Nesting
+		.nav{
+			li{
+				&:first-child{
+
+				}
+				a{
+
+				}
+			}
+		}
+	Functions
+		Declare function
+			@mixin Function{
+				css code.
+			}
+			@mixing Function2($Col)
+			{
+				command: $Col;
+			}
+		Call function
+			@include Function;
+			@include Function2(input);
+	Extend
+		%.style-placeholder
+		@extend %.style-placeholder - Root selector gets copied to the style-placeholder. So all styles in style placeholder apply to extend
+	Commands
+		Color functions
+			darken(color, 15%) - makes color 15% darker
+			lighten(color, 15%) - makes color 15% lighter
