@@ -1,0 +1,10 @@
+Barcode scanner
+Product Shows up
+Can Select side effects from dropdown list
+pie chart of people having submitted different side effects
+97 people have submitted same side effect as you
+Submit Demographic and other peoples demographic with same side effect popup
+
+Testing with cic pipeline.
+
+I should totally learn devops a bit more throughout during the week.

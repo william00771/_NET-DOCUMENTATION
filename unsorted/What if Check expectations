@@ -1,0 +1,48 @@
+Day 5 TDD
+My failing Point - TDD Rules
+What if Check expectations
+	the file doesnt exist?
+	not wirtable?
+	whitespace?
+	windows vs mac? - Concatinate path, commands
+Testing and TDD
+	Reading the App from UI
+		Not a good idea
+		tricky and slow
+		unit test are faster
+		No debugging needed
+	Nailing all the cases is hard - 
+	They also act as PROPER Documentation, Living Documentation
+	Refractoring becomes a breeze - Change things, run test, oh my refractoring didn't brak anything.
+	The Approach
+		Prototyping - Testing things, poking with code
+		Write test suite specification - now you know enough and can write a test suite, before you write the code
+		you might have solved the problem, and you write tests anyway, they make you find pitfalls.
+
+	Types Of Tests
+		manual - Poke and prop, has its place, but not what you want
+		E2E Tests - Acts Like the USER actually BROWSING the Application
+		Integration Tests - Are things capable of talking to each other
+		Unit Tests - One thing alone. For this input, DO i get the correct output. this is how it should act. 
+
+		Test driven scenario usually makes better code. Cause one method doesn't get nested with code.
+
+	When testing is enough
+		null, zero, few, many - Cover Those cases with your test
+		Proof by induction - null 1 & n+1 then you've proven it works for most scenarios
+
+		Unity randomizer. He tested the input and output. And then wrote testing suite based on that
+
+	Laws of TDD
+		1. You are not allowed to right any production code unless it is made to pass the test.
+		2. You are not allowed to write any more unit tests untill they all pass
+			build everything up bit by bit, piece by piece, small chunks
+		3. You are not allowed to write any more production code than is sufficient to pass the one unit test. I REALLY SUCK AT THIS!!!!
+
+	Parts of a test
+		Arrange
+			Setup conditions for the test
+		Act
+			do the thing you want to test
+		Assert
+			multible checks that the action did what it was supposed to do

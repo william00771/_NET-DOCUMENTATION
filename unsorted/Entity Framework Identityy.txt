@@ -1,0 +1,332 @@
+Identity Framework Setup
+	installation
+		Microsoft.AspNetCore.Identity.EntityFrameworkCore - Base Identity Package
+		Microsoft.AspNetCore.Authentication.JwtBearer - Bearer authentication
+
+	Models
+		User : identityUser
+	DbContext
+		replace : DbContext with IdentityDbContext<User>
+	Program.cs
+		Services.AddIdentityCore<User>()
+			.AddRoles<IdentityRole>()
+			.AddEntityFrameworkStores<DbContext>
+				opt
+				Password - Specify password option
+					.RequireNonAlphanumeric = false;
+					.User.RequireUniqueEmail = true;
+					.RequireDigit = false;
+    				.RequiredLength = 5;
+    				.RequireLowercase = true;
+    				.RequireNonLetterOrDigit = true;
+    				.RequireUppercase = false;
+
+		Services.AddAuthentication();
+		Services.AddAuthorization();
+
+	seed role data
+		protected ovveride OnModelCreating
+		builder.Entity<IdentityRole>().HasData(
+			new identityRole{name = "Member", NormalizedName = "MEMBER"},
+			new identityRole{name = "Admin", NormalizedName = "ADMIN"}
+		)
+	seed user data
+		Seeding recap
+			public static class dbinitializer
+			public static async Task Initialize(StoreContext context)
+			{
+				if(!context.Products.Any())
+				{
+
+				}
+			}
+
+		Pass usermanager down to db initializer.initialize(context, userManager)
+			var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
+			var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+			try
+			{
+				await context.Database.MigrateAsync(); ??
+				await Dbinitializer.initialize(context, userManager)
+			}
+			catch
+			{
+
+			}
+
+		Init(DbContext context, UserManager<User> userManager)
+		{
+			if (!userManager.Users.Any())
+			{
+				var user = new User
+				{
+					UserName = "bob",
+					Email = "bob@test.com"
+				};
+
+				await userManager.CreateAsync(user, "Pa$$w0rd")
+				await userManager.AddToRolesAsync(user, "Member")
+
+				var user = new User
+				{
+					UserName = "admin",
+					Email = "admin@test.com"
+				};
+
+				await userManager.CreateAsync(admin, "Pa$$w0rd")
+				await userManager.AddToRolesAsync(user, new[] {"Member", "Admin"}) 
+			}
+		}
+
+	Creating DA CONTROLLER examples
+		AccountController : BaseApiController
+		dependencyInject UserManager<User> _userManager
+
+		Models
+			LoginDto
+				prop UserName
+				prop Password
+			RegisterDto
+				: loginDto + prop Email
+
+		[HttpPost("login")]
+		public async Task<ActionResult<User>> Login(LoginDto loginDto)
+		{
+			var user = await _userManager.FindByNameAsync(loginDto.Username);
+			if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
+			{
+				return Unauthorized();
+			}
+			return user;
+			//OBS we want to return a jwt token here
+		}
+
+		[HttpPost("register")]
+		public async Task<ActionResult> Register(RegisterDto loginDto)
+		{
+			var user = new User{UserName = registerDto.Username, Email = registerDto.Email};
+			var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+			if(!result.Succeeded)
+			{
+				foreach (var error in result.error)
+				{
+					ModelState.AddModelError(error.Code, error.Description)
+				}
+
+				return ValidationProblem();
+			}
+
+			await _userManager.AddToRoleAsync(user, "Member")
+			
+			return StatusCode(201);
+		}
+
+	JWT TOKEN HEAVEN!!
+		UserDto (model for email and token used as response object on login)
+			prop Email
+			prop string Token
+
+		new TokenService
+			ctor
+				UserManager<User>
+				Iconfiguration config - To access .json
+
+			public async Task<String> GenerateToken()
+			{
+				var claims = new List<Claim>
+				{
+					New Claim(ClaimTypes.Email, user.Email),
+					New Claim(ClaimTypes.Name, user.UserName)
+				};
+
+				var roles = await _userManager.GetRolesAsync(user);
+				foreach (var role in roles)
+				{
+					claims.Add(new Claim(ClaimTypes.Role, role))
+				}
+
+				var key = new SymmetricSecurityKey(Encoding.UTF8.GetBuytes(_config["JWTSettings:TokenKey"]));
+					inside appsettings.json
+						"JWTSettings": {
+							"TokenKey": "SecretUniqueKeyThatNeedsToBeAtLeast64CharactersLong!!!!!!!!!!"
+						}
+
+				var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+
+				var tokenOptions = new JwtSecurityToken(
+					issuer: null,
+					audience: null,
+					claims: claims,
+					expires: DateTime.Now.AddDays(7),
+					signingCredentials: creds
+				);
+
+				return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+			}
+		inject the service to the application
+			services.AddScoped<TokenService>();
+				addsingleton - (lifetime of application) It's alive all the way through the runtime
+				addscoped - (medium long) new service for the lifetime of that httprequest
+				addtransient - (very short) created and disposed of as its used in our classes, not alive for the lifetime of the request
+
+
+		Use the Service in controller
+			[HttpPost("login")]
+			public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+			{
+				var user = await _userManager.FindByNameAsync(loDto.Username);
+				if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
+				{
+					return Unauthorized();
+				}
+				return new UserDto
+				{
+					Email = user.Email,
+					Token = await _tokenService.GenerateToken(user);
+				}
+			}
+
+		Now we can authenticate the current user!
+
+			[Authorize]
+			[HttpGet("currentUser")]
+			public async Task<ActionResult<UserDto>> getCurrentUser()
+			{
+				var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+				return new UserDto
+				{
+					Email = user.Email,
+					Token = await _tokenService.GenerateToken(user);
+				};
+			}
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(opt => {
+					opt.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = false,
+						ValidateAudience = false,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSettings:TokenKey"])
+					}
+				})
+
+			app.useAuthentication();
+			app.useAuthorization();
+
+		Setup Swagger to actually handle the JWT registrations
+			services.AddSwaggerGen(c => {
+				var jwtSecurityScheme = new OpenApiSecurityScheme
+				{
+					BearerFormat = "JWT",
+					Name = "Authorization",
+					In = ParameterLocation.Header,
+					Type = SecuritySchemeType.ApiKey,
+					Scheme = JwtBearerDefaults.AuthenticationScheme,
+					Description = "Put Bearer + your token in the box below",
+					Reference = new OpenApiReference
+					{
+						Id = JwtBearerDefaults.AuthenticationScheme,
+						Type = ReferenceType.SecurityScheme
+					}
+				};
+
+				c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement
+				{
+					{
+						jwtSecurityScheme, Array.Empty<string>();
+					}
+				})
+			})
+
+			inside app.UseSwaggerUi(c => {
+				c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+			})
+
+			Inside of swagger now you can PASTE IN TOKEN TO AUTHORIZE
+				click on authorize and paste in exactly
+					Bearer YOURJWTTOKENKEY
+
+			NOW WHEN WE ACCESS THE getCurrentUser in the controller. It checks that The user is indeed authenticated
+
+
+	Client SIDE. SO EASY <3 <3 <3
+		login post request 'account/login, values'
+		register post request 'account/register, values'
+		get request 'account/register, values'
+
+		values is literally just a type that reflects the type the controller wants so in this case
+		{ username: password: }
+
+
+		Storing the actual login results
+			You can redirect the user once logged in navigate('/catalog') for example
+			new type {email: string; token: string;} - Store it in localstorage
+			interface AccountState {user: User | null; }
+			const initialState: AccountState = {
+				user: null
+			}
+
+		How to store the actual data ? Local Storage - Save to Local Storage
+			localStorage.setItem('user', JSON.stringify(user));
+			retur user;
+
+			To logout user set
+				state.user = null
+				localStorage.removeItem('user');
+
+		Render components based on user logged in or not
+			const {user} = useAppSelector(state => state.account);
+
+			user ? : 
+
+
+
+
+Bare minimum authentication. When using a provider (dotnet lesson)
+
+	install and configure jwtbearer
+		builder.Services.AddAuthentication().AddJwtBearer(options =>
+		{
+		  options.Authority = "<the authentication provider, often the 'iss'"
+		  options.Audience = "<the intended audience, 'aud'";
+		});
+		/*... and right before app.UseAuthorization();*/
+		app.UseAuthentication();
+	now we can authorize with annotations
+		[HttpGet("public")]
+		public string GetPublic() => "Hello! This is a public endpoint!";
+
+		[HttpGet("private")]
+		[Authorize]
+		public string GetPrivate() => "Shhhh! It's a secret endpoint";
+
+	Add roles to the authorizationbuilder
+		builder.Services.AddAuthorizationBuilder()
+		  .AddPolicy("isAdmin", policy =>
+		    policy.RequireClaim("role", "admin"));
+
+
+API authenticator app. You set up your app as a user to your authentication provider. Client Secret
+
+
+Some Key Concepts
+	ValidIssuer: This field specifies the valid issuer (iss) of the JWT.
+
+	ValidAudience: The intended recipient of the JWT. It needs to have a valid key "JwtSettings:Audience".
+
+	ValidateIssuer: This is a boolean field indicating whether the issuer of the received JWT should be validated against the configured valid issuer. If set to true, the JWT issuer will be validated during token validation.
+
+	ValidateAudience: Similar to ValidateIssuer, this is a boolean field indicating whether the audience of the received JWT should be validated against the configured valid audience. If set to true, the JWT audience will be validated during token validation.
+
+	ValidateLifetime: This is a boolean field indicating whether the lifetime of the received JWT should be validated. If set to true, the expiration time (exp) claim in the JWT will be checked to ensure the token is not expired.
+
+	ValidateIssuerSigningKey: This is a boolean field indicating whether the signing key used to sign the JWT should be validated. If set to true, the application will verify that the token is signed using a trusted key.
+
+

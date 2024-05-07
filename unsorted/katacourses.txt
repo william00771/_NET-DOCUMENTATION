@@ -1,0 +1,14 @@
+Hashset works like dictionary, except its just keys pretty much
+new string() == new string() - Comparison works here
+
+contains duplicate
+	create hashset
+	if n is in hashset return true
+	else add it to the hashset
+
+valid anagram
+	sort str1 and str2
+	compare str1 and str2 as new string
+
+	check that length of both str are the same, false if not
+	

@@ -1,0 +1,17 @@
+Implement RateList
+	.GetRateAtDate(string symbol, string date)
+		return: double: currency rate for symbol at the date
+		throw ArgumentException Symbol 'IDR' not found when symbol not found among rates for given date
+	.GetRateDifference(string symbol, string startDate string endDate)
+		return: double: difference rate between rate at startdate and enddate
+		subtract the values (enddate - startdate)
+		Throw ArgumentException Symbol 'FAKE' not found, when symbol not found among rates of given date
+	.GetRatesForYear(string symbol, string year YYY)
+		return: string[] for that year
+			look at readme for formatting
+		throw ArgumentException No rates for 'APA' found in year '1999'" when a symbol is not found in any of the dates for the current year
+	.HighestRateEver(string symbol)
+		return highest rate for any date
+		throws ArgumentException Symbol 'BANAN' not found when symbol is not found anywhere
+	.RateList
+		return List<string> of all files in the data directory

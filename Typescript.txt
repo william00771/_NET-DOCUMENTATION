@@ -1,2 +1,9 @@
+Basics
+	export const functionName = async () => {...}
+	export CustomType type = {}
+	import '../file.svg'
+	import {CustomType} from './types/types.ts'
+
+
 Proper Fetching (header, body?)
 Reading (json file?)

@@ -1,0 +1,13 @@
+Emotional Tracker Feature Spec:
+	Rating Page
+		Sad -> Feel Good
+		Feeling Down -> High Energy
+		Pissed Off -> Delighted
+		You can rate emotion multiple times per day
+	Chart page
+		Display mood across time. 7 days back.
+	Connect to partner
+		Allowed to connect to a partner via QR code
+		see their chart aswell
+
+	

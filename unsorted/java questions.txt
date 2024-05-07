@@ -1,0 +1,38 @@
+How does Maven and Gradle differ?
+	maven - helps ypu build projects, less scalable, better runtime, responsivness, tdd
+	gradle - for bigger projects, more bulky but scales better
+What is the final keyword used for?
+	public, private, final -> is sscope of same class
+	private/final?? you cannot change, not immutable
+What is a Parent pom?
+	File, for your whole application. Holds all the dependencies. Like the project file.
+Why is constructor injection preferred?
+	It's like dependency injection. Initialize and ready to use. - Here you would use a
+	field injection, field that you use in other class. if you change the other class it can change it. - This can change
+What is a Functional Interfaces used for?
+	Interface - A single method, lambda
+	Functional inteface that uses to modify the class
+	You can pass function as an argument. to a class. 
+	You extend that interface, chair, instead of primitive type, 
+	to use another kind of type that is not a primitive
+What is the JVM vs. the JRE?
+	JVM - Compiler, java to machine code, Compiles directly down
+	JRE - Excecutes, Excecutes the machine code
+What does peek do in Streams do?
+	Stream - a lambda expression, anonomous function. You can use filters. LINQ. 
+	Peek - Peek is a foreach element thing. Multible espressions to query down the data.
+Why can't you use generics on primitive types?
+	Generics use objects, and primitives are not objects.
+What is the result of System.out.println(new String("Hello") == new String("Hello"));? Why?
+	False, difference in memory. So you have to use a special operator you need to use.
+	references, vs actual value
+What is the string pool?
+	Special storage - keeps track of all the words and phrazes you write. Helps with memory. 
+	Stores each character. String is immutable. instead of program look for it everytime, storage box, RAM
+	Heap. The string pool is a part of the heap. Some on heap when used, some in pool. 
+	Specific heap location, here are all the strings.
+What are Records?
+What are annotations?
+How can you manage a checked exception?
+What is Lombok?
+What is the difference between Spring Framework and Spring Boot?
