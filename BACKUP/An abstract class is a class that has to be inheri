@@ -1,9 +1,0 @@
-An abstract class is a class that has to be inherited from by other classes
-It cannot stand on It's own
-Example: mamal, language, shape
-
-Interfaces defines a contract of methods that another class has to implement.
-Example: Talk, Shoot, Have fun
-
-Building an understanding before tackling the problem, making sure everyone is on track
-
