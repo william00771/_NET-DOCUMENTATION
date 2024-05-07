@@ -1,0 +1,8 @@
+.NET Core
+	Variables & Keys - (appsettings.json)
+		builder.Configuration.GetConnectionString("SQL") - Accesses "ConnectionStrings:SQL"
+
+		User Secrets
+			dotnet user-secrets init
+			dotnet user-secrets set "OpenAi:apiKey" "KEY"
+			dotnet user-secrets list

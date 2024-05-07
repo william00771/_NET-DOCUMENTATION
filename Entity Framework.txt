@@ -1,0 +1,124 @@
+Entity Framework - Data Access Technology
+	UI Layer -> BusinessLayer -> DataLayer -> Entity Framework -> Database 
+	Entity Data Model, Querying, Saving and change tracking
+	dbcontext - Represents a database session. That's the ef api itself
+
+	Dev approaches
+		code first - classes first then make a migration from us
+		database first - look at database, then write the models, classes according to that
+		model first - no idea? nobody really likes that approach
+
+	Entity Framework Core is clever just like linq
+		Not untill we actually ask for any object, do we excecute any query.
+
+	Stored Procedures - Queries, stored 10x more efficient than entity Framework
+		Practice creating stored procedure
+
+Entity Framework Setup 
+	installation
+		Microsoft.EntityFrameworkCore.Design - This helps us do the migration stuff
+		Microsoft.EntityFrameworkCore.Tools - 
+		Microsoft.EntityFrameworkCore.Sqlite - If using sqllite
+		Microsoft.EntityFrameworkCore.SqlServer - If using SqlServer
+		Npgsql.EntityFrameworkCore.PostgreSQL - If using PostgreSQL
+
+	Basic Setup
+		: DbContext
+		create ctor with DbContextOptions options : base(options)
+		create the prop of DbSet<T> inside the class. This defines a table
+			in the prop itself define what the table should be called (if you want)
+			[Table("Item")]
+		Program.cs
+			AddDbContext<T> with options
+				opt.UseSqllite(connectionString) - If using Sqllite
+				opt.UseNpgsql(connectionString) - If using postgre
+			Connectionstring
+				builder.Configuration.GetConnectionString("DefaultConnection")
+				"connectionstrings": "name" - Inside config.json
+				Proper connectionStrings
+					"cs": "Data source=store.db" - With sqlite
+					"cs": "Server=localhost:5432;User Id=postgres;Password=postgrespw;Database=auctions"
+
+
+				You can also do it directly in the dbContext
+					var configuration = new ConfigurationBuilder()
+					    .SetBasePath(Directory.GetCurrentDirectory())
+					    .AddJsonFile("appsettings.json")
+					    .Build();
+	Create Migrations
+		dotnet ef nuget - Install it globally
+		dotnet ef - Options list
+		dotnet ef migrations add InitialCreate -o Data/Migrations - Adds the first migration
+		dotnet ef database update
+
+		dotnet ef database drop - To drop a database
+
+	Seed data
+		Seed Data inside seperate class to call from program.cs
+			DbInitializer.cs make it static
+			static method inside void initialize(Context context)
+			{
+				if(context.products.any()) return;
+
+				create list of products, new new new ... they do not need id
+
+				foreach product 
+					context.Products.Add(products);
+
+				you can also context.products.Addrange(products);
+
+				context.saveChanges();
+			}
+
+			var scope = app.Services.CreateScope();
+			var context = scope.ServiceProvider.GetRequiredService<Context>(); - Selects the context service from above
+			var logger = scope.ServiceProvider.GetRequiredService<Ilogger<Program>>(); - Selects the logger of the program
+			try
+			{
+				context.Database.Migrate(); - Migrates automatically
+				DbInitializer.Initialize(context); - Seeds database automatically
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "A problem occurred during migration"); - Logs if there is an error
+			}
+		Seed data inside dbContext
+			protected ovveride void OnModelCreating(ModelBuilder builder)
+			{
+				
+				base.OnModelCreating(builder);
+			}
+
+			db.ensurecreated()
+
+Relationships!
+	OBS USE virtual for lazy loading! It's a very good idea when nesting objects!
+
+	One To One Relationship
+		model1
+			public model2 model2 - model reference
+			[ForeignKey("model2")]
+			public int model2Id - Foreign key to model
+		model2
+			public model1 model1 - model reference
+			[ForeignKey("model1")]
+			public int model1Id - Foreign key to model
+
+	One To Many Relationship
+		model1
+			public Icollection<model2> models2 - model reference
+		model2
+			public int model1Id - Foreign key to model
+			public model1 model1 - model reference
+
+	Many To Many Relationship - You have a middleman, a class in the middle
+		middlemodel
+			public Model1 model1
+			public int model1Id
+
+			public Model2 model2
+			public int model2Id
+		model1
+			public Icollection<middlemodel> middlemodels
+		model2
+			public Icollection<middlemodel> middlemodels
