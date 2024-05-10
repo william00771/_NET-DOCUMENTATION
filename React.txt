@@ -1,0 +1,219 @@
+Setup
+	npm create vite@latest - React with Typescript
+
+
+Basics
+	Essentials
+		<> </> - Fragment wrapper, because all returns needs a master parent tag
+
+		setEnteredValues(prevValues => ({
+			...prevValues,
+			[identifier]: value
+		}))
+
+		ev.preventDefault() - To prevent default html behavior
+
+	Component and Subcomponent relationship w passing props
+		React works by building components for literally everything and passing down props to them
+			const data = []
+			export default function ComponentName(){
+				... internal logic
+				return (
+					...html and logic
+					<CustomComponent data={data} customfunction={customfunction}/>
+				)
+			}
+
+			type Props = {
+				data: Array<string>,
+				customfunction: () => void
+			}
+			export default CustomComponent( { data, customfunction } : Props ){
+				return (
+					data.map((sentence, idx) => (
+						<a key={idx} onclick={() => customfunction}>{sentence}</a>
+					))
+				)
+			}
+
+	Events
+		onclick={() => command()}
+		onChange
+		onBlur - when focus moves off input
+
+Hooks
+	useState - When state value updates the DOM component rerenders
+		const [activities, setActivities] = usestate<string[]>([]);
+
+	useEffect
+		useeffect runs on start of lifecycle, runs only once, unless providing [] conditions for it to run again
+
+		useEffect(() => { - On mount it runs the lambda
+
+		}, []) - [all] - Run on initial mounting
+
+		useEffect(() => {
+
+			return() => { - When component unmounts you do this
+				//run cleanup tasks here
+			}
+		})
+
+		if using event listeners you should remove them on the return of the useEffect
+
+	UseRef
+		useRef<HTMLInputElement>(null);
+		<Component ref={myref} />
+
+	useMemo
+		useMemo(() => {
+			expensiveFunction(value)
+		}, [value])
+
+	useContext
+		The context make things globally accessible
+			React.createContext({name: "siri"})
+			l = useContext(logged)
+			l.name 
+
+			ThemeContext = createContext('light')
+			<ThemeContext.Provider value="dark">
+				<Toolbar />
+			</>
+
+Forms & Validation
+	Typical HTML form
+		form around everything!, form onsubmit(submithandler)
+		typical html, one div wrapping a label and input
+
+	Tips
+		event.target.reset(); - Reset form
+
+	Generic way (state way)
+		state of enteredvalues ({email: '', password: '' e.t.c...})
+
+		inside inputs - onChange (e => inputChangeHandler('email', e.target.value))
+
+		inputChangeHandler(id, value){
+			setEnteredValues(prevValues => ({
+				...prevValues,
+				[identifier]: value
+			}))
+		}
+
+	Ref way (less code)
+		const input = useRef(); - for each input
+		inside input - ref={input}
+
+		submitHandler
+			input.current.value;
+
+	FormData first way
+		submitHandler(e)
+			const formData = new FormData(e.target)
+			const data = Object.fromEntries(formData.entries()); - returns kvp for all forms
+
+			formData.get('email') - To get specific input without kvp creation
+			if you have multible checkboxes with same name attribute just:
+				const acquisitionChannel = fd-getAll('acquisition')
+				data.acquisition = acquisitionChannel;
+
+	FormData second way
+		submitHandler(e)
+			data = new FormData(event.currentTarget);
+			email: data.get('email');
+			passwor: data.get('password ')
+
+	Validation
+		Technique 1 state trigger:
+			Use a state that triggers based on some if statement in the onsubmithandler
+		Technique 2 more complex state trigger:
+			new state [didedit] {email: false, password: false}
+
+			emailIsInvalid = didEdit.email && !enteredValues.email.includes('@');
+
+			handleInputBlur(id){
+				setDidEdit(prevEdit => {
+					...prevEdit, 
+					[id]: true
+				})
+			}
+
+			onBlur(() => handleInputBlur('email')) - Whenever input loses focus
+			inside handleInput Change
+				setDidedit((prevEdit) => ({ - So onfocus the error message goes away again
+					...prevEdit,
+					[identifier]: false,
+				}))
+		Technique 3 built in stuff with state trigger:
+			Just use some built in html stuff in the input
+				required, type, pattern(regex), minlength, maxlength
+			Then add your own custom ontop of the default ones
+				passwords not equal
+					new state [passwordsnotequal] = false
+					if(data.password !== data['confirm-password']){
+						setPasswordsNotEqual = true
+						return
+					}
+
+
+State Fun
+	CSS Animation
+		className={"form__input " + (active? "active" : "inactive")}
+
+
+
+Common Libaries Used With React
+React Query (Tanstack Query)
+	installation
+		npm i react-query
+		npm i @tanstack/react-query
+		inside main.tsx
+			const queryClient = new QueryClient();
+			<QueryClientProvider client={queryClient}> </QueryClientProvider>
+
+	Basic Query - You have a fetch somewhere
+		const {isLoading, error, data} = useQuery<ResponseType>({
+	      queryKey: ['getimgs', state],
+	       queryFn: () => fetchFunction('apilink and parameters')
+	      ),
+	    })
+
+	    return(
+	    	{isLoading ? <loading objects/> : <Success objects/>} - 
+	    	{error && <error objects/>}
+	    	{data && 
+	    		....
+	    	}
+	    )
+	Mutations
+
+
+React Router
+	installation
+		npm i react-router.dom
+		router.tsx
+			config export const router = createBrowserRouter([{}])
+			path: '/' - Root 
+			element: <App />, - the main application component to load
+			children: [
+				{path: '', element: <Homepage />)},
+				{path: 'catalog', element: <catalog />)},
+				{path: 'catalog/:id', element: <ProductDetails />)},
+				{path: 'about', element: <Aboutpage />)},
+				{path: 'contact', element: <Contactpage />)},
+			]
+		App.tsx
+			<RouterProvider router={router}/> wrap App with this
+	Anchor
+		Link to={'/precviewpage/${course.id}'}>
+				const {id} = useParams(); - In next page to fetch passed in id that was used in the Link tag
+				{path: 'kurspreviewpage/:id', element: <KursPreviewPage />}, - To make id value passable
+	Helper functions
+		useLocation (same as window.location)
+		useMatch - access route matches on a page
+		useParams - accesses url params also accessible via match.params
+
+
+React Hook Form
+	const {register, handleSubmit, formState: {isSubmitting}} = useForm();

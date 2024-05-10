@@ -1,0 +1,29 @@
+Binary Search - looks for a target value
+	starts at middle index, checks right slice, then repeats on left slice. - Works on Sorted array
+
+? Sliding Window - looks for a target value 
+	starts at beginning index,
+
+
+
+To go through
+
+Linked List
+Depth For Search
+Breath For Search
+Stack
+Two Pointers
+Arrays & Hashing/HashMaps
+Trees
+Heap & Priority Queue
+Recursio
+Recursion
+Sorting
+Binary Search
+Trees
+Backtracking
+Heap/Priority Queue
+Hashing
+Graphs
+Dynamic Programming
+Bit Manipulation

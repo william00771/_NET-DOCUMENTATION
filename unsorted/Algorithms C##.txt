@@ -1,62 +1,3 @@
-When answering interview questions
-	always focus on requirements. Ask more, assume it will be difficult every single time
-	Try and avoid recurcion.
-	Don't use brute force approach (storing all possible variations beforehand)
-
-Linear Time Complexity 0(n)
-	Regular Loops
-
-Log Time Complexity
-	Binary search
-
-Binary Search
-	Start at middle index or left side of middle index
-		if middle == target then return
-		if middl > target then search(left), otherwise search left
-			Middle of that slice
-			check again
-
-	Implementation
-		recursive
-			if start > end {
-				not found
-			}
-			const middle = Math.Floor( (start + end) / 2 );
-
-			if(arr[middle] === target){
-				return found it ...
-			}
-
-			if(arr[middle] > target){
-				return findMe(target, start, middle-1) - So now it searches to the left of the original search
-			}
-
-			if(arr[middle] < target){
-				return findMe(target, middle+1, end) - So now it searches to the right of the original search
-			}
-		While loop
-			left = 0
-			right = arr.length - 1
-
-			while (left <= right)
-				int mid = (left + right) / 2
-
-				if(arr[mid] == target)
-				{
-					return mid;
-				}
-				else if (arr[mid] < target)
-				{
-					left = mid + 1;
-				}
-				else
-				{
-					right = mid - 1;
-				}
-			}
-
-			return -1; if not found in search range
-
 Sliding Window
 	Expand window from start until finding target value
 		if sliding value is greater than target - Window shrinks one element from the left and checks again
@@ -142,12 +83,6 @@ Sliding Window
 
 
 Linked List
-	Single Linked List - Forward navigation only
-		node[data, link] - Actual data, link to address of next node in the list
-	Doubly Linked List - Forward and backwards navigation
-	Circular Linked List - Last element is linked to the first element
-
-	Implementation
 Depth For Search
 Breath For Search
 Stack

@@ -1,0 +1,9 @@
+1. Driver - (Do not help with commit messages)
+2. Navigatior
+3. Next Navigator
+4. Facilitator
+
+On commit immediately rotate
+
+lab.keyboardwarriors.2024-02-12
+new project - Team Planning Board, description -> First navigator gets to choose overarching goal (in release estimate time)

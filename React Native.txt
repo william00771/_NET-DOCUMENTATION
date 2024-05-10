@@ -1,0 +1,25 @@
+Setup
+	Install Xcode for mac + download expo go on iphone
+	expo cli - most popular (like vite) - Third party service, easier integration
+	npx react-native init MyNewProject --template react-native-template-typescript + npx expo start
+	npm run ios, web, android
+
+Basics
+	Tags html equivalent
+		View - div
+		Modal - div specific for overlay
+		ScrollView - div with scrollable
+
+		Text - Span
+		FlatList - ul
+
+		Button - Button
+		TouchableHighlight - button w hover
+
+		TextInput - Input
+
+		Image - Img
+
+		ActivityIndicator - Custom spinner
+	Styling
+		const styles = Stylesheet.create({}) + Inline styling

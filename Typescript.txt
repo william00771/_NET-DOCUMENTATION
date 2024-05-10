@@ -4,6 +4,14 @@ Basics
 	import '../file.svg'
 	import {CustomType} from './types/types.ts'
 
+Destructuring objects
+	with curly braces you get the values out of the object as direct variables 
+	[first, second ...theRest] = person.languages; - Destructuring array
+	{firstName, lastName} = person; - Destructuring Object
+
+Event Handling
+	e: FormEvent<HTMLFormElement>
+	const target = e.currentTarget as HTMLFormElement;
 
 Proper Fetching (header, body?)
 Reading (json file?)

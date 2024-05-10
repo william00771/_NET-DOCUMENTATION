@@ -1,16 +1,4 @@
-How long does hub persist? - Don't stick anything in memory
-When client disconnects from signal r - 
 
-Installation
-	dotnet add package Microsoft.AspNetCore.SignalR.Common
-	
-
-Call hub methods from client
-	.invoke("hubMethod", param1, param2) - Send to hub (primary way)
-		.then((val) => ...)
-
-	.send("hubMethod", param1, param2) - Send to hub
-		.then((val) => ...)
 
 Hub send message to all clients
 	Clients.All.SendAsync("name", param1, param2) - Sends event to clients

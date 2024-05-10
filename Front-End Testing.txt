@@ -1,0 +1,47 @@
+Jest
+	installtion
+		npm i -D vitest jsdom @testing-library/react @testing-library/jest-dom
+		vitetest.config.ts
+			import { defineConfig } from 'vitest/config'
+			export default defineConfig({
+			  test: {
+			    environment: 'jsdom',
+			    setupFiles: ['./tests/setup.ts'],
+			    include: ['./tests/**/*.test.tsx'],
+			    globals: true
+			  }
+			})		
+		in package.json
+			{
+			  ...
+			  "scripts": {
+			    ...
+			    "test": "vitest --config ./vitest.config.ts"
+			  },
+			  "dependencies": {},
+			  "devDependencies": {}
+			}
+			npm run test
+		Create a folder named test
+			create setup.ts
+				import { expect, afterEach } from 'vitest';
+				import { cleanup } from '@testing-library/react';
+				import matchers from '@testing-library/jest-dom/matchers';
+				expect.extend(matchers);
+				afterEach(() => {
+				  cleanup();
+				});
+			app.test.tsx
+				import { render, screen } from '@testing-library/react';
+				import App from "../src/App";
+				import React from 'react';
+
+				describe('App', () => {
+				  it('renders headline', () => {
+				    render(<App />);
+				    const headline = screen.getByText(
+				      /Click on the Vite and React logos to learn more/i
+				    );
+				    expect(headline).toBeInTheDocument();
+				  });
+				});

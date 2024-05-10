@@ -1,0 +1,20 @@
+signal R - Uses websockets
+
+Setup
+	Client
+		import * as signalR from "@microsoft/signalr";
+
+		let connection = new signalR.HubConnectionBuilder()
+		    .withUrl("/hubs/view")
+		    .build();
+
+		connection.start().then(startSuccess, startFail);
+
+		Call hub methods from client
+			.invoke("hubMethod", param1, param2) - Send to hub (primary way)
+				.then((val) => ...)
+
+			.send("hubMethod", param1, param2) - Send to hub
+				.then((val) => ...)
+	Server
+		

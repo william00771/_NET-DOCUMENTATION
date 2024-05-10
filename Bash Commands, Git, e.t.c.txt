@@ -137,7 +137,9 @@ Install Bash on windows
 	
 	winget - (Windows Package Manager)
 		Installation
-			Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile $ENV:TEMP\winget.msixbundle; Add-AppXPackage $ENV:TEMP\winget.msixbundle;
+			Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile $ENV:TEMP\winget.msixbundle; 
+			Add-AppXPackage $ENV:TEMP\winget.msixbundle;
+
 		Commands
 			winget search Name
 				terminal - Lists all packages
@@ -146,6 +148,9 @@ Install Bash on windows
 				Git.Git - installs goit
 			winget uninstall packageName 
 
+	Bash v2
+		https://learn.microsoft.com/en-us/windows/wsl/install
+
 	WSL 2 - So you can run linux shell in cmd windows (able to use Oh My Zsh! on windows)
 		wsl.exe --install
 
@@ -153,3 +158,14 @@ Install Bash on windows
 		Custom Themes
 		Up/Down arrow scrolls through earlier commands
 		When you have written part of a command you can use the Tab-key (looks like ->| on a Mac) to get the rest of the command filled out.
+
+	Bash V1
+		winget install Git.Git
+
+		Follow the install instructions and when that is done, go to Settings in the terminal and do the following:
+		Select Add a new profile
+		Create a New empty profile
+		Name the profile Git Bash
+		Set the Command line to %ProgramFiles%\Git\bin\bash.exe
+		Set the Icon to %ProgramFiles%\Git\mingw64\share\git\git-for-windows.ico
+		Press Save to save the profile.
