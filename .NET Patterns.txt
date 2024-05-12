@@ -1,2 +1,4 @@
+Specification Pattern
+	
 Factory Pattern
 Command Object Pattern
