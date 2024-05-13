@@ -1,5 +1,25 @@
-Jest
-	installtion
+E2E Testing - Playwright
+	Runs your site, headless, locally, in browser e.t.c. 
+	Selenium is an industry old thing, very fragile
+	Playwright, More modern, and native to c#. Playwright is much more stable, it's bascially a program on my pc
+	Installation
+		dotnet tool install --global Microsoft.Playwright.CLI
+		cd e2e project
+		playwright install
+		if we add xunit and playwirght
+			[parallelizable(parallelscope-Self)]
+			[TestFixture]
+	Test
+		apge.gotoasync("url")
+		protips = page.locator("#protip")
+		await expect(pro).tobevisibleasync
+			.tohavetitleasync(new Regex(""))
+
+		await .pressasync("enter")
+		fillasync
+
+Jest - For testing typescript, react e.t.c.
+	Installation
 		npm i -D vitest jsdom @testing-library/react @testing-library/jest-dom
 		vitetest.config.ts
 			import { defineConfig } from 'vitest/config'

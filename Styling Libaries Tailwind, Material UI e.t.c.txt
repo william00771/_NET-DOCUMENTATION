@@ -1,5 +1,6 @@
-
-Installation
+Tailwind
+Material UI
+	Installation
 	With the Emotion libary in charge of the styles
 		npm install @mui/material @emotion/react @emotion/styled
 	Or with Styled-Components in charge of the styles (less support, not compatible with server-rendered )

@@ -64,6 +64,13 @@ Collections & Arrays
 			arr.Select(pet => pet.Weight)
 			arr.Select((line, index) => $"{index+1}: {line}"); - Replaces each "item" with "indexValue: item"
 			arr.Select()
+			<double> ratesList = files - Create a list of double and adds all file in filelist to it.
+		      .Select(file => GetCurrencyRateFromFile(file, symbol))
+		      .ToList();
+		    var returnList = filesNames
+		      .Select(fileName => new { FileName = fileName, RateValue = GetCurrencyRateFromFile(fileName, symbol) })
+		      .Select(x => $"Date: {x.FileName.Split('.')[0]} Rate: {x.RateValue}")
+		      .OrderBy(x => x.Split(':')[1]);
 		arr.SelectMany(x => x) - Flattens a two dimentional collection, you use select after it to then reformat it.
 		arr.Aggregate() - First it does the normal operation on first two items. Then it works like a sliding window. y gets added to x
 		arr.Aggregate(10, (x, y)) - applies 10 * x example and then gets going with the sliding window

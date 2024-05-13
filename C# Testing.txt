@@ -1,0 +1,40 @@
+Testing is a hygiene factor - not optional
+	Unit Testing tests individual services, 
+	Integration Testing checks flow between services, 
+	E2E Testing checks entire application, Human errors also
+
+Xunit + fluentassertions
+	installation
+		Divide into .tests and the code itself
+
+		Test Method
+		create void return method with [Fact] attribute
+
+		Arrange - Import the class/write the thing to test and assign it to a variable
+		Act - Create an individual/Run function on the class.
+		Assert - 
+			Assert.Equal("what it should equal", Object)
+			Assert.NotNull(Object)
+			Assert.IsType(typeof(Employee), Object) 
+
+		dotnet test - tests all the tests in the solution
+		dotnet watch test --project TrainingGround.Tests - Add continous testing to file
+	basic approach
+		Arrange, 
+			Setup mock data, instantiate class e.t.c.
+		Act, 
+			Typically var response = ....command
+		Assert,
+			Check correctness, validation
+	basic commands
+		.Should()
+				.NotBe()
+				.Be()
+					TaskStatus.RanToCompletion - returned a response
+					response.Result.Result as NotFoundObjectResult
+		Check for exceptions
+			Action result = () => stringCalculator.Add("356");
+	    	Exception exception = Assert.Throws<Exception>(result);
+	    	Assert.Equal("Invalid input.", exception.Message); 
+	    	MethodExists("HighestRateEver").Should().BeTrue();
+			act.Should().Throw<ArgumentException>().WithMessage("Symbol 'APA' not found");

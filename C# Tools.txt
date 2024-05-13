@@ -5,6 +5,89 @@ Binary Search - looks for a target value
 	starts at beginning index,
 
 
+	Expand window from start until finding target value
+		if sliding value is greater than target - Window shrinks one element from the left and checks again
+		Found it? Cool!
+		Now it can keep going to find the other values aswell
+	Everytime value is over target, it shrinks from left
+	Everytime value is under target, it expands to right
+
+	There is the Fixed Length Variant
+		max sum Subarray of size K
+	The Dynamic Variant
+		smallest sum >= to some Value S
+	Dynamic Variant w Auxillary data structure (hash)
+		Longest substring w no more than k distinct characters
+		String Permutations
+
+	Implementation
+		Fixed length
+			findMaxSub(arr, int searchSize)
+			maxValue = 0
+			currSum = 0
+
+			for(0 -> arr.length){
+				currentSum += arr[i];
+				if(i >= searchSize - 1){ - Once 3 elements selected
+					maxValue = Math.max(maxValue, currentSum); - Return the max sum
+					currentSum -= arr[i - (searchSize - 1)] - Deletes the first arr[i] value so it can run the += again with next right value and check once more
+				}
+			}
+			return maxValue;
+		Dynamic Variant
+			SmallestSubArrayGivenSum(arr, targetSum)
+
+				int minSearchSize = int.MaxValue; 
+				int startIndex = 0
+				currSum = 0
+
+				for(i -> arr.length){
+					currSum += arr[i];
+					
+					while(i >= targetSum){ - CUrrent sum is now equal to the target value
+						minSearchSize = Math.min(minSearchSize, i - startIndex + 1) - This gives us the size(delta) of how large our window is currently
+						currSum -= arr[startIndex]; - Deletes the first arr[i] value
+						i++; - Keep growing
+					}
+				}
+
+				return minSearchSize;
+		Dynamic Variant auxillary 
+			kdistinctFindLength(str, k)
+
+				int windowStart = 0;
+				int maxLength = 0;
+		        Dictionary<char, int> charFrequencyMap = new Dictionary<char, int>();
+
+		        for (int i = 0; i < str.Length; i++)
+		        {
+		            char rightChar = str[i];
+
+		            if (charFrequencyMap.ContainsKey(rightChar)){
+		                charFrequencyMap[rightChar]++;
+		            }
+		            else{
+		                charFrequencyMap[rightChar] = 1;
+		            }
+
+		            while (charFrequencyMap.Count > k)
+		            {
+		                char leftChar = str[windowStart];
+
+		                charFrequencyMap[leftChar]--;
+
+		                if (charFrequencyMap[leftChar] == 0){
+		                    charFrequencyMap.Remove(leftChar);
+		                }
+
+		                windowStart++;
+		            }
+
+		            maxLength = Math.Max(maxLength, i - windowStart + 1);
+		        }
+		        return maxLength;
+
+
 
 To go through
 

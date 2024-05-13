@@ -1,9 +1,0 @@
-NUGET
-
-NPM
-	Animation
-		framer-motion - An open source motion library for React, made by Framer.
-
-RESOURCES
-	Design
-		https://emojipedia.org/ - Find Emoji Icons

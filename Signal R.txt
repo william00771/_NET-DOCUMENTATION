@@ -1,4 +1,16 @@
 signal R - Uses websockets
+	The Three transport types used by signalR
+		Websockets - 
+			Always available connection
+			open connection between client and server
+			Socket pools can be exhausted when multible users and tabs are connected
+		Server-Sent Events - 
+			Good fallback for when websockets do not work
+			Client cannot use EventSource to send messages
+		Long Pooling - 
+			It works on ALL browsers
+			Constant connection/disconnection cyclas are not ideal. Slower. You are constantly killing and starting new connections.
+
 
 Setup
 	Client
@@ -8,13 +20,40 @@ Setup
 		    .withUrl("/hubs/view")
 		    .build();
 
+		    setup transport types
+		    	.withUrl("/hubs/view", { 
+		        transport: signalR.HttpTransportType.WebSockets | 
+		        signalR.HttpTransportType.ServerSentEvents})
+
 		connection.start().then(startSuccess, startFail);
 
 		Call hub methods from client
-			.invoke("hubMethod", param1, param2) - Send to hub (primary way)
-				.then((val) => ...)
+			send from client to hub
+				connection.invoke("hubMethodName", param1, param2);
 
-			.send("hubMethod", param1, param2) - Send to hub
-				.then((val) => ...)
+				.invoke("hubMethod", param1, param2) - Send to hub (primary way)
+					.then((val) => ...)
+
+				.send("hubMethod", param1, param2) - Send to hub
+					.then((val) => ...)
+				
 	Server
 		
+
+
+Configure Logging
+	.configureLogging(signalR.LogLevel.Trace)
+    .configureLogging(new CustomLogger())
+
+	.ConfigureLogging(logging => {
+        logging.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Trace);
+        logging.AddFilter("Microsoft.AspNetCore.Http.Connections",LogLevel.Trace);
+    })
+
+    let connection = new signalR.HubConnectionBuilder()
+    //.configureLogging(signalR.LogLevel.Trace)
+    .configureLogging(new CustomLogger())
+    .withUrl("/hubs/stringtools", { 
+        transport: signalR.HttpTransportType.WebSockets | 
+        signalR.HttpTransportType.ServerSentEvents}) //here you can pass in transportoptions, fallbacks
+    .build();

@@ -21,3 +21,14 @@ HTTPClient / HTTP Factory
 		await console(getpeopletask.response)
 
 		JsonSerializer.Deserialize<Person>(persontype)
+
+
+Codegenerator:
+	dotnet tool install -g dotnet-aspnet-codegenerator
+	dotnet tool install -g dotnet-ef
+	dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+	dotnet aspnet-codegenerator --help
+	dotnet aspnet-codegenerator controller --help
+		dotnet aspnet-codegenerator controller -name MoviesController -outDir Controllers -m Movie -dc MovieContext -dbProvider sqlite -api
+
+		dotnet aspnet-codegenerator controller -name MoviesController -outDir Controllers -m Movie -dc MovieContext -dbProvider sqlite -api -f
