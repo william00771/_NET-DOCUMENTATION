@@ -15,3 +15,187 @@ Event Handling
 
 Proper Fetching (header, body?)
 Reading (json file?)
+
+Strings & Chars
+	´${Variable}´
+	\n \' \\ - Linebreak, single quote, singlebackslash
+	.toLowerCase(), .toUpperCase()
+	.split(';') - Splits at ; mark
+		.split('') - Removes whitespace
+	.trim() - Remove whitespace around string
+	.join() - Join a string back together
+
+Collections & Arrays
+	new Array.from(string)
+	arr.map((object, idx) => {return: ...} or (...)) - .Select Linq Equivalent
+	arr.sort((a, b) => {return: ...} - Sorts array and returns sort based on sorting conditionals
+	arr.filter((price, idx, prices) => return: x < 3 ? ... :) - Filter based on conditional
+		arr.filter(p => p > 6);
+		arr.filter(movie => movie.includes(filterValue));
+	arr.find((item, idx, itemsArray) => {}) - .First Linq Equivalent
+	arr.findIndex(idx => {}) - Returns index of arr
+		.findIndex(p => p.id === inputId) 
+	arr.includes() - Returns bollean if arr includes a certain value
+	arr.forEach((price, idx, prices) => {}) - For Loop where you can create an object on the fly
+
+Numbers
+	Math.random() - Generates a random number between 0 and 1
+	Math.Ceil() - 
+	Math.Floor() - 
+	Math.PI() - Gives value of Pi
+	Math.Pow() - PowerOf
+	Math.abs() - absolute number
+	Math.sin() - sin
+
+Dictionaries - new Dictionary<KEY, VALUE>
+
+HasSets - new HashSet<KEY>
+	
+Conversion
+	parseInt() or + - Parses string into Int
+	parseFloat() - Parses string into Float
+	.toString() - Parses int or float to string
+
+Useful Operations
+
+Declarations (since i tend to forget)
+
+Some operations (since i tend to forget)
+
+
+DOM Basic Operations
+	Basic Selection & Manipulation
+		Creating Selectors for DOM elements
+			document.getElementById("elementId") as HTMLDivElement
+			document.querySelector<HTMLDivElement>(".className")
+			document.querySelectorAll<HTMLDivElement>(".className")
+		Individual element properties
+			obj.offsetTop - distance between top of object and top of window
+			obj.offsetLeft - distance between left of object and left of window
+			obj.clientTop - distance between object and next object inside it from top
+			obj.clientLeft - distance between object and next object inside it from left
+			obj.offsetWidth - Entire width of object
+			obj.offsetHeight - Entire height of object
+			obj.clientWidth - Width of object inside
+			obj.clientHeight - Height of object inside
+			obj.scrollHeight - Entire height of content in scroll
+			obj.scrollTop - Height of current Scrollheight based on how far from top
+			obj.scrollTo(x, y) or {top: 50, behavior: 'smooth'} - Scroll fixed pixels
+			obj.scrollBy(x, y) or {top: 50, behavior: 'smooth'} - Scroll relative pixels
+			obj.scrollIntoView({behavior: 'smooth'}) - Make a specific element scroll into view
+		Changing Parameters
+			obj.innerHTML + ` ` - Replace html of object
+			obj.innerHTML += ` ` - Append html of object
+			obj.innerText - Replace text value inside object
+			obj.click() - Simulate click event
+			obj.classList.add("") - Add class to object
+			obj.style.cssText = - Add css styling to object
+	Actions
+		Event Listeners
+			input.addEventListener('change', (event: Event) => {
+			  const target = event.target as HTMLInputElement;
+			  ...
+			});
+
+			const handleInputChange = (event: Event): void => {
+			  const target = event.target as HTMLInputElement;
+			  ...
+			};
+			input.addEventListener('change', handleInputChange);
+		EventListener Events
+			'animationend' - Wait for any timeline to end before doing action
+			'click'
+			'oncontextmenu'
+			'ondbclick'
+			'onchange'
+			'ondrag'
+			'onblur'
+			'mouseenter'
+			'scroll'
+			'submit'
+			'dragstart'
+			'dragenter'
+			'dragover'
+	Events
+		Event Object - All events have an Event object, eventhandlers return an Event object by default
+		Type
+			e.target as typeof e.target & {...}
+		Most Common commands
+			e.preventDefault() - Prevents default behavior of event, ex forms
+			e.target.value - the current value of target that sent the event. target = this
+			e.name.value, e.email.value - Access the Name attribute assigned to form objects
+		Other commands
+			e.currentTarget - the parent of where they clicked
+			e.target - where they clicked originally
+			e.stopPropagation() - Stops the event from propagating (bubbling) up the DOM tree
+			e.clientY - Returns the Y coordinate of the event relative to the viewport.
+			e.clientX - Returns the X coordinate of the event relative to the viewport.
+			e.key - Returns the value of the key pressed (for keyboard events).
+			e.button - Returns the button number that was pressed
+
+
+DOM Types
+	HTML Tags & Elements
+		HTMLElement
+		HTMLDivElement
+		HTMLSpanElement
+		HTMLInputElement
+		HTMLButtonElement
+		HTMLAnchorElement
+		HTMLImageElement
+		HTMLFormElement
+		HTMLTableElement
+		HTMLTableRowElement
+		HTMLTableCellElement
+		HTMLUListElement
+		HTMLOListElement
+		HTMLLIElement
+		HTMLSelectElement
+		HTMLOptionElement
+	Event Objects
+		Event - Base interface for all events.
+		UIEvent - User interface actions (e.g., scrolling).
+		MouseEvent - Pointing device interactions (e.g., click, mouseover).
+		KeyboardEvent - Keyboard interactions (e.g., keydown, keyup).
+		FocusEvent - Focus-related events (e.g., focus, blur).
+		InputEvent - Input field events (e.g., input).
+		ChangeEvent - Form element changes (e.g., change on <select>).
+		SubmitEvent - Form submission (e.g., submit on <form>).
+		TouchEvent - Touch interactions (e.g., touchstart, touchend).
+		DragEvent - Drag-and-drop interactions (e.g., drag, drop).
+		WheelEvent - Mouse wheel rotations (e.g., wheel).
+		AnimationEvent - CSS animations (e.g., animationstart, animationend).
+		TransitionEvent - CSS transitions (e.g., transitionend).
+		PointerEvent - Pointing device interactions (e.g., pointerdown, pointerup).
+		ClipboardEvent - Clipboard interactions (e.g., copy, paste).
+	React Elements
+		ReactNode - Any renderable React content.
+		ReactElement - A React element, typically created with JSX.
+		JSX.Element - The return type for a functional component.
+		ComponentType - The type for a React component (class or function).
+		FC (FunctionComponent) - Type for functional components with children.
+		VFC (VoidFunctionComponent) - Type for functional components without children.
+		ReactChild - A single React child (string, number, element, etc.).
+		ReactFragment - A type for React fragments (<>...</>).
+		PropsWithChildren - Type for props objects that include `children`.
+		Dispatch - Type for a function that dispatches an action (e.g., in useReducer).
+		SetStateAction - Type for a function that sets state (e.g., in useState).
+		ChangeEvent - Event type for form elements.
+		MouseEvent - Event type for mouse events.
+		KeyboardEvent - Event type for keyboard events.
+		SyntheticEvent - Base type for React events.
+		RefObject - Type for creating references to DOM elements or components.
+		MutableRefObject - Type for mutable references.
+		Context - Type for React context.
+		ProviderProps - Props type for context providers.
+		RefCallback - Type for callback refs.
+		ReactPortal - Type for creating React portals.
+		HTMLAttributes - Attributes for standard HTML elements.
+		SVGAttributes - Attributes for SVG elements.
+		CSSProperties - Type for inline CSS styles.
+		ErrorInfo - Information about errors in error boundaries.
+		ForwardRefRenderFunction - Type for components using forwardRef.
+		Reducer - Type for reducers (e.g., in useReducer).
+		ReactHTMLElement - Type for React elements representing HTML.
+		ReactSVGElement - Type for React elements representing SVG.
+		ReactComponentElement - Type for React elements representing components.

@@ -1,72 +1,10 @@
-
-
-
-
-.ToList(); - Help you with manipulation all things linq. Simple Conversion
-	linq:aggregate
-	 arr.reduce((x: number, y: number) => x + y) - adds a + operation between all arr values 
-	linq:indexof
-	 arr.IndexOf('hello')
-	linq:ForEach
-	 arr.ForEach((x) => x)
-	linq:
-	 arr.map()
-	linq
-	 arr.Sort() - Alphabetic by default
-
-
 DOM
-	Event Object - All events have an Event object, eventhandlers return an Event object by default
-		in typescript const target = e.target as typeof e.target & {...}
-			You can put in the values 
-		e.preventDefault() - Prevents default behavior of event, must do with forms
-		e.target - where they clicked originally
-		e.currentTarget - the parent of where they clicked
-		e.name.value, e.email.value - Access the Name attribute assigned to form objects
-		e.target.value - the current value of target that sent the event, like THIS keyword, target being THIS
-
-	Changing Parameters
-		obj.innerHTML + ` ` - Replace html of object
-		obj.innerHTML += ` ` - Append html of object
-		obj.innerText - Replace text value inside object
-		obj.click() - Simulate click event
-		obj.classList.add("") - Add class to object
-		obj.style.cssText = - Add css styling to object
+	
 
 	Creating Objects
 		document.createElement("h1") - Create brand new html element
 		obj.appendChild(element) - Append a new html element to object
 		obj.remove(); - Remove element from html
-
-	EventListener Events
-		'animationend' - Wait for any timeline to end before doing action
-		'click'
-		'oncontextmenu'
-		'ondbclick'
-		'onchange'
-		'ondrag'
-		'onblur'
-		'mouseenter'
-		'scroll'
-		'submit'
-		'dragstart'
-		'dragenter'
-		'dragover'
-
-	Obj elementSize attributes
-		.offsetTop - distance between top of object and top of window
-		.offsetLeft - distance between left of object and left of window
-		.clientTop - distance between object and next object inside it from top
-		.clientLeft - distance between object and next object inside it from left
-		.offsetWidth - Entire width of object
-		.offsetHeight - Entire height of object
-		.clientWidth - Width of object inside
-		.clientHeight - Height of object inside
-		.scrollHeight - Entire height of content in scroll
-		.scrollTop - Height of current Scrollheight based on how far from top
-		.scrollTo(x, y) or {top: 50, behavior: 'smooth'} - Scroll fixed pixels
-		.scrollBy(x, y) or {top: 50, behavior: 'smooth'} - Scroll relative pixels
-		.scrollIntoView({behavior: 'smooth'}) - Make a specific element scroll into view
 
 	Fetch
 		const asJson = await fetch('url');
@@ -86,39 +24,16 @@ Commands - Chaining works the same with linq
 		.length - Returns the length of given object
 			.length === 0 (meaning it is empty)
 		Math
-			Math.random() - Generates a random number between 0 and 1
+			
 			Generate number based on user set values
 				let min = 2; min = Math.ceil(min);
 				let max = 4; max = Math.floor(max);
 			    Math.floor(Math.random() * (max - min + 1)) + min;
-			Math.PI() - Gives value of Pi
-			Math.Pow() - PowerOf
-			Math.abs() - absolute number
-			Math.sin() - sinddd
 
-	Converting
-		parseInt() or + - Parses string into Int
-		parseFloat() - Parses string into Float
-		.toString() - Parses int or float to string
 	Checks Types
 		typeof() - Evaluates what type the given var has
 		isNaN() - Check if a given value IS a number
 		value instanceof ObjectName - Checks if value is an instant of ObjectName
-	Strings
-		´${Variable}´ - backticks and refeering to a variable inside string
-		\n \' \\ - Linebreak, single quote, singlebackslash, 
-		.toUpperCase() - makes all characters uppercase
-		new Array.from(string) - Converts arraylike object aka string to real array so you can use tools
-		.split(';') - Splits to three elements after every ;, you can also limit with a second argument
-		.split('') - Converts string to array and removes the whitespace
-		.join() - Join back together a string from array after you've manipulated it
-		.join() - Joins seperated by comma all values of array/string. Add ' ' to define the separator
-		.trim() - removes whitespace from both ends of this string NOT INSIDE the text
-		.replace(/\s/g, ""); - Remove whitespace INSIDE TEXT
-		.toLowerCase()
-		.toUpperCase()
-		.replace()
-		.sort - sorts string in alphabetical order (remember to join after) 
 
 	Arrays
 		.push() - Add data to End of array without killing existing values
@@ -134,66 +49,6 @@ Commands - Chaining works the same with linq
 		.concat([]) - Pulls out all elements of arr and combines it into a new arr + Adds additional values
 		.indexOf() - Returns the first index of the value you are passing in
 		.lastIndexOf() - Returns the last index of the value you are passing in
-
-	linq:First
-		.find((item, idx, itemsArray) => { - 
-			return item.person === 'Manuel';
-		})
-			single object of array, index of that object, the full array
-			(Works like a for loop), it runs across the entire array
-			you can find and return an element you are trying to find
-			It Copies the Reference Value of the object
-		.findIndex((itemindex) => { - }) - It returns the index of that given object
-			ex .findIndex(p => p.id === inputId) 
-		.includes(10.99)
-			Returns true if an array includes a certaint value
-		.forEach((price, idx, prices) => {
-			const priceObj = { index: idx, taxAdjprice: price * (1 + tax) };
-			taxAdjustedPrices.push(priceObj);
-		})
-			single object of array, index of that object, the full array
-			you can edit each item in the array. It works like a for-of loop but you have built in index
-			Each time it creates a constant that stores the index, taxadjprice and converts it then pushes it
-			You CAN just create objects based on the price.value for example, and not modify the main object
-
-	linq:select
-		.map((price, idx, prices) => { 
-			const newArrObj = {index: idx, name: item.name + 50, newValue: "true"};
-    		return newArrObj;
-		})
-			const transformedArray = originalArray.map(obj => obj.price);  'OBS! - Converts object array to normal array'
-			single object of array, index of that object, the full array +Has to return something!
-			IT RETURNS AN ELEMENT FOR EACH ITERATION OF THE LOOP IN THE ARRAY
-			It Returns A BRAND NEW array, copies
-			Works like .find() only you can actually change values inside of the array
-		.sort((a, b) => {
-			if(a > b){
-				return 1;
-			} else if (a === b){
-				return 0;
-			} else{
-				return -1;
-			}
-		})
-			Sort from Lowest -> Highest Number
-		.sort
-		.reverse()
-			Reverses the array
-		.some
-
-	linq:where
-		.filter((price, idx, prices) => {
-			return item < 40 ? true : 
-				   item === 5000 ? true : 
-				   item < 10 ? true : false;
-		})
-			IF ITS FALSE THE FILTER DROPS IT FROM THE ARRAY
-			.filter(p => p > 6); - Arrows help alot with shortening these types of functions
-			.filter(movie => movie.includes(filterValue));
-			single object of array, index of that object, the full array +Has to return something!
-			Everything that returns true it will keep in the new array
-			Can remove items using filter ex:
-			this.projects = this.projects.filter(p => p.id !== projectId); - It keeps all items where this is NOT true.
 	linq:aggregate - Initial value is on the opposite side c# vs javascript
 		.reduce((prevValue, curValue, curIndex, Array) => {
 			return prevValue + curValue;
