@@ -13,9 +13,6 @@ Event Handling
 	e: FormEvent<HTMLFormElement>
 	const target = e.currentTarget as HTMLFormElement;
 
-Proper Fetching (header, body?)
-Reading (json file?)
-
 Strings & Chars
 	´${Variable}´
 	\n \' \\ - Linebreak, single quote, singlebackslash
