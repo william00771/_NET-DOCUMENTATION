@@ -9,6 +9,33 @@ Destructuring objects
 	[first, second ...theRest] = person.languages; - Destructuring array
 	{firstName, lastName} = person; - Destructuring Object
 
+Callbacks
+	Promise Pattern
+		Inside async functions you create and return a promise<Type>
+			new Promise(resolve, reject => {res,rej..}) - Promise has a resolve and reject value which it returns
+				resolve() - success, it returns whatever Promise<Type> that it should return
+				reject('message') - failure, it returns an Error object where you can specify
+
+		When you call the async function you .then and .catch the promise responses and handle them
+			asyncOperation(input)
+				.then(result => {...}) - This is the promise resolve return. You can obviously chain with return
+				.then(result2 => )
+				.catch(error => {... console.error('Error: ', error.message)}) - To catch the promise error
+	Await Pattern
+		Same return promise inside async function as with the Promise Pattern
+		When Handling calling the async function instead of .then .catch
+			try{
+				var result = await roundToIntegerPromise(input);
+			} catch(error) {
+				console.error('Error: ', error.message);
+			}
+		You can also just skip the trycatch and just return the error message to console in the promise itself
+			Inside Function -> reject(console.error('Rounding failed'))
+			var result = await roundToIntegerPromise(input)
+			
+
+
+
 Event Handling
 	e: FormEvent<HTMLFormElement>
 	const target = e.currentTarget as HTMLFormElement;

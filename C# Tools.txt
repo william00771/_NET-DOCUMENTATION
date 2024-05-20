@@ -1,3 +1,8 @@
+Tools Picked Up
+	map one stringarr format to another using select. run ToArray at end and idx exists in each select run.
+	.Where check if an input char contains a character within a certain string by having the string on left side !"string".
+
+
 Binary Search - looks for a target value
 	starts at middle index, checks right slice, then repeats on left slice. - Works on Sorted array
 

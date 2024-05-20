@@ -4,8 +4,9 @@ Overriding the ToString inside a class
 		return $"{nameof(x)}: {x}"....
 	}
 
-Factory Method
-	Example
+Factory Method - Instead of one big constructor with enums describing type & switch determining assignment.
+	This means you can't actually show the user you need to specifically give a comment to the user that describes what to do and how to initialize the constructor. So instead just create it around what the user wants.
+	Factory Example
 		public class Point
 		{
 			public static Point NewCartesianPoint(double x, double y)
@@ -27,6 +28,8 @@ Factory Method
 		}
 
 		var Point = point.NewPolarPoint(1.0, Math.PI / 2)) - To call one of the factory methods
+	Asyncronous Factory Method
+		
 
 Abstract Factory
 

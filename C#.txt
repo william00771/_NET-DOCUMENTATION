@@ -56,7 +56,8 @@ Collections & Arrays
 		arr.Contains(new Obj, new ComparerById) - For Comparing OBJECTS implement new method ex 
 			ComparerById : IEQualityComparer<objecttype> return x.Id == y.Id; 
 		arr.Where() - FILTER THAT RETURNS NEW COLLECTION that MATCHES CRITERIA
-		arr.Where((pet, idx) => pet < 5 && SelectedIndexes.Contains(idx)) - RETURNS NEW COLLECTION with INDEX and Pet CRITERIA
+			arr.Where((pet, idx) => pet < 5 && SelectedIndexes.Contains(idx)) - RETURNS NEW COLLECTION with INDEX and Pet CRITERIA
+			str.Where(ch => !"aeiouAEIOU".Contains(ch)) - Check for each character if it matches the string. Similar to foreach
 		arr.Select(number => number * 2) - PROJECTS EACH ELEMENT OF COLLECTION to a different type
 			arr.Select(word => word.ToUpperCase)
 			arr.Select(number => number.ToString())

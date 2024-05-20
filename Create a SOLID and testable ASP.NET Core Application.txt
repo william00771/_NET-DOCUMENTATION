@@ -1,0 +1,41 @@
+folder structure
+	src
+		API - REST API
+		Core - Entitites, Domain Entities, Application interfaces
+			.Domain
+			.Application
+				Contracts
+					Persistence (data access)
+		Infrastructure - Email, Logging
+		UI - Blazor, MAUI, Angular e.t.c
+	test - Unit, Integration
+
+Foreign key declaration (underneath instead of over)
+	public LeaveType Leavetype {get; set;}
+	public int LeavetypeId {get; set;}
+
+public abstract class BaseEntity / AuditableEntity with Id DateCreated, DateModified - Most common values
+	abstract means static but you can inherit from it
+
+Generic Repository - Generic Contract
+	IGenericRepository<T> where T : class - It takes a type of class / customClass, you should have a customclass here to prevent error since with class you can put in ANY class into the IGenericRepo
+
+	With Methods you just replace the "input" "returntype" with T instead of the regular Type you normally would use
+
+	Each takes a T entity and returns a T. It's a basic crud pattern
+		GetAsync
+		GetByIdAsync
+		CreateAsync
+		UpdateAsync
+		DeleteAsync
+
+	You cannot use a generic interface directly, you need a new interface that inherits from it and specifes the correct type
+	You always have to inherit from IGenericRepository and specify the type. IGenericRepository 
+		Ex
+		ILeaveTypeRepository : IGenericRepository<LeaveType> 
+
+CQRS Pattern	
+	UI -> Command Model - Command Updates database -> Transactional Database
+	UI - Query Model <- Query data from database - Read-Only Database
+
+	MediaTR

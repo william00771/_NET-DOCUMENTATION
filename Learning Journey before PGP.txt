@@ -1,0 +1,23 @@
+Design Patterns
+	Factory & Practical uses for factory
+	Builder -> understand "under the hood"
+	Singleton -> understand concept, variations like Lazy
+
+	Iterator -> Understandable concept
+	Observer
+	State
+	Strategy
+
+	Outbox! -> Transactional Outbox, microservices.io
+
+Learn Next.JS
+Get good at architectural design aka go through the two big udemy courses where they build big applications like that.
+Learn more about reflection.
+
+Look at primitive obsession
+Do Katas Obviously
+Look at domain driven design
+Look at root aggregate
+
+LEARN EVERYTHING ABOUT AUTH0!!!
+LEARN EVERYTHING ABOUT OTHER AUTHORIZATION WITH JWTS!
