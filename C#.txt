@@ -5,15 +5,17 @@ Strings & Chars
 		str1[i] == '-' && str1[i]+1 == 'b' - Check for keyword -b
 		str.Length
 	.ToString() - string (OBS strings are immutable)
+		str.ToUpper() - Converts all string to upper
+		str.ToLower() - Converts all string to lower
 		string.Join("", str) - Stringarray join
 		str.Remove(i-2, 5) - Remove at index and 5 characters forward
-		str.ToLower() - 
 		str.Split(" ") - REMOVES ALL BLANKSPACE / REMOVES matching input
 		str.Split('.')[0] - RETURN ALL STRING BEFORE MATCHING CHAR (Useful for selection splits)
 		str.Split(new string[] {"   "}, StringSplitOptions.None) - TO SPLIT based on STRING value instead of char
 		str.Replace("-", " ") - REPLACE MATCHING CHAR with NEW CHAR
 		str.Replace("   ", " / ") - Great before split ' ' for example. so the / gets it's own part in the string[] for example
-		str.Contains(char) - CHECK IF STRING CONTAINS char
+		str.Contains(charinput) - CHECK IF STRING CONTAINS char
+			most common you do the opposite, where str is the chars you to check for and char is the input.
 		str.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) - CHECK IF STRING CONTAINS char IGNORE CASE SENSITIVITY
 		str.Substring(IndexToCutAt, sizeOfCutInLength) - CUTS STRING FROM INDEX to SPECIFIED SIZE
 		str.Substring(str.Length -4); - SELECT LAST 4 STRINGS
@@ -24,6 +26,8 @@ Strings & Chars
 	Chars - (normally use linq or for loops, but can do ToCharArray())
 		char.IsLetterOrDigit(chr) - Check for LETTER or 
 		char.IsLower() - Check If CHAR IS LOWER
+		char.PadLeft(20) - Add padding 20 spaces to the left
+		char.PadRight(2) - Add padding 2 spaces to the right
 
 Collections & Arrays
 	.ToArray() - Converts List,String or whatever to Array
@@ -32,10 +36,8 @@ Collections & Arrays
 		Array.FindIndex(nums, row => row == target) - RETURN INDEX OF TARGET VALUE WORKS FOR NUMBERS!
 
 	.ToList(); - Help you with manipulation all things linq. Simple Conversion
-		arr.Dump() - Console.WriteLine for collections
 		arr.OfType<int> - in mixed collection returns only the specified type
-		Enumerable.Range(0, object.length) - RETURNS ARR WITH LENGTH OF OBJECT, acts like a for loop that you can nest linq commands into
-			int start, int count
+		Enumerable.Range(0, object.length) - RETURNS ARR WITH LENGTH OF OBJECT, acts like a for loop that you can nest linq commands into int start, int count
 		Enumberable.Repeat(0, 100) - Repeats first value 100 times
 		Enumberable.Empty<int>() - Give an empty IEnumerable 
 		arr.FindIndex(x => x == 1) - RETURNS the INDEX

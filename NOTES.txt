@@ -2,4 +2,9 @@ Builder pattern
 	Stringbuilder is a simple example of a builder
 	Building html tags as example is very tedious and gets very low level with the StringBuilder. This is where a Custom builder would do well.
 
-	
+
+Diamond kata
+	Formula for computing line length - 
+
+Snail kat
+	Approach 1 - Add and Remove array as you go

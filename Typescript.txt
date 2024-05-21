@@ -32,7 +32,18 @@ Callbacks
 		You can also just skip the trycatch and just return the error message to console in the promise itself
 			Inside Function -> reject(console.error('Rounding failed'))
 			var result = await roundToIntegerPromise(input)
-			
+	Callback Pattern (Old)
+			Define callback
+				With void input/output
+					function voidCallBack(cb: () => void) {
+					  setTimeout(cb, 100);
+					}
+
+			Call and handle
+				callBack(() => {})
+
+
+
 
 
 
@@ -43,26 +54,172 @@ Event Handling
 Strings & Chars
 	´${Variable}´
 	\n \' \\ - Linebreak, single quote, singlebackslash
-	.toLowerCase(), .toUpperCase()
-	.split(';') - Splits at ; mark
-		.split('') - Removes whitespace
-	.trim() - Remove whitespace around string
-	.join() - Join a string back together
+	let stringbuilder = [];
+			sb.push(c) - Append - Add to string
+			sb.join('') - Append - Convert the array to string
+	str.toString() - ToString - Convert to string (Note: strings are immutable in JavaScript)
+		str[i] === '-' && str[i + 1] === 'b' - Check for keyword -b - Check for keyword -b
+		str.length - Length - Get the length of the string
+		str.toUpperCase() - ToUpper - Converts all string to upper
+		str.toLowerCase() - ToLower - Converts all string to lower
+		strArray.join("") - Join - Stringarray join
+		str.slice(i-2, i-2 + 5) - Remove - Remove at index and 5 characters forward
+		str.split(" ") - Split - Removes all whitespace / removes matching input
+			str.split(';') - Splits at ; mark
+			str.split('') - Removes whitespace
+			str.split('.')[0] - Split - Returns all string before matching char (useful for selection splits)
+			str.split("   ") - Split - To split based on string value instead of char
+		str.replace("-", " ") - Replace - Replace matching char with new char
+			str.replace("   ", " / ") - Replace - Great before split ' ' for example. so the / gets its own part in the string[] for example
+		str.includes(charinput) - Contains - Check if string contains char
+		new RegExp(searchTerm, 'i').test(str) - Contains - Check if string contains char ignore case sensitivity
+		str.substring(IndexToCutAt, IndexToCutAt + sizeOfCutInLength) - Substring - Cuts string from index to specified size
+		str.slice(-4) - Substring - Select last 4 strings
+		str.slice(0, str.length - 4) - Substring - Select all chars before last 4
+		str.substring(1) - Substring - Returns every character after character 1
+		str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') - Select - Capitalizes first letter of each word
+		str.trim() - Trim - Removes all trailing and leading whitespace from string
+		str.join() - Join a string back together
+
+	Chars - (normally use linq or for loops, but can do ToCharArray())
+		/[a-zA-Z0-9]/.test(chr) - IsLetterOrDigit - Check for LETTER or DIGIT
+		chr === chr.toLowerCase() - IsLower - Check if CHAR IS LOWER
+		chr.padStart(20) - PadLeft - Add padding 20 spaces to the left
+		chr.padEnd(2) - PadRight - Add padding 2 spaces to the right
+
 
 Collections & Arrays
-	new Array.from(string)
-	arr.map((object, idx) => {return: ...} or (...)) - .Select Linq Equivalent
-	arr.sort((a, b) => {return: ...} - Sorts array and returns sort based on sorting conditionals
-	arr.filter((price, idx, prices) => return: x < 3 ? ... :) - Filter based on conditional
-		arr.filter(p => p > 6);
-		arr.filter(movie => movie.includes(filterValue));
-	arr.find((item, idx, itemsArray) => {}) - .First Linq Equivalent
-	arr.findIndex(idx => {}) - Returns index of arr
-		.findIndex(p => p.id === inputId) 
-	arr.includes() - Returns bollean if arr includes a certain value
-	arr.forEach((price, idx, prices) => {}) - For Loop where you can create an object on the fly
+	Array.from(arr) - ToArray - Converts List, String, or whatever to Array
+	arr.sort() - Array.Sort - Sorts array. Use list sort instead, much nicer
+	arr.reverse() - Array.Reverse - Reverses array. Use list reverse instead, much nicer
+	arr.findIndex(row => row === target) - Array.FindIndex - RETURN INDEX OF TARGET VALUE, WORKS FOR NUMBERS!
+	arr.filter(x => typeof x === 'number') - OfType<int> - in mixed collection returns only the specified type
+	Array.from({ length: object.length }, (_, i) => i) - Enumerable.Range - RETURNS ARR WITH LENGTH OF OBJECT
+	Array(100).fill(0) - Enumerable.Repeat - Repeats first value 100 times
+	[] - Enumerable.Empty<int> - Give an empty array
+	arr.findIndex(x => x === 1) - FindIndex - RETURNS the INDEX
+	arr.indexOf("-B") - IndexOf - RETURNS the INDEX OF CHAR 
+	arr.reverse() - Reverse - REVERSE collection
+	arr.push(/* element to add */) - Add - ADD to list
+	arr.filter(x => x === 2).length - Count - returns COUNT OF CRITERIA
+	arr.length - Count (no criteria) - returns TOTAL COUNT
+	arr.sort() - Sort - SORTS List
+	arr.sort() - Order - Orders list
+	arr.sort((a, b) => b - a) - OrderDescending - Order descending
+	arr.sort((a, b) => (a.avc ? 0 : 1) - (b.avc ? 0 : 1)) - OrderBy - SORT By CRITERIA
+	arr.sort((a, b) => (b.avc ? 1 : 0) - (a.avc ? 1 : 0)) - OrderByDescending - SORT Descending by Criteria
+	arr.sort((a, b) => a.criteria1 - b.criteria1).sort((a, b) => a.criteria2 - b.criteria2) - ThenBy - Chaining
+	arr.sort((a, b) => b.criteria1 - a.criteria1).sort((a, b) => b.criteria2 - a.criteria2) - ThenByDescending - Chaining
+	[...new Set(arr)] - Distinct - GETS RID OF ALL DUPLICATES and Returns List with NON DUPLICATES
+	arr.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i) - DistinctBy - gets rid of all the duplicates by criteria
+	arr.includes(/* element to check */) - Contains - RETURNS TRUE if arr CONTAINS Criteria
+	arr.some(x => new ComparerById().equals(x, newObj)) - Contains - For Comparing OBJECTS implement new method
+	arr.filter(x => x.criteria) - Where - FILTER THAT RETURNS NEW COLLECTION that MATCHES CRITERIA
+		arr.filter((pet, idx) => pet < 5 && SelectedIndexes.includes(idx)) - Where - RETURNS NEW COLLECTION with INDEX and Pet CRITERIA
+	str.split('').filter(ch => !"aeiouAEIOU".includes(ch)).join('') - Where - Check for each character if it matches the string. Similar to foreach
+	arr.map(number => number * 2) - Select - PROJECTS EACH ELEMENT OF COLLECTION to a different type
+		arr.map(word => word.toUpperCase()) - Select - Projects to uppercase
+		arr.map(number => number.toString()) - Select - Projects to string
+		arr.map((word, idx) => `${idx + 1}: ${word}`) - Select - Projects with index
+		arr.map(pet => pet.weight) - Select - Projects to pet weight
+		arr.map((line, index) => `${index+1}: ${line}`) - Select - Replaces each "item" with "indexValue: item"
+	let ratesList = files.map(file => getCurrencyRateFromFile(file, symbol)); - Select - Create a list of double and adds all file in filelist to it
+	let returnList = fileNames
+	  .map(fileName => ({ FileName: fileName, RateValue: getCurrencyRateFromFile(fileName, symbol) }))
+	  .map(x => `Date: ${x.FileName.split('.')[0]} Rate: ${x.RateValue}`)
+	  .sort((a, b) => a.split(':')[1] - b.split(':')[1]); - Select - Projects and orders by criteria
+	arr.flat() - SelectMany - Flattens a two-dimensional collection
+	arr.reduce((x, y) => x + y) - Aggregate - First it does the normal operation on first two items. Then it works like a sliding window.
+	arr.reduce((x, y) => x + y, 10) - Aggregate - applies 10 * x example and then gets going with the sliding window
+		arr.reduce((x, y) => x / 2, initialValue) - Aggregate - Do an operation on the end result of the aggregate method
+		arr.reduce((sum, nextelement) => sum + nextelement) - Aggregate - Sums all elements
+		arr.split(" ").reduce((sum, next) => next.length > sum.length ? next : sum) - Aggregate - Returns the LONGEST WORD in arr
+		arr.reduce((sum, next) => [...sum, next.length], []) - Aggregate - Adds all lengths of words to an array
+	arr.findIndex(x => x === target) - Array.FindIndex - RETURN INDEX of TARGET. RETURNS -1 IF INDEX NOT FOUND
+	arr.find(x => criteria) - Single - Returns THE ONLY ELEMENT in arr matching criteria. Otherwise, throws an exception
+	arr.filter(x => criteria).length === 1 ? arr.find(x => criteria) : null - SingleOrDefault - Returns NULL if no matching element. Otherwise, throws if more than one
+	arr.reduce((groups, item) => {
+	    const group = item.age;
+	    if (!groups[group]) groups[group] = [];
+	    groups[group].push(item);
+	    return groups;
+	}, {}) - GroupBy - Same as SORT BUT RETURNS IGROUPING. So YOU CAN ACCESS KEY
+	arr.reduce((sum, x) => sum + x, 0) - Sum - RETURNS SUM OF MATCHING CRITERIA. IF EMPTY RETURNS SUM OF ENTIRE ARR
+	str.split("").reduce((sum, ltr) => sum + (ltr === vow ? 1 : 0), 0) - Sum - Return count of different arr matching letters
+	str.split("").reduce((sum, ltr, _, arr) => sum + (ltr === vow ? 1 : 0) / arr.length, 0) - Average - RETURNS AVERAGE OF MATCHING CRITERIA
+	arr.concat(...arrays) - Concat - ADDS MULTIPLE ARRAYS OF SAME TYPE TOGETHER
+	arr.concat(Array(nFloors - i - 1).fill(' '), Array(i * 2 + 1).fill('*')) - Concat - CHAINS TWO DIFFERENT STRING METHODS TOGETHER
+	Array.from({ length: nFloors }, (_, i) => createObjects(i)) - Enumerable.Range - THE Range is for loop i < nFloors: .Select(i => ...) acts like result[i]
+	arr.slice(3) - Skip - Skips first 3 values of array
+	arr.slice(0, -3) - SkipLast - Skips the last 3 values of array
+	arr.slice(arr.findIndex(x => !condition)) - SkipWhile - Skips while a condition is true, then returns the rest
+	arr.slice(Math.max(0, arr.length - x)) - Skip - Skips the last x values of array
+	arr.slice(0, 3) - Take - Take the first 3 values
+	arr.slice(-3) - TakeLast - Takes the last 3 values of array
+	arr.filter(condition) - TakeWhile - Takes all the rest of collection once predicate is false
+	arr.map(Number) - Cast<int> - Casts all items in collection to int
+	arr.reduce((resultArray, item, index) => { const chunkIndex = Math.floor(index / 3); if (!resultArray[chunkIndex]) resultArray[chunkIndex] = []; resultArray[chunkIndex].push(item); return resultArray; }, []) - Chunk - Split collection into chunks of size 3
+	arr.some(condition) - Any - Returns true if any item satisfies condition
+	arr.every(condition) - All - Returns true if all items satisfy condition
+	arr.includes(element) - Contains - Returns true if element is part of collection
+	arr.concat(7) - Append - Add item to the end of the collection
+	[7].concat(arr) - Prepend - Add item to the start of the collection
+	arr.filter(x => x).length - Count - Gives the number of elements in collection or based on condition
+	arr.length - TryGetNonEnumeratedCount - Gets the count after computed
+	Math.max(...arr.map(x => x.age)) - Max - Finds max item or max item based on condition
+	arr.reduce((max, x) => condition(x) > condition(max) ? x : max) - MaxBy - Finds max item based on original items if using condition
+	Math.min(...arr.map(x => x.age)) - Min - Finds min item or min item based on condition
+	arr.reduce((min, x) => condition(x) < condition(min) ? x : min) - MinBy - Finds smallest item based on original items if using condition
+	arr.reduce((sum, x) => sum + x, 0) - Sum - Sums all objects
+	arr.reduce((sum, x, _, { length }) => sum + x / length, 0) - Average - Averages
+	arr.reduce((x, y) => x + y) - Aggregate - Aggregates with operation
+	arr.length - LongCount - Like count but returns long
+	arr[0] - First - Return first item. Throws exception if no items
+	arr[0] || defaultValue - FirstOrDefault - Return first item or default value if no items
+	arr.length === 1 ? arr[0] : throw new Error() - Single - Returns the only element in collection. Throws exception if more than one
+	arr.length === 1 ? arr[0] : defaultValue - SingleOrDefault - Returns the only element or specified default if no items
+	arr[arr.length - 1] - Last - Last element
+	arr[arr.length - 1] || defaultValue - LastOrDefault - Returns last element or default value if no items
+	arr[index] - ElementAt - Returns item at index. Throws if index not there
+	arr[index] || defaultValue - ElementAtOrDefault - Returns item at index or default value if index not there
+	arr.length ? arr : [defaultValue] - DefaultIfEmpty - Does nothing if collection has items. Otherwise adds a default element
+	Array.from(arr) - ToArray - Materializes collection to array
+	arr.slice() - ToList - Turn to list
+	Object.fromEntries(arr.map(key => [key, key])) - ToDictionary - Turn to dictionary
+	new Set(arr) - ToHashSet - Turn to hashset
+	arr.reduce((lookup, item) => { const key = item.age; if (!lookup[key]) lookup[key] = []; lookup[key].push(item); return lookup; }, {}) - ToLookup - Create a lookup table based on ex age, age + grouping of person
+	arr.reduce((lookup, item) => { const key = item.age; if (!lookup[key]) lookup[key] = []; lookup[key].push(item); return lookup; }, {})[15] - ToLookup()[15] - Select group that is age of 15 for example
+	arr - AsEnumerable - Casts to Enumerable collection
+	arr - AsQueryable - Casts to Queryable collection
+	two enumerables (collections)
+		[...new Set([...arr, ...arr2])] - Union - Combine all items with distinct values from both collections
+		[...new Set([...arr, ...arr2].map(item => item.key))] - UnionBy - Combine items by certain key with distinct values
+		arr.filter(value => arr2.includes(value)) - Intersect - Combine only distinct values between the collections
+		arr.filter(a => arr2.some(b => a.key === b.key)) - IntersectBy - Combine only distinct values by key between collections
+		arr.filter(value => !arr2.includes(value)) - Except - Take arr1 and subtract all elements from arr2 from it
+		arr.filter(a => !arr2.some(b => a.key === b.key)) - ExceptBy - Take arr1 and subtract all elements by key from arr2 from it
+		JSON.stringify(arr) === JSON.stringify(arr2) - SequenceEqual - Returns true if the collections are equal
+		arr.map((value, index) => [value, arr2[index]]) - Zip - Create tuples with index being the first collection and value being the second collection
+		arr.map((value, index) => [value, arr2[index], arr3[index]]) - Zip (three values) - Create tuples with three values
+		arr.map(person => ({ ...person, product: arr2.find(product => product.id === person.id) }))
+		    .filter(x => x.product)
+		    .map(({ name, product }) => `${name} bought ${product.name}`) - Join - Joins based on condition
+		arr.map(person => ({ ...person, products: arr2.filter(product => product.id === person.id) }))
+		    .map(({ name, products }) => `${name} bought ${products.map(p => p.name).join(',')}`) - GroupJoin - Group joins based on condition
+		arr.concat(arr2) - Concat - Combine two collections together by adding one on top of the other
+	USEFUL CHAIN COMMANDS
+		Return All Indexes Of Matching Target Value
+			let indexes = nums
+			  .map((value, index) => ({ value, index })) - Select - Projects each element with its index
+			  .filter(item => item.value === target) - Where - Filters items matching target value
+			  .map(item => item.index); - Select - Projects the indexes of the filtered items
+
 
 Numbers
+	Math.abs(num) - Abs - Turns NEGATIVE values POSITIVE
+	Math.max(maxProfit, profit) - Max - RETURNS LARGEST OF THE NUMBERS GIVEN AS INPUT PARAMETERS
+	num % 2 === 0 - Even - CHECK FOR EVEN
+	num % 2 !== 0 - Uneven - CHECK FOR UNEVEN
 	Math.random() - Generates a random number between 0 and 1
 	Math.Ceil() - 
 	Math.Floor() - 
@@ -71,21 +228,53 @@ Numbers
 	Math.abs() - absolute number
 	Math.sin() - sin
 
-Dictionaries - new Dictionary<KEY, VALUE>
+Dictionaries - let dict = new Map(); - new Dictionary<KEY, VALUE> - Creates a new dictionary
+	dict.has(KEY) - ContainsKey - Returns bool if key exists
 
-HasSets - new HashSet<KEY>
+	dict.set(nums[i], i) - ADD Key and VALUE to dictionary - Adds key and value to dictionary
+
+	for (let [key, value] of dict) { - foreach(KeyValuePair<char, string> kvp in dict) - Separate value from kvp
+	  let key = key; - var key = kvp.key;
+	  let value = value; - var value = kvp.value;
+	}
+
+HasSets - let hashSet = new Set(); - new HashSet<KEY> - Creates a new HashSet
+	hashSet.has(num) - Contains - Checks if HashSet contains
+	hashSet.add(num) - Add - Adds number to HashSet
 	
 Conversion
-	parseInt() or + - Parses string into Int
-	parseFloat() - Parses string into Float
-	.toString() - Parses int or float to string
+	parseInt(data) - Parse - PARSES string to integer
+	let tryParse = (str, outVar) => { outVar.value = parseInt(str); return !isNaN(outVar.value); };
+	let success = tryParse(stringValue, parsedInt = {}); - TryParse - TRIES TO PARSE
 
 Useful Operations
+	arr.filter((_, i) => (i * 2) + i < Length / 2) - Every other index - Filters every other index
+	Math.floor(LP + (RP - LP) / 2) - Middle point - Gives middle point of array, or closest to middle point of array
+
+	for (let i = nFloor - 1; i >= 0; i--) { - Runs from Last Index to First Index
+	  // your code here
+	}
+
+	arr[arr.length - 1 - i] - Highest to lowest - Go through highest > lowest index right to left
+
+	for (let i = 0; i < arr.length; i++) { - for(i) - Compare first index to all
+	  for (let j = 0; j < arr.length; j++) { - for(j) - Compare each index to all
+	    // your code here
+	  }
+	}
+
+	if (x) { continue; } - Keep going - Continue to next iteration if condition is true
 
 Declarations (since i tend to forget)
+	let dict = new Map(); - var dict = new Dict<key, IList<string>(); - Declaration for dictionary
+	let list = ['a', 'b', 'c']; - var list = new List<char>{'a','b','c'}; - Declaration for list
+	let result = new Array(5).fill(""); - string[] result = new string[5]; - Declaration for string array
 
 Some operations (since i tend to forget)
-
+	[...dict.values()] - Dict.select(x => x.value).ToList<List<string>> - Get list of dictionary values as a list
+	Array.from(dict.values()) - .ToList<IList<string>> - Get list of dictionary values as IList<IList<string>>
+	'#'.repeat(5) - new String('#', 5); - Create a new string with '#' repeated 5 times
+	[...str1R].join('') - new string(str1R) - Create a new string from an array of characters
 
 DOM Basic Operations
 	Basic Selection & Manipulation

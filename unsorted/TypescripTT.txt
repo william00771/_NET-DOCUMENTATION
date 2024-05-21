@@ -36,24 +36,14 @@ Commands - Chaining works the same with linq
 		value instanceof ObjectName - Checks if value is an instant of ObjectName
 
 	Arrays
-		.push() - Add data to End of array without killing existing values
-		.unshift() - Add data to Beginning of array without killing existing values
-		.pop() - Remove Last Element of array and also returns the Last element
-		.shift() - Removes First Element of array and also returns the First element
-		array[1] = value1; - Replaces an Element of the array
 		.splice - Adding, removing, inserting items into an array, splits array into two arrays
 			.splice(startindex, whattodeleteornotdelete 0/1 , insert element) - Inserts Element in given index
 			.splice(startindex, 1) - Delete startindex value
 		.slice(0) / .slice(0, 15) - returns a copy of the array or between two ranges of index DUPLICATE the array
 			-3, -1 - Select third last element to the first last element
 		.concat([]) - Pulls out all elements of arr and combines it into a new arr + Adds additional values
-		.indexOf() - Returns the first index of the value you are passing in
-		.lastIndexOf() - Returns the last index of the value you are passing in
-	linq:aggregate - Initial value is on the opposite side c# vs javascript
-		.reduce((prevValue, curValue, curIndex, Array) => {
-			return prevValue + curValue;
-		}, 0)
-			const sum = transformedArray.reduce((sumVal, curVal) => sumVal + curVal, 0)
+		
+		
 			previous value(startvalue set after the function), current value of object, index of that object, the full array
 			In this case returns the sum of the array
 			Not sure what to use this for... =???
