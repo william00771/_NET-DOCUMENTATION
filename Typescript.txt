@@ -1,13 +1,23 @@
 Basics
 	export const functionName = async () => {...}
 	export CustomType type = {}
+	export default const FunctionName = () => {}
+	export default FunctionName; - At the end of the ts file
+
 	import '../file.svg'
-	import {CustomType} from './types/types.ts'
+	import {destructuredthing} from './greeter.js';
+	import * as greeter from './greeter.js'
+	<script type="module" src="greeter.js">  - Module always loads after html loads
 
 Destructuring objects
 	with curly braces you get the values out of the object as direct variables 
 	[first, second ...theRest] = person.languages; - Destructuring array
 	{firstName, lastName} = person; - Destructuring Object
+
+Basic gotchas
+	function() vs function - function() runs the function imediately wheras function does it after 
+	Don't use the Any* type! & Don't define types everywhere. Typescript knows alot of times!
+	value: type - Reversed way of c# remember the :
 
 Callbacks
 	Promise Pattern
@@ -32,20 +42,49 @@ Callbacks
 		You can also just skip the trycatch and just return the error message to console in the promise itself
 			Inside Function -> reject(console.error('Rounding failed'))
 			var result = await roundToIntegerPromise(input)
-	Callback Pattern (Old)
-			Define callback
-				With void input/output
-					function voidCallBack(cb: () => void) {
-					  setTimeout(cb, 100);
-					}
+	Callback Pattern (Older)
+		function fetchData(callback: (data: string) => void): void {
+		    setTimeout(() => {
+		        const data = "Sample data";
+		        callback(data); - Without calling the function passed in anonymous function with console.log will not excecute after operations of this function.
+		    }, 1000);
+		}
 
-			Call and handle
-				callBack(() => {})
+		fetchData((data) => { - We pass in an anonymous function that will execute when called from the fetchdata function
+		    console.log(data);
+		});
+Variables
+	const post: Post[] - [{id: number, }]
+	number[], string[], Array<number>
+	const Name: Type | null = ... - It can be two types, type of Type and type of null
+	const Name = (amount: number | { amount: number }) - Can either contain a number, or an object with number inside it
+Types
+	type Props = {name: string, excecute: (data) => void}
+	type MathOperation = (x: number) => number; - function type
+	interface CustomInterface {first: number; second: number;}
+	enum Direction {Up = 1, Down}
+	Union Types / Function types - They can be multible values
+		role: 'admin' | 'user' | 'super-admin';
+		type ErrorOrResultCallback = (err: Error | null, result?: number) => void;
+	interface User extends Person, Id {} - inheritance
+	type MyType = Omit<user, "id"> - Excludes the Id
+	type MyType = Omit<User, "firstName" | "lastName"> - Exclude firstname or lastname 
+	type FocusListener = (isFocused: boolean) => void; - function type
 
+Error Handling
+	try{
+		...
+	} catch(e){
+		return (e as Error).message;
+	}
 
-
-
-
+	try{
+		...
+	} catch(e){
+		if(e instanceof Error){ - Check if its a typeof
+			return e.messagE;
+		}
+	}
 
 Event Handling
 	e: FormEvent<HTMLFormElement>
@@ -276,6 +315,7 @@ Some operations (since i tend to forget)
 	'#'.repeat(5) - new String('#', 5); - Create a new string with '#' repeated 5 times
 	[...str1R].join('') - new string(str1R) - Create a new string from an array of characters
 
+
 DOM Basic Operations
 	Basic Selection & Manipulation
 		Creating Selectors for DOM elements
@@ -303,6 +343,10 @@ DOM Basic Operations
 			obj.click() - Simulate click event
 			obj.classList.add("") - Add class to object
 			obj.style.cssText = - Add css styling to object
+		Creating Elements
+			document.createElement("h1") - Create brand new html element
+			obj.appendChild(element) - Append a new html element to object
+			obj.remove(); - Remove element from html
 	Actions
 		Event Listeners
 			input.addEventListener('change', (event: Event) => {

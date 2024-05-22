@@ -55,13 +55,24 @@ Jest - For testing typescript, react e.t.c.
 				import { render, screen } from '@testing-library/react';
 				import App from "../src/App";
 				import React from 'react';
+		Add Tests
+			describe('App', () => {
+			  it('renders headline', () => {
+			    render(<App />);
+			    const headline = screen.getByText(
+			      /Click on the Vite and React logos to learn more/i
+			    );
+			    expect(headline).toBeInTheDocument();
+			  });
+			});
 
-				describe('App', () => {
-				  it('renders headline', () => {
-				    render(<App />);
-				    const headline = screen.getByText(
-				      /Click on the Vite and React logos to learn more/i
-				    );
-				    expect(headline).toBeInTheDocument();
-				  });
-				});
+			describe('it is alive', () => {
+				it('get greeting', () => {
+					const result = greet('')
+
+					expect(result).toEqual("hello Salties")
+				})
+			})
+	Run tests
+		npm test
+		npm run test:watch

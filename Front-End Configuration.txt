@@ -22,14 +22,11 @@ Vite
 		npm run dev -- --host
 		"watch": "vite build --watch" - npm run watch
 	vite.config.ts - (imports defineConfig from 'vite', exports default defineConfig) ({...})
-		build: {outDir: '../API/API/wwwroot'}, 
 		build: {
-		    outDir: '../Api/wwwroot', - Where to put npm run build
+		    outDir: '../Api/wwwroot', - Where to put npm run build bundled files
 		    rollupOptions: {
-		        input: { - Build other files
-		            main: './index.html',
-		            slide: './slide.html',
-		            client: './client.html'
+		        input: { 
+		            main: './index.html', - Build missing special files like json and similar
 		        }
 		    }
 		   }
@@ -55,3 +52,44 @@ Creating vite/dotnet scaffold
 	client
 		npm init -y - Set to private
 		npm install -D -E clean-webpack-plugin@version css-loader@ html-webpack-plugin@version mini-css-extract-plugin@version ts-loader@version typescript@version webpack@version webpack-cli@version
+
+ES Lint Linting
+	setup
+		create new file named .eslintrc.js
+
+		module.exports = {
+			env: true,
+			jest: true,
+		},
+		extends: ['plugin:@typescript-eslint/recommended', 'eslint:recommended'], - Should be in reversed order
+		parser: '@typescript-eslint/parser',
+		plugins: ['@typescript-eslint'],
+		root: true,
+
+		Inside json
+			"scripts": {
+				"lint": "eslint ./src/**/*.ts"
+			}
+
+		error lens
+			auto fix with cmd + . k
+
+	.prettierrc.js
+	.eslintrc.js
+
+Typescript
+	Installation & Setup
+		npm init -y
+		npm install typescript --save-dev
+		touch tsconfig.json
+		npm install @tsconfig/recommended --save-dev
+		npx tsc - To build
+
+		-D same as savedev
+
+		tsconfig - describes what to compile and what not to
+
+		typescript doesnt know what node is, so we have to add the node types
+			scripts: "build:watch": "tsc -w"
+
+		npm install ts-node -D - Wrapper around node
