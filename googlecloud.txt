@@ -1,0 +1,7 @@
+gcloud -h
+https://www.youtube.com/watch?v=NMnKGHgw8aM
+
+
+gcloud auth login
+gcloud config set project diploma-maker
+gcloud run deploy --source .

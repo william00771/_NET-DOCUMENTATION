@@ -8,3 +8,6 @@ Diamond kata
 
 Snail kat
 	Approach 1 - Add and Remove array as you go
+
+
+event.target vs event.currentTarget

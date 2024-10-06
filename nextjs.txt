@@ -1,0 +1,100 @@
+setup
+	npx create-next-app --ts
+	whatever you put tsx file in pages, that will be a page endpoint
+	whatever you put file in api path, that will be the api enpoint/controller
+setup (recommended way)
+	npx create-t3-app
+
+App Router - new more modern way, like react server components
+Pages Router - the older more established way
+
+to access header-hello you can use constName["header-hello"]
+
+
+Pages inside app folder
+	page.tsx - page. It is by default created as a server component
+	app/Home/Page.tsx - To create / access a page
+	use link tags - link tags make the single page functionality. It ensures we stay in SPA
+	layout.tsx - defines shell of pages
+		export const metadata is reserved / == to the <head> html tag. this is where you set that up
+		the children prop in layout is the actual page content.
+	dynamic pages
+		ex blog/[mealSlug]/page.js - now you can link href="/blog/post-1"
+		stores the [mealSlug] as a {params} variable which you can refeer to as a prop in the page ex params.mealSlug
+
+Special things
+	images
+		icon.png - if you add a file named icon in app folder it will be the page icon
+		importing images. - img.src You import normally But if using img you need to refeer to img.src
+		<Image /> - next js image component (use img NOT img.src) - It adds nice optimizations
+			priority flag to avoid flickering onload - priority load
+			fill - if you are loading in image at runtime, and image tag cannot detect width/height
+			Image component restricts loading from non specified domains so you have to put the domain in your next.config.js. ex for cloudinary
+				const nextConfig = {
+				  images: {
+				    domains: ['res.cloudinary.com'],
+				  },
+				};
+
+	css
+		import classes from './Component.modules.css' - then add className={classes.logo} for example
+
+
+
+all Components in next are by default Server side components.
+	vanilla react uses client components all across application
+	usestate, useeffect hooks are only availible inside client components
+	'use client'; - To make a next js component client instead of server
+	The best way here is to add client components as deep down as you can. So you preserve server side components for most components.
+
+Folder structure
+	components outside app - so we seperate router from components
+	imports @ refeers to the root project. ex '@/components/header'
+	assets folder with images
+
+Reserved filenames
+	page.js layout.js not-found.js error.js loading.js route.js
+
+	loading.js - it replaces whatever is loading with this dynamically in the folder. So you can return a loading..
+	For more granularity - Wrap whatever you want to load inside a <suspense> component (make it a component first) Whatever component that does data fetching. It makes it suspense
+		fallback prop give reference to component to render for loading
+
+	error.js - here you can catch any error within its scope in the folder
+
+	not-found.js - Specify your own 404
+	notFound() - Calls the 404 page inside a function
+
+Server action - you can use action on form to a server action function
+	async function shareMeal() {
+		'use-server'
+
+	}
+	if using form we get formData object by default from it.
+
+	You can export a server action to ex @/lib/actions and then use it
+
+Next.js Hooks
+	{pending} useFormStatus - Makes you able to ex change btn as form submitting
+		status.pending true/false
+		It needs to be inside of a form to make it read the status
+
+	const [state, formAction] = useFormState(serverActionToTrigger, {initial-value: null}) - 
+
+Tools
+	const path = nextPathName(); - Instead of uselocation
+			path.startswith('/meals')
+
+Adding metadata
+	export const metadata in layout.js
+		title:
+		description:
+	dynamic metadata
+		export async function generateMetadata({params})
+			meal slug ex
+
+Building
+	npm run build
+	npm start - To actually start the production version on localhost (running from the bundled files)
+
+	fix next js caching to agressivly
+		revalidatePath('/meals')

@@ -1,0 +1,5 @@
+a.linkitem*5>img.linkitem__logo+{hello}
+
+shift + alt + f - Format that line
+
+ctrl + d - select a whole word

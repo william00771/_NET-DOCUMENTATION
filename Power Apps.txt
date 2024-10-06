@@ -1,0 +1,193 @@
+Power Apps - Low code business apps, ms tools, connectors, connect to data sources (sharepoint) or others
+Dashboard
+	Create - You can start from
+		Dataverse table
+		Sharpoint List
+		Excel File
+		Sql Data Source
+	Apps - new app & you have created or shared with you
+	Tables - All tables stored
+	Solutions - Components from all projects you are creating (Multible apps)
+	Connections (Ex Teams, SharePoint, Office365 e.t.c)
+
+Power apps types
+	Canvas Apps - full control over the UI, Basic CRUD operations.
+	Model Driven Apps - For Business processes and data structure, complex data relationships, workflows, and business logic
+	Portal Apps - where you need to expose your SQL data or business processes to external users via web-based interface.
+
+Editor - For syntax correct change browser settings language to english
+	Tree view - Layers/PagesScreens
+	Data aka DBconnections - sharepoint, sql, Tables
+	Videos & Pictures
+	Power Automate flows connected to this app
+	Variables & Collections
+	Testing & Monitoring
+
+Inserts
+	Text Label
+	Button, Date Picker, Text Input
+	Edit Form
+
+Controls & Forms
+	Naming convention for tree layers - lb,txt,dte
+	Expressions(like excel) 
+		accessing fields
+			in the FX: ex txtFirstName.Text txtFirstName.Color
+			ex populate field with two other fields - tree view name 
+			FX: txtFirstname.Text & " " & txtSurname.Text 
+	Input - Can connect so sql table FX: select that table or hardcore ["IT", "Marketing", "Finance"]
+	Connect input/label/submit to data - In this case patch into sharepoint
+		Active Sites -> Create -> New(List) - Employees, add columns(same name as in apps)
+
+Version Control
+	Save with version notes is good
+
+Data Sources and Connectors
+	Db connector -> Add data -> choose table from sites/list aka table
+	Each "connector" established shows up in connection tab.
+	Types
+		Dataverse, tables/rowscolumns -> easy to manage and secure
+		Sharepoint, low cost, tables (simpler tables)
+	Form Template
+		Insert -> Form -> Data source, pulls in all the fields from the table basis. (default mode new)
+		submit button -> onselect -> instead of "false" FX: SubmitForm(frmEmployees)
+		You can add custom cards, modify e.t.c.
+	Gallery (list representation of a data source)
+		FX: Name of datasource
+		ThisItem.TableName
+		glyEmployees.Selected - Inside form to link form to selected gallery
+		has ThisItem.
+	Search gallery
+		Text Input txtSearchBar
+		select gallery -> Filter(
+			Employees,
+			StartsWith(Department, txtSearchbar.Text) ||
+			StartsWith('Display Name', txtSearchbar.Text),
+		)
+
+		can also use (better way) - But cannot be used with large data sets!
+		Search(
+			Employees, - Table to search in
+			txtSearchbar.Text, "Department","Display Name", "Surname" e.t.c. - What to search for
+		)
+	Connecting custom form to gallery
+		default, glyempoyees.Selected.'First Name'
+		Submit Patch(
+			Employees,
+			Defaults(Employees),
+			{
+				Department: Dropdown2_2.Selected.Value,
+				'First Name': txtFirstname_1.Text,
+				'DisplayName': txtDisplayName_1.Text
+				Surname ..., 
+				Birthday: dteBirthDay_1.SelectedDate.
+			}
+		); - This POST a new entry in Employees data source table
+
+		Submit Patch(
+			Employees,
+			currentGallery.Selected,
+			{
+				'Confidence Level': Value(Self.Text) - Casts string to number
+			}
+		); - This PUT a new entry in Employees data source table
+
+Error handling
+	If(
+		IsEmpty(Errors(Employees)),
+		Notify("Successfully Saved", NotificationType.Success, 2000);
+		Navigate("Form Screen"),
+		Notify("There was an Error", NotificationType.Error, 2000)
+	)
+
+Delegation
+	If big set of data, you look at some at a time, so power apps does not get overwhelmed. Ex pagination
+
+Navigation
+	Navigate('Form Screen') - 
+	Back() - Takes us back to previous screen
+
+Properties selections
+	Input.Text
+	Input.Selected.Value
+	Self = this element
+Variables
+	ex in button Set(gblShowAnswer, true), ex visible property FX: gblShowAnswer
+	!gblShowAnswer 
+
+	Globalvariables
+		Set(UserName, "John Doe")
+	local variables(context variables) - 
+		UpdateContext{
+			{
+				ScreenTitle: "Welcome"
+			}
+		}
+		{ctxValue1: "380"}
+		UpdateContext({ctxText: "The weather is around " & ctxValue1 & "*C"})
+	String interpolation
+		$"The weather is around {ctxValue1}*C"
+
+	Blank() = null - To make null variable
+
+	Object variable 
+		ex Set(gblEmployee, ThisItem) inside gallery - now gblEmployee is that object {}
+		You can then for example reset it to Set(gblEmployee, Blank()) - To nullify all values in object
+ 	Numbers
+	Text
+	Booleans
+	Record
+	Tables
+	Collections
+		ClearCollect(
+			colName or DataSource,
+			{
+				Title: "Task 1",
+				Status: "Not Started"
+			},
+		)
+		ClearCollect(
+			DataSource,
+			Filter(
+				Employees
+				Department = "Finance" - Puts all finance objects in the collection
+			)
+		),
+		ClearCollect(
+			colMeals,
+			"Pizza", "Hamburger" - This makes the "Value" default table and fills the values in
+		)
+		collection functions
+			AddColumns(
+				Source,
+				Column Name,
+				Expression
+			)
+		Remove(
+			Source,
+			First(colName)
+		)
+		Update(
+			Source,
+			First(colName),
+			{
+				Name: "Brunch",
+				Date: Now(),
+				Location: "Zurich"
+			}
+		)
+
+Functions
+	SubmitForm(frmContent) - Submits a form to whatever connection it is connected to
+	NewForm(frmContent) - Creates a new form
+
+	Filter
+	Sort
+	SortByColumns
+	Lookup
+	=
+	<, <=, <>, >, >=
+	StartsWith
+	IsBlank
+
+	First

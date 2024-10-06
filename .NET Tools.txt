@@ -1,49 +1,18 @@
 HTTPClient / HTTP Factory
-	HttpClient client = new HttpClient();
-	  client.DefaultRequestHeaders.Accept.Clear();
-	  client.DefaultRequestHeaders.Accept.Add(
-	      new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-	  client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
-	  var msg = await client.GetStringAsync("https://www.swapi.tech/api/people/2");
-	  Console.Write(msg);
-	}
+	_httpClientFactory
+		.CreateClient() - Creates a client to use
+			.DefaultRequestHeaders.Add("x-api-key", _ticksterApiKey); - Add a custom header with ex authentication
+			.GetAsync("url") - Sends a get request, returns a Task<HttpResponseMessage>
+		HttpResponseMessage type
+			.Content.ReadAsStringAsync(); - Reads HttpResponse content (body) as plain text
+			JsonSerializer.Deserialize<MODEL>(plaintextresponse) - Converts the plain text json to your model that matches it
 
-	var client = new HttpClient { BaseAddress = new Uri("https://www.swapi.tech/api") };
-	var heroes = await Http.GetFromJsonAsync<Hero[]>("people");
-
-	var client = new HttpClient();
-	client.DefaultRequestheaders.accept.clear()
-		.add(new mediatypewithqualityheadervalue("application/json"))
-
-		var url = dollar"url"
-		var getPeopleTask = client.GetStringAsync(url)
-
-		await console(getpeopletask.response)
-
-		JsonSerializer.Deserialize<Person>(persontype)
-
-	var data = new 
-    {	 
-        model = "gpt-3.5-turbo", 
-        messages = new[] 
-        {
-            new 
-            {
-                role = "user", 
-                content = prompt
-            }
-        }
-    };
-
-    var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-    var jsonContent = JsonSerializer.Serialize(data, options);
-    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-    HttpResponseMessage response = await _httpClient.PostAsync("https://api.openai.com/v1/chat/completions", content);         
-    response.EnsureSuccessStatusCode();
-
-    var jsonResponse = await response.Content.ReadFromJsonAsync<OpenAIApiResponse>();
-
+			.IsSuccessStatusCode - Returns true if the HttpResponseMessage was OK 200 or similar, Check for this before running deserializer
+ 
+Read From File
+ 	string projectDirectory = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName;
+    string jsonFilePath = Path.Combine(projectDirectory, "Data", "jsonapiresponse.json");
+    string responseJson = await File.ReadAllTextAsync(jsonFilePath);
 
 Codegenerator:
 	dotnet tool install -g dotnet-aspnet-codegenerator

@@ -1,0 +1,250 @@
+aws console commands - aws cli download
+	acc name -> secret credentials -> create access key -> aws configure to authenticate
+	s3api list-buckets
+
+Amazon SQS (Simple Queue Service) - köa, skicka, ta emot och hantera meddelanden mellan distribuerade system utan krav för integrering i realtid
+	ex api call one external operation syncronizly and two asyncronyzly. 
+	json object in queue - consumer service listens to queue
+	config
+		Standard better - Best scaling (fix ordering issues in logic)
+		visibility timeout - tries different place if timeout
+		message retention period - how long message stays in queue
+	ui
+		we can Poll for Messages -> here we get whatever messages have been sent
+
+	.Net Setup - AWSSDK.SQS
+		init
+			new AmazonSQSClient(config);
+				new AmazonSQSConfig{}
+				new BasicAWSCredentials()
+		commands
+		- Sending Messages: (SqsPublisher)
+			getQueueUrlAsync("queueName") - gets queue object based on name
+				.queueUrl
+			new SendMessageRequest{}
+				queueUrl
+				MessageBody = JsonSerializer.Serialize(object)
+				?MessageAttributes = 
+					ex new dictionary<string, MessageAttributeValue>{
+						"MessageType",
+						new MessageAttributeValue
+						{
+							DataType = "String",
+							StringValue = nameof(CustomerCreated)
+						}
+					}
+				?delaySeconds - 
+				?MessageDepuplicationId - Only for FIFO
+				?MessageSystemAttributes - Which you can see in details if you want to override stuff
+			.SendMessageAsync(messageRequest) - sends message and returns response
+		- Consuming Messages: (SqsConsumer)
+			new CancellationTokenSource() - Listen for cancellation from user
+			new RecieveMessageRequest{}
+				QueueUrl = 
+				?AttributeName = new List<string>{"all"} - To include all attribute fields
+				?MessageAttributeNames = new List<string>{"all"}
+
+			while (!cts.IsCancellationRequested)
+			{
+				.RecieveMessageAsync(request, cts.Token) - Simply recieves the messages
+				for(var message in response.message)
+				{
+					message
+						.messageId
+						.body
+					.deleteMessageAsync(QueueUrl, message.ReceiptHandle) - Deletes the message
+				}
+
+
+				await Task.Delay(1000);
+			}
+		- Publishing Messages API:
+		- Consuming Messages API:
+			Consumes messages as they appear
+			Delete after consuming 
+			Use MediatR handlers - Message gets picked up
+			If error it goes back into queue 30 seconds, again and again.
+		- dead letter queue - Error Handling message loops of throws retrying process
+			On fourth time trying to process it ends up in Dead Letter Queue (DLQ)
+
+AWS SNS	(Simple Notification Service) - Topic publishes in as many queues as we want & which properties in each queue. individual DLQ. So you publish messages in a topic instead of a queue
+	Fixes if you have multible consumers that want same message queue (one c can only access one queue)
+	config
+		You add subscribers to handle messages - sqs, lambda, email, https, sms e.t.c.
+		enable raw message delivery On - we care about the message itself, as if consuming sqs message
+		allow SNS to publish into SQS -> you need to enable the topic to publish into the simple queue
+			{
+				"Effect": "Allow",
+				"Principal": {
+					"Service": "sns.amazonaws.com"
+				}.
+				"Action": "sqs:SendMessage",
+				"Resource": "resourceurl",
+				"Condition": {
+					"ArnEquals": {
+						"aws:SourceArn": "sourceurl"
+					}
+				}
+			}
+	.Net Setup
+		init
+			AWSSDK.SimpleNotificationService
+			new
+		Commands
+		SNS Publisher:
+			new PublishRequest()
+				.PublishAsync()
+		In App Filter: - Message attribute filtering
+			UI - Edit Subscription Filter
+				{
+					"MessageType": [
+						"CustomerCreated"
+					]
+				}
+			Body Based Filtering
+				{
+					"FullName": [
+						"John Ryder"
+					]
+				}
+Dynamo DB (Document based database) - Like a cluster of for you single table, Encrypted, res encrypted. Data stored in tables (nodes), scales
+	Attributes - The way data is stored, you access it in json representation
+	Partition Key - the most important choice, it uses hash to know where the data is, never scanning
+	Sort Key - If you have sort key the sort key in combination with partition key gives the uniqueness, hash. Can use it for sorting, dates e.t.c.
+	You will normally have one massive table with everything because of how dynamo db works, you share real estate
+	config
+		use string, pk sk as partition / sort key
+		ex adding item - It uses it's own "dynamodb json" but it is represented by json for you
+			"pk": "1",
+			"sk": "2",
+			"fullName": "Bob Ryder"
+		Read Capacity Units - Get Request - 1 read capacity unit = 
+		Total Write Capacity Units - Create, Put, Delete - 1 write capacity unit = a write for 1kb worth of 
+		There is a calculator!
+	.Net Setup
+		init
+			AWSSDK.DynamoDBv2
+			IAmazonDynamoDB to inject
+			In your model you also declare pk sk with jsonpropertyname and UpdatedAt Datetime. - pk is always unique to this object, 
+		Commands
+			Datetime UpdatedAt to prevent server state
+			ConditionExpression = "attribute_not_exists(pk)"
+		Transactions Across Multible Tables:
+		Global Secondary Index: - duplicates your particant key, not good practice, more like a hack. You should do proper data design, create index in ui, It's basically duplicating of your data, writing to two places. not great. Design around this problem.
+			var isGuid = Guid.TryParse(idOrEmail, out var id);
+		Local Secondary Index - More lighweight than GLI, 
+		DynamoDB Streams (Really cool) - enable stream, consume database changes as they are happening, ex send email based on dynamodb write
+
+		Autoscaling, upper limit, staircase --> lower limit. target utilization - gives headroom. Saves alot of money.
+
+		DON'T DO SCANS! - Prefer point reads!. Scans should be banned. Prevent GSI, LSI by good data design!
+
+
+AWS S3 - (Simply Storage Service, Blob Storage, bucket), incredibly scalable & flexible!
+	global unique name
+	Cloudfront gives ex content to end user if you don wanna turn on public
+	You can give a presigned url for set amount of time
+	config
+		.Net Setup
+			init
+				AWSDK.S3
+				new AmazonS3Client
+			Commands
+			PutToBucket
+				using var inputstream = new FileStream("./file.ext", FileMode.Open, FileAccess.Read)
+				new PutObjectRequest{}
+					BucketName
+					Key = "folder/fileName.ext"
+					ContentType
+					InputStream
+			DownloadFromBucket
+				new GetObjectRequest{}
+					BucketName
+					Key
+				.GetObjectsAsync()
+					.responsestream
+			React To Changes - Capture that action and do something with it (lambda section will cover it)
+			Bucket Versioning, stores versions of files as they update.
+
+AWS Secrets Manager (Manage Secrets) - Manages access to secrets in a very granular way, rotate keys
+	config
+	Create a secret with for example plain text. follow convension
+	Naming Convension - ASPNETCOREENVIROMENT_API.NAME_OpenWeatherMapApi__ApiKey - It dynamically maps OpenWeatherMapApi:ApiKey in appsettings.json Fantastic with the package -> Kralizek.Extensions.Configuration.AWSSecretsManager, so nice and easy loading the secrets
+	.Net Setup
+		init
+			new AmazonSecretsManagerClient()
+		Commands
+			new GetSecretValueRequest{}
+				SecretId = "ApiKey"
+		Secrets versioning works by default! Two latest versions but you can get the deprecated ones aswell!ddd
+		Update secrets during runtime, IOptionsMonitor can do that
+
+AWS Lambda (Serverless functions) - even deploy container image to run as aws lambda function
+	config
+		You can run it in the UI using js, ts, go, c#
+		In console - You can run aws lambda invoke --function-name --cli-binary-format raw-in-base64-out
+		You should use the dotnet cli - dotnet tool install -g Amazon.Lambda.Tools
+			dotnet lambda
+				invoke-function SimpleLambda --payload '{}'
+			dotnet new -i Amazon.Lambda.Templates - install lambda specific c# templates
+
+			Triggers: What triggers that lambda - If for ex using dynamodb you need to enable that feature in dynamodb
+			IAM Edit Policy, 
+			{
+				"Sid": "APIAccessForDynamoDBStreams",
+				"Effect": "Allow",
+				"Action": [
+					"dynamodb:GetRecords",
+					"dynamodb:GetShardIterator",
+					"dynamodb:DescribeStream",
+					"dynamodb:ListStreams"
+				],
+				"Resource": "resourceurl"
+			}
+		.Net Setup (.net 6.0 is the latest officially supported runtime!. Not later.)
+			init
+			Commands
+				deploy-function SimpleLambda
+				deploy-serverless SimpleHttpLambda - with httptemplate
+				lambdatesttool - to debug
+				Lambda should process from sqs NOT sns
+				Lambda with dynamoDB - Eliminates need of queue in many cases 
+				Lambda triggers image resize, compression
+				We can also host our webapi api in lambda!
+					Amazon.Lambda.AspNetCoreServer.Hosting
+					builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
+			Customer Runtime Lambda - if you have .net 7. Then you can use Custom Runtime Lambda to run .net 7 on .net 6
+
+		Be aware of recursive invocations! Infinite Loops money -1 million dollars
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Descriptions of Amazon Services
+	Amazon SQS (Simple Queue Service)
+	Amazon SNS (Simple Notification Service)
+	DynamoDB (NoSQL DB Service) - Like Azure Cosmos DB
+	Amazon S3 (Simple Storage Service) - Like Azure Blob Storage
+	AWS Step Functions (sequence manager) (Orchestration service for sequencing AWS Lambda functions and other AWS services.) - Like Azure Logic Apps / Azure Durable Functions
+	AWS Lambda (Serverless runs code in response to events) - Like Azure Functions
+
+	Amazon EC2 (Elastic Compute Cloud) - Like Azure VMs
+	Amazon RDS (Relational Database Service) - Like Azure SQL/MySQL/PostgreSQL
+	Amazon CloudWatch (monitoring)
+	AWS IAM (Identity and Access Management)
+	Amazon API Gateway (API Management) - Azure API Management
+	Amazon ECS (Elastic Container Service) - Azure Kubernetes Service (AKS) or Azure Container Instances (ACI)
+	Amazon ECR (Elastic Container Registry) - Like Azure Container Registry (ACR)

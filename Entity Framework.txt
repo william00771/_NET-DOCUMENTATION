@@ -38,7 +38,8 @@ Entity Framework Setup
 				Proper connectionStrings
 					"cs": "Data source=store.db" - With sqlite
 					"cs": "Server=localhost:5432;User Id=postgres;Password=postgrespw;Database=auctions"
-
+			sql connectionstring example
+				"Server=localhost,1439;Database=master;User Id=sa;Password=willies_portfolio_&?*;TrustServerCertificate=True"
 
 				You can also do it directly in the dbContext
 					var configuration = new ConfigurationBuilder()
@@ -50,6 +51,8 @@ Entity Framework Setup
 		dotnet ef - Options list
 		dotnet ef migrations add InitialCreate -o Data/Migrations - Adds the first migration
 		dotnet ef database update
+
+		Server=localhost;Database=DiplomaDb;User Id=sa;Password=Docker_SQL_#Password_&;TrustServerCertificate=True;
 
 		dotnet ef database drop - To drop a database
 

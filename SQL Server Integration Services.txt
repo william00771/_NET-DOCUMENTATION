@@ -1,0 +1,18 @@
+SQL Server - The Backend
+	Integration Services - SSIS
+		Used for data integration, ETL (Extract, Transform, Load) operations. It helps in data migration, transformation, and workflow automation between different systems.
+	Reporting Services - SSRS
+		Used for creating, deploying, and managing reports. It provides a platform for designing reports, delivering them in various formats (e.g., PDF, HTML), and scheduling report generation.
+	Analysis Services - SSAS
+		Used for online analytical processing (OLAP) and data mining. Helps build data models for complex analytical queries and business intelligence.
+
+installation - extensions -> sql server integration services
+
+Management Studio SSMS - The Frontend
+	. or localhost - Connects to your localhost
+
+Integration Services SSIS in Visual Studio 2022 - Frontend for SSIS
+All visual queries basically
+ETL - Extract, Transform, Load(putting into something db, excel, file)
+The Editor
+	Data flow Task - Define a "flow"

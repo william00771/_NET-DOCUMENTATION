@@ -1,0 +1,541 @@
+Types Of Testing
+	Unit Testing 
+		Tests Class, method, one line of code
+		NO IO - no db call, network call, no filesystem calls
+		We create mocks of these IOs
+	Component Testing - Unit Testing but bigger scope
+	Integration Testing
+		Dependencies, Databases, FileSystem, Network
+		Top down most common
+	E2E - Full flow of application, smoke test
+	Performance Testing
+		ex 1000 requests per second
+		load
+		soak
+		spike
+The 5 integration testing steps
+	1. Setup
+	2. Dependency Mocking (API)
+	3. Execution (xunit or whatever framework)
+	4. Assertion - returns the right data
+	5. Cleanup! - Really important
+Setup
+	Customers.Api.Tests.Integration - naming
+	delete the base classes, use xunit
+	public async Task Name() with [Fact] annotation
+	Obviously both API and potential DB needs to be running
+	It does grab the real thing!
+	Naming Conventions
+		CustomerControllerTests - One class of tests for the controller name, so we can link them easily
+		Get_ReturnsNotFound_WhenCustomerDoesNotExist - So First the controller method to test, expected value to return, when xyzf
+	Some good testnames
+		CreateCustomerControllerTests
+			Create_CreatesUser_WhenDataIsValid
+			Create_ReturnsValidationError_WhenEmailIsInvalid
+			Create_ReturnsValidationError_WhenGithubUserDoesNotExist
+			Create_ReturnsInternalServerError_WhenGithubIsThrottled
+		DeleteCustomerControllerTests
+			Delete_ReturnsOk_WhenCustomerExists
+			Delete_ReturnsNotFound_WhenCustomerDoesNotExist
+		GetAllCustomerControllerTests
+			GetAll_ReturnsAllCustomers_WhenCustomersExist
+			GetAll_ReturnsEmptyResult_WhenNoCustomersExist
+		GetCustomerControllerTests
+			Get_ReturnsCustomer_WhenCustomerExists
+			Get_ReturnsNotFound_WhenCustomerDoesNotExist
+		UpdateCustomerControllerTests
+			Update_UpdatesUser_WhenDataIsValid
+			Update_ReturnsValidationError_WhenEmailIsInvalid
+			Update_ReturnsValidationError_WhenGitHubUserDoestNotExist
+
+	Inside Test Areas
+		Arrange - Aranging stuff
+		Act - Doing Something
+		Assert - Checking
+		Cleanup - delete id of object created
+	You can arrange outside of scope of tests, inside the class. Ex with private readonly HttpClient _httpClient = new(){baseaddress = new Uri("")}
+
+Example test
+	var httpClient = new HttpClient
+	{
+		BaseAddress = new Uri("...")
+	}
+
+	var response = await httpclient.*
+	Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+
+	private readonly ValueSamples _sut = new();
+
+The way tests run
+	It technically instanciates one class instance per test excecution
+Initial Setup In Class
+	Do it in the constructor, since constructor happens first
+	For async - Implement : IAsyncLifetime - to run async in setup
+Cleanup Setup In Class 
+	implement : IDisposable (for async use IAsyncLifetime)
+	void dispose - cleanup goes in there
+	Dispose is called once per test
+
+Paremeterize your test
+	Ok Way
+		[Theory]
+		[InlineData("Data")] - Remember to feed it as input to the test
+		It runs one test Per InlineData parameter which is nice
+	Better Way
+		public static IEnumerable<object[]> Data { get; } = new []
+		{
+			new []{"guid1"},
+			new []{"guid2"},
+			new []{"guid3"}
+		}
+		Then just use [MemberData(nameof(Data))]
+	If you want to just put it in a seperate class
+	public class ClassData : IEnumerable<object[]>
+	{
+		public IEnumerable<object[]> GetEnumerator()
+		{
+			yield return new object []{"guid1"};
+			yield return new object []{"guid2"};
+			yield return new object []{"guid3"};
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+	}
+	Then use [ClassData(typeof(ClassData))]
+
+Skipping a test
+	[Fact(Skip = "This doesn't work atm sorry")]
+	same with theory. or Inline Data ("", Skip = "")
+
+Syntax:
+FluentAssertions (better assertions)
+
+Assert/Result
+	.Equal(expected, result)
+	.Should()
+		.Be(expected)
+		.NotBe()
+		.NotBeEmpty()
+		.StartWith()
+		.EndWith()
+		.HaveLength()
+		.MatchRegex()
+		.NotContain()
+		.BeLowerCase()
+	For Numbers
+		.BePositive()
+		.BeGreaterThan()
+		.BeLessOrEqualTo()
+		.BeInRange(18, 60)
+	For Dates
+		.BeInRange(new(2000,1,1), new 2002,1,1)
+		.BeGreaterThan()
+	For Objects(class) 
+		OBS classes are reference types, so you cannot check equality directly, but fluent assertion is nice
+		.BeEquivalentTo()
+	For IEnumerable that has objects - public IEnumerable<User> Users = new[]{...}
+		var arr = _sut.Users.As<User[]>() - This casts the IEnumerable to an array
+		.ContainEquivalentOf()
+		.HaveCount()
+		.Contain(x => x.FullName.StartsWidth("") && x.age > 5)
+		.HaveElementAt()
+		.NotBeNull()
+	For Methods - new Calc 
+		Action result = () => calc.divide(...) - Action used when method has void return type
+		Func<float> result = () => calc.divide(...) - When method has return type
+		.Throw<ExceptionType>()
+			.WithMessage("")
+	For Raised Events - When you have event handler that raises an event
+		var monitorSubject = _sut.Monitor(); - To monitor for things that happen within that class
+		.Raise("nameOfEvent")
+	For Private Methods - Call public methods that call private methods! Do not change them to public!
+	For Internal Methods - 
+		Old way
+			create class "InternalsExposedToTests"
+				[assembly: InternalsVisibleTo("TestingTechniques.Tests.Unit")]
+		New way - in csproj
+			<ItemGroup>
+				<InternalsVisibleTo> Include="TestingTechniques.Tests.Unit" />
+
+WebApplicationFactory - Runs the API we are testing IN-MEMORY - Really cool
+	Microsoft.AspNetCore.Mvc.Testing
+	private readonly WebApplicationFactory<IApiMarker> _appFactory = new(); - When test is disposed api is disposed alongside it
+	The T needs to be an assembly scanning type
+		public interface IApiMarker - inside source assembly. Marking your assembly using a type
+	now we can create httpclient from that appfactory
+	private readonly HttpClient _httpClient;
+	ctor
+		_httpClient = _appFactory.CreateClient(); - The testserver runs in the webApplicationFactory
+
+But we do not want 1 WebApplicationFactory per test instead: - One api for all the tests in this class
+	Implement : IClassFixture<WebApplicationFactory<IApiMarker>
+	ctor(WebApplicationFactory<IApiMarker> appFactory) - Now it's instanciated per test class
+		_httpClient = appFactory.CreateClient()
+
+Realistic Test Data - Come up with your own data sucks, automate that!
+	Bogus nuget package
+	private readonly Faker<T> _customerGenerator = 
+		new Faker<CustomerRequest>()
+			.RuleFor(x => x.fullname, faker => faker.)
+			.RuleFor(x => x.GithubUserName, "flatvalue")
+				faker.
+					Address
+					Image
+					Date
+					Name
+					Person e.t.c. for all fields - Fantastic!
+
+	var customer = _customerGenerator.Generate()
+	_customerGenerator.Clone()
+		.RuleFor(x => x.Email, "invalidemailsdsa") - This Does not change the core object! Really good!
+
+Cleaning up testData
+	: IAsyncLifetime
+	Collect all the Ids we write to the database
+		private readonly List<Guid> _createdIds = new();
+	Add to the Ids list with each test
+		_createdIds.Add(customerResponse!.Id);
+	public async Task DisposeAsync
+		foreach (var createdId in _createdIds)
+		{
+			await _httpClient.DeleteAsync($"customers/{createdId}") 
+		}
+
+Creating Single App (WebApplicationFactory) for multible test classes!, it is ok to do one app for each class.
+	They share state. 
+	Structure better
+		Instead of just CustomerControllerTests - Make Folder CustomerController -> CreateCustomerControllerTests, GetCustomerControllerTests
+	Workaround to make it work in xunit - The shared context is the webapplicationfactory between the classes
+		TestCollection class : ICollectionFixture<WebApplicationFactory<IApiMarker>> -  Define a Collection Class (new empty class)
+		[CollectionDefinition("CustomerApi Collection")] - add attribute with name of collection inside test classes
+		[Collection("CustomerApi Collection")] - Inside the testclasses define which collection part of
+
+ClassFixture vs Collection Approach (Shared Context) -  You can go with one or the other
+	
+Using a ApiFactory 
+	Name the factory ex CustomerApiFactory 
+	inherit : WebbapplicationFactory<IApiMarker
+	you have different overriders
+		protected override void ConfigureWebHost(IWebHostBuilder builder)
+			builder.ConfigureLogging(logging => logging.)
+				.logging.ClearProviders() - To Disable loggers generated from tests
+	Now in the tests inherit from the factory instead
+		: IClassFixture<CustomerApiFactory>
+		private readonly _apiFactory
+
+How to programmatically create a database when we need it, and tear down when we don't need it anymore Then We don't need to even worry about cleaning up data!
+	Inside ApiFactory
+	TestContainers nuget package / Dotnet.TestContainers
+	Example:
+		private readonly TestcontainersContainer _dbContainer =
+			new TestcontainerBuilder<TestcontainersContainer>()
+				.WithImage("postgres:latest")
+				.WithEnviroment("POSTGRES_USER", "course")
+				.WithEnviroment("POSTGRES_PASSWORD", "change,e")
+				.WithEnviroment("POSTGRES_DB", "mydb")
+				.WithPortBinding(5555, 5432)
+				.WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailible(5432))
+				.Build() - Or obviously whatever db/env/port you are using as db
+		Even easier they have built in postgres
+			private readonly TestcontainersContainer _dbContainer =
+				new TestcontainerBuilder<TestcontainersContainer>()
+					.WithDatabase(new PostGresSqlTestContainerConfiguration
+					{
+						Database = "db"
+						Username = "course"
+						Password = "change,e"
+					}).Build(); 
+
+					- where you do connectionstring you simply just _dbContainer.ConnectionString - Better also since it runs on a random port
+
+	: IAsyncLifetime - To Create the database on initialize and dispose it
+		await _dbContainer.StartAsync() 
+		await _dbContainer.DisposeAsync() - OBS remember new async Task 
+	Now configure Webhost to use that docker db
+		protected override void ConfigureWebHost(IWebHostBuilder builder)
+			builder.ConfigureTestServices(services => services)
+				.RemoveAll(typeof(IDbConnectionFactory)) - Or whatever you are using for it
+				.AddSingleton<IDbConnectionFactory>(_ => 
+					new NpsqlConnectionFactory("same connectiondb string as appsettings.json but port is different"))
+
+	It literally creates a container in docker for the lifetime of the tests! So fckin cool! Complete Isolation! Full Control!
+
+Third Party API limits/dependencies. - Swap Third Party Api with fake third party api that responds like real thing
+	new project called FakeApi
+	WireMock.NET Package to its own project
+	setup
+		var wiremockServer = WireMockServer.Start();
+		Console.WriteLine($"Wiremock is now running on: {wiremockServer.Url}")
+		wiremockServer.Given(Request.Create(
+			.WidthPath("/users/nickchapsas")
+			.UsingGet())
+			.RespondWith(Response.Create(
+				.WithBody("")
+				.WithStatusCode(200));
+		Console.Readkey();
+		wiremockServer.Dispose();
+
+	responses
+		.WithBody("")
+		.WithStatusCode()
+		.WithBodyAsJson(@"pasteinthirdpartyresponse")
+		.WithHeader("ContentType", "application/json; charset=utf-8")
+	
+	Use in tests
+		Now install package in tests (You basically do the same exact thing. you dont "call" the other project)
+		new class ex GitHubApiServer : IDisposable
+			private WireMockServer _server
+
+			public void Start()
+				_server = WireMockServer.Start()
+
+			Dispose
+				_server.Stop();
+				_server.Dispose();
+		now setup user for example
+			public void SetupUser(string username)
+			{
+				_server.Given(Request.Create(
+					.WithPath($"/users/{username}")
+					.UsingGet())
+					.RespondWith(Response.Create()
+						.WithBody(Generate...RepsonseBody(username))) - Paste the json data from api and replace username fields width {{username}}
+						.WithHeader("content-type", "application/kjson; charset=utf-8")
+						.WithStatusCode(200))
+			}
+		now use it in your test
+			private readonly GithubApiServer _githubApiServer = new ();
+			start/stop server in initialiseasync/disposeasync with the database
+			you run ex setupuser in initasync
+
+		Make sure you OVERRIDE the configuretestsservice third party apis if they exist in program.cs.
+		It should just be a matter of copy pasting from programcs to ApiFactory configuration override and replacing with the mockApi
+		_gitHubServer.Url
+		(You might need to expose that url from the GitHubApiServer)
+			public string Url => _server.Url;
+
+Adding XRateLimit to FakeApi
+	public void SetupThrottledUser(string username)
+    {
+        _server.Given(Request.Create()
+                .WithPath($"/users/{username}")
+                .UsingGet())
+            .RespondWith(Response.Create()
+                .WithBody(@"")
+                .WithHeader("content-type", "application/json; charset=utf-8")
+                .WithStatusCode(403));
+    }
+
+Dealing with authenticated requests!
+	httpclient to generate token or fixed api key as your token
+	Then pass it down as request header
+		_client.DefaultReqyestHeaders.Authorization = new AuthenticationHeaderValue("Bearer TOKEN")
+	You can call that token from external provider, httpclient to call the outside world?
+		or mock it somehow by overwriting the service?
+
+Dealing with background services
+	when builder.configuringTestServices - removeAll(typeof(IHostedService)) - So they don't disturb the tests
+
+Dealing with Entity Framework
+	DO NOT REPLACE DBCONTEXT WITH IN-MEMORY ONE! NEVER! TERRIBLE!
+	use the real thing!
+	services.RemoveAll(typeof(AppDbContext))
+	services.AddDbContext<AppDbContext>(
+		optionsBuilder => optionsBuilder.useNpgsql(_dbContainer.ConnectionString));
+
+ExceptionTypes
+	DivideByZeroException
+
+
+Assertions Types
+	HttpStatusCode
+		.NotFound
+
+WebApplicationClient (Our custom client)
+	.PostAsJsonAsync("customers", customer)
+
+
+httpclient
+	baseadress
+		url
+	.GetAsync
+	.PostAsync
+	.PutAsync
+
+HttpResponseMessage (httpclient response)
+	.StatusCode
+		.Should().Be()
+			HttpStatusCode
+	.Content - Use text e.t.c assertions to validate here
+		.ReadAsStringAsync() - Remember to var await it
+		.ReadFromJsonAsync<ValidationProblemDetails>() - ValProblemDetails is used to capture validation errors in APIs
+			.Title
+				"Not Found"
+			.Status
+				404, 400
+			.Errors["nameoferrorfield"][0].Should().Be(${})
+
+	.Header
+		.Location().ToString()
+		.GetValues()
+
+HttpStatusCode - Do not use generic .EnsureSuccessStatusCode ex. You want tests to be specific not generic.
+	.NotFound
+	.BadRequest
+	.Unauthorized
+
+Guid
+	.NewGuid()
+	.Parse(guidValue)
+
+
+Syntax Stuff
+	Raised Event Example
+		public event EventHandler ExampleEvent;
+		public virtual void RaiseExampleEvent(
+		{
+			ExampleEvent(this, EventArgs.Empty)
+		}
+
+customer!.ids - I know Ids will not be null
+
+Create dev certificate
+	dotnet dev-certs https -ep cert.pfx -p test1234!
+
+Docker
+	docker ps -a - lists all containers
+	docker stop 15 - Stops container starting with number 15 id
+	docker start 15 - Starts container starting with number 15
+	docker compose -f filelocation up - pulls all files and runs
+	docker compose up -d - If already in same folder
+
+Integration testing Web UI - LOOKUP OBS: Is there a way to disable clerk in frontend for frontend testing purposes?
+Setup
+	Customer.Webapp.Tests.Integration - normal xunit project
+	dotnet add bogus, wiremock, fluentassertions. 
+	Microsoft.Playwright - You need to run their setup script for it to work on machine
+		pwsh ./bin/Debug/net6.0/.playwright.ps1 - Installs it on my pc, firsttime or in ci/cd pipeline
+	Create docker-compose-integration.yml - Here you setup the database and apps
+	The webapp docker file needs to be there aswell!
+		example
+			version: '3.9'
+
+			services:
+
+			  test-app:
+			    build: ../../src/Customers.WebApp
+			    ports:
+			      - "7780:443"
+			      - "7779:80"
+			    environment:
+			      - ASPNETCORE_URLS=https://+:443;http://+:80
+			      - ASPNETCORE_Kestrel__Certificates__Default__Password=Test1234!
+			      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/cert.pfx
+			      - ASPNETCORE_Environment=Production
+			      - CustomersWebApp_Database__ConnectionString=Server=test-db;Port=5432;Database=mydb;User ID=course;Password=changeme;
+			      - CustomersWebApp_GitHub__ApiBaseUrl=http://localhost:9850
+			    depends_on: 
+			      test-db:
+			        condition: service_healthy
+
+			  test-db:
+			    image: postgres:latest
+			    restart: always
+			    environment:
+			      - POSTGRES_USER=course
+			      - POSTGRES_PASSWORD=changeme
+			      - POSTGRES_DB=mydb
+			    healthcheck:
+			      test: [ "CMD-SHELL", "pg_isready" ]
+			      interval: 2s
+			      timeout: 5s
+			      retries: 10
+			    ports:
+			      - '5435:5432'
+	The webapp DockerFile file example. 
+		FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+		WORKDIR /app
+
+		# Copy everything
+		COPY . ./
+		# Restore as distinct layers
+		RUN dotnet restore
+		# Build and publish a release
+		RUN dotnet publish -c Release -o out
+
+		# Build runtime image
+		FROM mcr.microsoft.com/dotnet/aspnet:6.0
+		WORKDIR /app
+		COPY --from=build-env /app/out .
+		# Run this to generate it: dotnet dev-certs https -ep cert.pfx -p Test1234!
+		COPY ["cert.pfx", "/https/cert.pfx"]
+		ENTRYPOINT ["dotnet", "Customers.WebApp.dll"]
+	And the docker-compose in webapp folder would be a docker-compose.yml
+		version: '3.9'
+
+		services:
+
+		  db:
+		    image: postgres
+		    restart: always
+		    environment:
+		      - POSTGRES_USER=course
+		      - POSTGRES_PASSWORD=changeme
+		      - POSTGRES_DB=mydb
+		    ports:
+		      - '5432:5432'
+Setup First tests
+	The playwright equivalent of webbapplicationFactory
+	new class - SharedTestContext : IAsyncLifetime
+		Add Ductus.FluentDocker package
+		private static readonly string DockerComposeFile =
+			Path.Combine(Directory.GetCurrentDirectory(), (TemplateString)"../../../docker-compose.integration.yml")
+		private readonly ICompositeService _dockerService = new Builder()
+			.UseContainer()
+			.UseComposer()
+			.FromFile(DockerComposeFile)
+			.RemoveOrphans()
+			.WaitForHttp("test-app", "https://localhost:7780")
+			.Build();
+
+		start it in InitAsync _dockerService.Start() / dispose _dockerService.Dispose()
+	new class - SharedTestCollection : ICollectionFixture<SharedTestContext> with 
+	[CollectionDefinition("collectionName")]
+	Initializing
+		private IPlaywright _playwright;
+		public IBrowser Browser {get; private set;}
+
+		_playwright = await Playwright.CreateAsync()
+		Browser = await _playwright.Chronium.LaynchAsync(new BrowserTypeLaunchOptions
+		{
+			Headless = false, - To see window
+			SlowMo = 1000 - to make it run in window
+		})
+	disposing
+		await Browser.DisposeAsync()
+		_playwright.Dispose()
+Writing Tests
+	Naming Convention
+		Pages - The controller name would be the "page" name or component name
+
+	Example Test
+		[Collection("my collection")]
+		public class AddCustomerTests
+			private readonly SharedTestContext _testContext;
+			ctor _testContext = testContext 
+
+	page navigation
+		// Arrange
+		var page = await _testContext.Browser.NewPageAsync(new BrowserPageOptions
+		{
+			BaseURL = SharedTestContext.AppUrl
+		})
+		await page.GotoAsync("add-customer")
+	Selectors
+		await page.FillAsync("input[id=fullname]", "william") - Fills input with value
+		await page.ClickAsync("button[type=submit]") - Clicks on an element
+
+		var linkElement = page.Locator("article>p>a").First()

@@ -1,0 +1,452 @@
+.NET provides a run-time environment called the common language runtime
+
+Stack Memory - (last in, first out). Very Fast. Keeps track of what's executing in our code. 
+
+Heap Memory - Big storage unit, Not organized in any order. Heap is more flexible but is also slower to allocate memory
+
+S.O.L.I.D Princibles - 
+	Single Responsibility - one purpose, one job, one responsibility
+	Open Closed Princible - classes should be open for extension but closed for modification
+	Liskov Substitution Princible - Inheritance should always MAKE SENSE
+	Interface Segregation Princible - Many specific client I are better than one general I
+	Dependency Inversion Principle - Depend upon abstractions, Not concrete Implementatons
+
+Factory Pattern
+	You create a form of superclass (factory) for creating objects. You can using this factory specify what type of objects you want.
+	The Abstract Factory
+		You can return different objects depending on ex age < 18 new child vs new adult return.
+
+The Repository Pattern - abstraction layer
+	 It encapsulates the logic required to access data stored in a data source, such as a database, web service, or file system. 
+	 centralize data access logic and promote separation of concerns.
+
+Behavioral - Unit of work Pattern
+	Seperating units of work into layers. One unit has one purpose. Ex CustomerRepository, ICustomerRepository, UnitOfWork(that dependency injects ICustomerRepository). A Model, and The program itself.
+
+behavioral design pattern Command Object - Invoker, Reciever, Client, 
+	Client - Pushes the button and gets something back
+
+	The Invoker class "Holds the actual command interface and excecutes it" without knowing anything about it.
+
+	Command Interface: "Calls Concrete command" This is an interface or an abstract class that declares a method for executing a particular operation.
+
+	Concrete Command: "Calls reciever to excecute command" These are implementations of the Command interface or class. They encapsulate a specific request and the necessary data for executing it. Each Concrete Command knows how to perform a particular operation.
+
+	Reciever: "Receiver executing action..."
+
+The Builder Pattern - Builders are classes whose only job is to setup configuration for something else
+
+Traits of functional programming
+	pure functions - they don't change anything, they just return a new thing
+		It should be able to be static also Very easy to test
+		non mutable state
+	recursion - Functions that call themselves again and again. Sort of like a while loop.
+
+higher order functions - Crazy Powerful Functions that take functions
+	they treat functions as first-class citizens, allowing them to be manipulated and passed around like any other value.
+
+HTTP - Is an application layer protocol used for transmitting hypermedia documents, such as json data.
+	HTTP operates as a request-response protocol, where a client (typically a web browser) sends a request to a server for a specific resource, and the server responds with the requested resource or an error message.
+
+	HTTP Request:
+	Request Line: Contains the HTTP method (e.g., GET, POST, PUT, DELETE), the requested URI (Uniform Resource Identifier), and the HTTP version.
+
+	Request Headers: Additional metadata about the request, such as the User-Agent (identifying the client), Accept (specifying acceptable media types), and Authorization (for authentication).
+
+	Message Body: Optional data sent by the client, such as form data in a POST request or file uploads.
+
+
+	HTTP Response:
+	Status Line: Contains the HTTP version, a numeric status code (indicating the outcome of the request), and a reason phrase.
+
+	Response Headers: Additional metadata about the response, such as Content-Type (specifying the media type of the response body), Content-Length (indicating the size of the response body), and Cache-Control (controlling caching behavior).
+
+	Message Body: The actual content of the response, such as HTML markup, JSON data, or binary files.
+
+HTTPS (HTTP Secure): An extension of HTTP that uses encryption (TLS/SSL) to secure the communication between the client and server. It provides confidentiality and integrity of data transmitted over the network
+
+Websockets (SIGNAL R!!!) - WebSocket: A protocol that provides full-duplex communication channels over a single TCP connection. WebSocket enables real-time, bidirectional communication between clients and servers, making it suitable for applications requiring low-latency, interactive communication, such as online gaming, chat applications, and real-time collaboration tools.
+ 
+REST (Representational State Transfer) - style for designing networked applications
+	Resource ID - Each resource is uniquely identified by a URI (Uniform Resource Identifier), which serves as its address on the web.
+	Uniform Interface - uniform interface between clients and servers. This interface consists of four primary constraints
+		Resource Identification: Each resource is identified by a unique URI.
+
+		Resource Manipulation through Representations: Clients interact with resources through 
+
+		representations, which can be in various formats such as JSON, XML, or HTML. 
+
+		Self-Descriptive Messages: Messages exchanged between clients and servers should include all information necessary to understand the message's meaning and how to process it. This includes using standard HTTP methods (GET, POST, PUT, DELETE) and status codes (200 OK, 404 Not Found, etc.).
+
+	Stateless Communication: REST is stateless, meaning that each request from a client to a server must contain all information necessary to understand and process the request. The server does not store any client state between requests.
+
+	Client-Server Architecture - REST follows a client-server architecture, where the client and server are separate and independent components.
+
+	Cacheability: Responses from the server can be marked as cacheable or non-cacheable using HTTP caching mechanisms. Cacheable responses can be reused by clients or intermediaries to improve performance and reduce latency.
+
+JWT (JSON Web Token) - is a compact, self-contained method for securely transmitting information between parties as a JSON object.
+	Three Parts
+		Header: Contains metadata about the JWT, such as the type of token (JWT) and the cryptographic algorithm used to secure it.
+
+		Payload: Contains the claims or assertions about the user, such as their user ID, username, role, and any additional data needed for authentication or authorization.
+
+		Signature: Created by combining the header, payload, and a secret key using the specified cryptographic algorithm. The signature ensures the integrity and authenticity of the JWT, preventing tampering or forgery.
+
+	Here's a simple breakdown of how JWT works:
+
+	Token Creation:
+		When a user logs in or performs an authentication action, a JWT is created on the server.
+		The JWT contains information about the user (such as their user ID, username, or role) and any additional data needed for authentication or authorization.
+		Token Encoding:
+
+		The JWT is encoded using a secure algorithm (such as HMAC or RSA) to ensure that it can't be tampered with or altered.
+		The encoded JWT consists of three parts separated by dots: the header, the payload, and the signature. These parts are base64url encoded to create a compact, URL-safe string.
+		Token Issuance:
+
+		Once the JWT is created and encoded, it's sent back to the client (typically in the HTTP response headers or body) and stored locally (e.g., in local storage or cookies).
+		Token Usage:
+
+		The client includes the JWT in subsequent requests to the server, typically in the HTTP Authorization header using the Bearer authentication scheme.
+		When the server receives a request with a JWT, it verifies the token's integrity and authenticity by decoding and validating the signature.
+		If the JWT is valid, the server extracts the user information from the payload and uses it to authenticate and authorize the user.
+		Token Expiration:
+
+		JWTs can have an expiration time (specified in the payload) to limit their validity period. Once a JWT expires, it's no longer considered valid, and the user may need to re-authenticate.
+
+
+Unit Testing - testing individual units or components of a software application are tested in isolation from the rest of the system
+
+Integration testing - individual units or components of a system are combined and tested as a group.
+	Top-down Integration Testing: In this approach, testing starts from the top of the software hierarchy and progressively integrates lower-level modules or components. Stub functions or mock objects may be used to simulate the behavior of lower-level components that are not yet integrated.
+
+	Bottom-up Integration Testing: This approach starts from the bottom of the software hierarchy, with individual units or components being tested and integrated incrementally. Drivers may be used to simulate the behavior of higher-level components that are not yet integrated.
+
+	Big Bang Integration Testing: In this approach, all components/modules are integrated simultaneously, and the entire system is tested as a whole. This approach is typically used for smaller systems or when all components are readily available for integration.
+
+	Incremental Integration Testing: This approach involves integrating and testing the system incrementally, one component/module at a time. Integration is performed iteratively, with new components being added and tested in each iteration until the entire system is integrated and tested.
+
+E2E Testing
+	Validation of end-user experience: E2E tests verify that the application meets the requirements and expectations of end users by simulating real-world scenarios and interactions.
+
+
+Cookies - 4KB small n basic key value a server gives to a client, key-value storage cookies can have expiration dates set and may be deleted automatically by the browser when they expire
+
+Localstorage - 10mb Mini database that looks like a json file, better performance, more secure, not sent over http requests like cookies. 
+
+SessionStorage - 10mb - Session storage stores data only for the duration of the page session
+
+Server Sessions -
+	Session ID, Session availible on the backend, creates a session on its own and then sends a key to the client.
+	Server stores session data in its memory, gives the client a session id.
+
+Key storage REDIS. A Kind of database, but it works in memory, ex with signal r session. Super Super quick.
+		Also way for servers to communicate via back
+
+ACID -> Acid properties
+		Atomic - All changes written or none (rollback), all happens or nothing
+		Consistent - A transaction can only bring database from one valid state to another
+		Isolated - results are independent of concurrent transactions
+		Durable - Committed changes survive operational failure
+
+Models - Business (domain) models - How the business thinks about information
+
+What is Dependency injection?
+	A way to achieve inversion of control (IoC)
+	It's a technique for creating loosely coupled components in an application, where the dependencies of a class are on the outside instead of declared within the class itself.
+
+Fields - are variables that store data within an object or class.
+	Fields are used mostly to store internal state or data within a class.
+
+Properties - are special methods that provide access to fields. They have a getter and setter.
+	They are often used to expose fields in a controlled manner, enforcing encapsulation. Ex in models
+
+Abstract class - cannot be instanciated on its own and is meant to serve as a blueprint for other classes, also a contract
+
+Interfaces - Are much prefereed, a contract
+	Multiple Inheritance
+	Flexibility: Interfaces provide a high degree of flexibility by allowing classes to implement only the methods and properties they need. 
+	Contract Enforcement: Interfaces define contracts that classes must adhere to, ensuring consistency and interoperability among different implementations. 
+	Testing and Mocking
+	Evolution and Extensibility: Interfaces support better evolution and extensibility of code. Adding new functionality to an existing system is often easier when interfaces are used
+	Interfaces encourage the use of composition over inheritance, Best practice in OOP
+
+Extension Methods - are static methods defined in a static class. So you can just call them right away as a tool. Instead of instanciating any class.
+
+addtransient - (very short) created and disposed of as its used in our classes, not alive for the lifetime of the request
+
+addscoped - (medium long) alive for the lifetime of the request
+
+addsingleton - (lifetime of application) It's alive all the way through the runtime
+
+IS-A, HAS-A with inheritance, Derived class, child class
+
+Access modifiers - private public
+				protected - Only accessable in this class and child classes
+				internal - Only in this assembly / workspace
+				readonly - can only be set in the constructor 
+
+Polymorphism - Method Overriding. You inherit a class and override a base method.
+
+HashSet - Just references to points in memory.
+
+Hashing something - Creating a numeric value from something.
+
+Reflections - You do operations at runtime, creating whole new types, at runtime 
+	Debugger uses reflections
+	writing a debugger, Profiler, developlment logging, an IoC container used for dependency Injection
+	Accessing private fields for an app no longer in dev
+	You can access private fields :O
+
+What does it mean that LINQ has deferred execution?
+	Means it acts like a set of instructions, a query that you can then call whenever you want to.
+
+Why does the `this` keyword not exist in a static class?
+	Because a static class isn't instantiated, only called. It's not an object since you never declare it. So it can't refeer to itself.
+
+What is the lifetime of a parameter used in a primary constructor?
+	It's dependent on the lifetime of the instance the parameter is a part of. So as long as the instance exists the primary constructor parameters should exist.
+
+What does it mean for a setter to have the accessor `init` in an auto-property?
+	when you use init it instead of set for example, you can control the initial setting of a property within the class so that it cannot be changed outside of the class. It can only be set during object initialization
+
+What is Intermediate Language (IL)?
+	C# is compiled before it can be executed. The compilation is done to something called common intermediate language. A Binary instruction set, used by compilers for the .NET Framework before compiling to machine code.
+
+	portable across different platforms
+
+	The IL then gets compiled to machine code during runtime. This process is known as Just-In-Time (JIT) compilation.
+
+What is the result of `Console.WriteLine(new String("Hello") == new String("Hello"));`? Why?
+	Technically It's false because the references are different in memory. But Since comparing strings is so common in C# the devs neglected this fact. Comparing their values directly instead. Meaning true.
+
+What is the difference between a const and `read-only` field?
+	They are both immutable fields. Readonly belongs to the class it is set in while Const belongs to the type. This means const field is assigned compile time, while readonly is assigned at runtime. No idea what this actually means in practical terms 
+
+In a .NET 8 console application, where is the starting point when you run the app?
+	Inside program.cs This is where the application builds, all the services are added, middleware and then finally the excecution of the application
+
+What is Pattern matching?
+	Patterns match against specific types or properties of a class or object. A switch statement is a great example of this.
+	different cases for different object properties. example Operation.Add, Operation.Subtract. Finds matching pattern.
+
+What is the difference between a project-file and a solution-file?
+	A solution file manages the project files. Solutions aren't projects themselves but managers of projects.
+
+What is an assembly?
+	A unit of deployment and versioning in .NET. A container for metadata files, dlls, exe, it contains the intermediate language code, Versioning e.t.c.
+
+What are named parameters?
+	Instead of inputting parameters in one specific order, named parameters can help you input them in a more cohesive way. whatever order you want
+	public void PrintDetails(string name, int age, string city)
+	PrintDetails(name: "John", age: 30, city: "New York");
+
+What do you use the null-coalescing operator for?
+	// Example usage of the null-coalescing operator in C#
+	int? nullableNumber = null;
+	int result = nullableNumber ?? -1; // If nullableNumber is null, result will be -1, otherwise, it will be the value of nullableNumber
+	So you can do something if the operator is null. You check for it using ??. 
+
+What are some use-cases for Reflections?
+	If you cannot access private fields
+	If you do not have public access to source code.
+
+What are Try-methods used for?
+	they return bool value whether an operation was successful or not. Meaning you can test for example parsing text before actually parsing. Tryparse, TryGetValue
+
+
+IactionResult
+	When you return an IActionResult, you have full control over the result being returned. You can return any type of result that implements the IActionResult interface.
+
+ActionResult
+	ActionResult is a concrete class that implements the IActionResult interface.
+	It's a base class for various result types such as ViewResult, JsonResult, RedirectResult, etc.
+	When you return an ActionResult, you're typically returning a specific type of result such as a view, JSON, or redirect result.
+
+IEnumerable - is an interface that defines a contract for objects that can be iterated over
+	used to create custom collection types that can be iterated over.
+
+Enumerable - is a static class that provides a set of extension methods for querying collections
+	Enumerable is used to perform LINQ queries on collections that implement IEnumerable.
+
+API - Application Programming Interface - connection between any program or parts of a program
+
+Client / Server - is an architectural pattern 
+	The Client calls the API of the server. The Client issues a request containing data and metadata
+	The Server sends back a response
+	In Client / server no connection is maintained
+
+Generics - Let's us write code that operate on different types. Any type really. Type-safe and flexible. 
+	T meaning Any type
+
+HttpClient generics - takes a stream for example, instead of a string.
+
+GIT - a form of Version Control where you track files over time. snapshot is taken with every commit.
+	Working Directory itself
+	Staging area where we specify what files to commit to the repository
+	The repository acts as our National Archives
+
+C# - Mainly an object oriented programming language. strongly typed which is nice. It's a compiled language, lexically scoped, imperative, declarative and component-oriented programming disciplines
+	.NET contains the Common Language Runtime (CLR) which contains
+		Execution Engine: JIT (Just in time) compiler that converts (IL) Intermediate language code to machine code
+		Memory Management: memory allocation and deallocation, 
+			It includes a garbage collector that periodically scans the heap to identify and reclaim memory occupied by objects that are no longer in use.
+		Exception Handling: 
+		Security: protects .NET applications from unauthorized access, code injection, and other security threats.
+		Type Safety: prevent common programming errors and vulnerabilities
+		Interoperability: native code and other programming languages This allows .NET applications to seamlessly integrate with existing codebases and libraries written in other languages.
+	As you "dotnet build"
+		the code gets compiled to Intermediate Language
+	As you "dotnet run"
+		the code is compiled to native machine code at runtime by the Just-In-Time (JIT) Compiler part of the (CLR) Common Language Runtime
+
+Component - A unit that encapsulates a set ofrelated functions.
+
+HTML - It's a markup language. Declarative. No Logic. Only top down code.
+
+Separation of Concerns (SoC) - design principle separating a computer program into distinct sections, each addressing a separate concern / functionality
+
+MOCK - Simulated objects that mimic behavior of real objects in a controlled way
+
+Razor Syntax - is a markup syntax that lets you embed server-based code into web åages
+
+Blazor - is a SPA framework similar to react but with native C# built in. 
+	server-side rendering (SSR) model
+		UI components are rendered on the server and HTML diffs are sent to the client, It's closely integrated with the webapi
+	client-side rendering (CSR) model
+		UI components are rendered in the browser using WebAssembly.
+
+MVC - Older (SSR) model that also uses razor syntax
+
+Testing - Manual Testing - Not Great man. Use TDD
+	Red, Green, Refractor
+	Arrange, Act, Assert
+
+TDD - you write automated tests before writing the actual implementation code
+
+Rules of TDD
+	1. You are not allowed to write any production code unless it is to make
+	a failing unit test pass.
+	2. You are not allowed to write any more of a unit test than is sufficient
+	to fail; and compilation failures are failures.
+	3. You are not allowed to write any more production code than is
+	sufficient to pass the one failing unit test.
+
+The Task Object - Represents an asynchronous call. As It's async it is represented as a Task
+	we don't block the main thread
+	Used for Slow tasks or tasks that can run independently
+
+Javascript - Is an interpreted language. So it just runs line by line.
+
+Value Types - Simple, single value things that exist on the stack. So Faster Access
+	booleans, numbers, chars, enums
+
+Reference types - Complex Objects that exist on the heap. References via the stack. So Slower access
+	strings, arrays, collections
+	classes, interfaces
+
+RAM - holds the stack and heap
+
+Inferred types - Var keyword
+
+Lambda expressions - are anonymous functions meaning functions without a name. They give a nice compact syntax.
+
+Namespace - Controlls the scope access to different parts of the code
+
+Class - Is a template for an object
+
+An Object - Is an instanciated class
+
+Collection - A group of things. - USE System.Collections.Generic. not the old System.Collections
+	Arrays - T[]
+		when you need a simple, fixed-size collection of elements with constant-time access.
+	Lists - List<T>
+		when you need a flexible, resizable collection of elements with fast insertion and removal at the end.
+	Dictionaries - Dictionary<TKey, TValue> (key-value pairs collections)
+		when you need to map keys to values and require fast lookup by key.
+	Sets - HashSet<T> and SortedSet<T>
+		when you need to store unique elements and perform fast membership testing, insertion, deletion, and, optionally, retrieval in sorted order.
+	Queues - Queue<T>
+		when you need to process elements in the order they were added, such as task scheduling or message passing.
+	Stacks - Stack<T>
+		 when you need to track nested operations, such as function calls or expression evaluation.
+	LinkedLists - LinkedList<T>
+		when you need to perform frequent insertions and removals of elements at arbitrary positions in the collection.
+	IEnumerable - 
+		when you need to iterate over a sequence of elements in a collection without modifying the collection itself, such as querying with LINQ or using foreach loops.
+	ICollection - 
+		when you need to work with a generic collection of elements that supports adding, removing, and querying elements, but you don't need specific indexing or key-based access.
+	KeyValuePair - <TKey, TValue>
+		when you need to represent individual key-value pairs in dictionary collections or when working with LINQ queries that return key-value pairs.
+
+
+Uml Class Diagrams - Visual Language for drawing classes, associations, inheritance among other things
+
+.Equals() - used for checking equality, if two objects are equal ( Equal() returns true) then GetHashCode() for the two objects must return the same value!
+
+.Gethashcode() - used for generating a "hash" for working with Dictionaries, and other similar collections
+
+Constructor - special type of method that is automatically called when an instance of a class is created. Its primary purpose is to initialize the newly created object and prepare it for use. 
+
+method chaining or fluent interface - call multiple methods on an object in a single expression by returning the object itself (or another object) from each method call. Very readable
+	you return this. Refeering to the current object itself.
+
+Linq defered excecution - It will not excecute until we iterate over the collection, It's just a query
+Linq immediate excecution - any, all is immediate
+
+Linq - SQL-like syntax.
+
+StringBuilder is mutable
+
+Type Inference compiler understands 'var'
+
+Variable Scope - context where a variable is accessible
+
+Overloading - multiple methods with the same name but different parameters
+
+Exception Handling - is done using try, catch, and finally blocks.
+
+Sealed Classes - Specifically cannot be inherited. 
+
+Method Hiding - involves redefining a base class method in a derived class using the new keyword.
+
+Extension Methods - you can use a method as if it was part of the type itself 
+	ex bool result = myNumber.IsEven();
+
+Operator Overloading ???
+
+Class vs. Struct - Struct: Often used for small models like points on a grid, complex numbers, or RGB colors where overhead of heap allocation is unwarranted.
+
+Threading - is the ability to execute multiple operations simultaneously.
+
+Use Records when - You need immutable types.
+
+Use Classes when - You need mutable types.
+
+Entity Framework (EF) is an open-source object-relational mapping (ORM) framework for .NET.
+
+
+hoisting - beteende js har, innan du kör koden - kollar vad som finns i koden, 
+	functions skickas up - beteende för att funktioner finns tillgängligt
+
+1 - 10 - bs fråga - varför du placerar r dig där - vad är anledningen
+
+blackout - börja öva
+
+entity framework - varför. elaborera, tänk inte svara. - Beskriv till barn
+
+.map ( mappar om något ) 
+.select - foreach returnar void
+
+equality och gethash
+
+om man overridar equality operatorn så måste man overrida gethash -> 
+
+refradctoring bra - små metoder
+
+Två saker:
+	- Mekanisk i början
+	- Stirrar
+
+	Siffrorna, ta tillfället i act
+
+Håll dig 5 års simpelt tills detailjer behövs

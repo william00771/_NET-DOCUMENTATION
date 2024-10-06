@@ -97,7 +97,7 @@ Collections & Arrays
 		arr.SkipLast(3) - Skips the last 3 values of array
 		arr.SkipWhile() - Skips while a condition is true, then returns the rest
 		arr.Skip(Math.Max(0, arr.Length - x)) - Selects
-		arr.Take(3) - Take the first 3 values
+		arr.Take(3) - Take the first 3 values, arr.take(0) returns nothing. empty array.
 		arr.TakeLast - Skips the last 3 values of array
 		arr.TakeWhile - Takes all the rest of collection once predicate is false
 		arr.Cast<int>() - Casts all items in collection to int
@@ -157,6 +157,7 @@ Collections & Arrays
 Numbers
 	Math.Abs(int) - Turns NEGATIVE values POSTIVE
 	Math.Max(maxProfit, profit) - RETURNS LARGEST OF THE NUMBERS GIVEN AS INPUT PARAMETERS 
+	Math.Ceiling(number) - Round Up
 	str % 2 - CHECK FOR EVEN/UNEVEN
 
 Dictionaries - new Dictionary<KEY, VALUE>
@@ -189,9 +190,13 @@ Declarations (since i tend to forget)
 	var dict = new Dict<key, IList<string>();
 	var list = new List<char>{'a','b','c'};
 	string[] result = new string[5];
-
+´
 Some operations (since i tend to forget)
 	Dict.select(x => x.value).ToList<List<string>>
 	.ToList<IList<string>> Same as IList<IList<string>>
 	new String('#', 5);
 	new string(str1R)
+
+
+Async
+	await Task.Run(() => File.Delete(filePath)) - To make things that are not awaitable awaitable

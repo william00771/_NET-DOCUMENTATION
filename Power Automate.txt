@@ -1,0 +1,222 @@
+Power Automate is a low-code platform - UI code
+	Creates Workflows between apps & services
+	Streamlines repetitive tasks
+	Automate Through Outlook, Teams, Sharepoint
+
+Events that trigger -> Power Automate Workflows
+
+Cloud Flows (Main one) - cloud data sources & services, pre built connectors
+Desktop Flows - Device based, local data sources & applications, desktop automation
+
+Connectors
+	Standard - Teams, Sharepoint, Outlook, X, LinkedIn
+	Premium(require additional licence) - Adobe, Deepl, SQL Server
+
+Menu
+	Enviroments, Testing/Production e.t.c. - Top Right cornet
+	Approvals
+	Solutions - All components built
+	Process mining - A analysing existing flows
+	Connections - 
+
+Connectors have actions
+
+Test - To test the flow, ex send email to trigger flow and test
+
+Types of flows
+	Automated cloud flow - Flow triggers based on cloud actions inside apps
+	Instant cloud flow - Manual, for selected file, Powerapp/BI click, for selected message teams
+	Scheduled cloud flow - Every other minute, week e.t.c.
+
+Triggers & Actions
+	Triggers
+		Manual
+			Can add text, boolean, file, email, number, date parameters input fields (can make nullable)
+		Powerapps (Similar to Manual)
+			Can add text, boolean, file, email, number, date parameters input fields (can make nullable)
+		MS Form - When a new response is submitted
+		When an item is created
+			Site adress
+			List/table name
+			Check based on interval
+		Make each Trigger change It's own flow run per item instead of all of them then a bunch of for loops
+			Settings -> Split on -> Array trigger output -> on the trigger
+			So all changes are triggered one by one (Drag out n delete for each loop) So each change is an individual flow run!
+
+	Action (search, ex planner) - You can utilize fields for more internal actions! Again all json under the hood
+		Normal
+			Compose - Like an alert/console.log equivalent, Good dummy & expression action
+			Delay
+		Planner
+			Create a task
+			Update a task Details
+		Sharepoint
+			Send an HTTP request to Sharepoint
+			Create Item - Can map from previous import action
+			Get Items (ex Employees table)
+			Update Item (status, or similar based on id)
+			Get changes for item or file -> Trigger window start token
+			Get Item
+			Get File Content using path
+		Outlook
+			Send an email (V2)
+		Teams
+			Post message in a chat or channel
+		Excel Online
+			List rows present in a table - ex onedrive, in settings pagination threshold
+			Add a row into a table
+				Sometimes cannot select - Select table by name
+				Row {"Month": "", "Units Sold": 400} e.t.c..
+		MS Forms
+			Get Response Details
+		Office 365 Users
+			Get my profile
+			Get manager - User Upn = email
+		Onedrive
+			Create File
+			Convert File - Convert to pdf
+				Remove the "" on filecontent - To fix error
+			Delete File
+				Locked File - Do Until isnot equal to Outputs = 423 + Delay 20 seconds
+		Create CSV Table - Requires array
+			Use Custom key + value
+			Paired with Create File
+		Create HTML Table - 
+			Can add a compose to give some styling css <style> then select compose output into html body
+			Paired with Send an email
+		Filter Array - Great for having advanced Filtering options however need entire table first
+			Good to not make to many api calls
+			ex 
+			@or(
+				equals(
+					item()?['OfficeLocation']?['Value'],
+					'Zurich'
+				),
+				equals(
+					item()?['OfficeLocation']?['Value'],
+					'Paris'
+				),
+				equals(
+					toLower(item()?['Skills']), - Checks every item
+					'relation'
+				)
+			)
+		Select & join - extract specific properties from an array or object / Concatinates variables
+			, - ex seperates with comma
+			Can select by key ex First Name = item()?['firstName'] 
+			Textmode takes json -> same item()?['firstName'] now prints Name
+			can also do in json select ex -> Concat(item()?['firstName'], ' ', item()?['lastName'])
+		Parse JSON
+			Parsing JSON into a valid power automate object with fields.
+			Can use sample payload to generate
+			You can add "title" to the json object if same name and nested, to differentiate them
+
+	Lighting Logo
+		Enter data from a previous step
+		Every Action/Trigger can have multible fields/returns
+			ex Email would have, From, To Subject
+
+Different Branches & modifiers
+	+ Add Parallel branch -> have two branches run & split into different actions/tasks ex onboarding customers, create sharepoint site, welcome email three branches all at once.
+
+	Modifiers
+		Apply to each - Apply something to specific group
+		Foreach Loop/Apply to each - Ex when get items, foreach is run sequentially
+			settings -> parallelism -> Turns on Async Mode. But can be a problem with concurrency
+			SPEED: settings -> parallelism -> Turns on Async Mode Up to 50 -> To make flow much much faster
+		Condition - If/else
+			AND/OR
+			Ex Department is equal to finance 
+			False no actions, true compose (log) people
+			Add Group - ex equal to group IT OR Finance AND skills contains & office location is ...
+			contains, is equal to 
+		Do untill - While loop -> until condition is met
+		Scope - Groups flow
+		Switch - Like a switch with cases
+		Terminate - Terminates flow and set statuscode/status
+	Scope - Groups together a bunch of actions, ex SCOPE HR, SCOPE MANAGER.
+
+Expressions fx - Always part of an action
+	Typically you would use a compose for expressions
+	Numbers
+		add(x,y)
+		mul() - Mutliply
+		rand(min,max) - Random number
+	Strings
+		concat(triggerBody()?['text'], '-', utcNow()]) - Turns inputs into string
+		replace(text, 'oldText', 'newtext')
+		Retrieve link from string
+			indexOf(text, 'https') - Gets startindex of "https"
+			sub(length(compose initial sentence), start https value), 
+			substring(compose initial sentence, start https, lengthofurl)
+	Dates
+		utcNow()
+		dateDifference(Startdate, endDate triggerbodies...)
+		formatDateTime(date, 'yyyy/MM/01') - Formats Date value into certaint format
+			'MMMM, yyyy' - February 2024
+	Arrays
+		first(arr) - Selects first item of array
+
+	Conversion
+		int(*)
+	Length() - Same as .length
+	union()
+
+Debugging & Error Handling
+	click run -> Now you can check all inputs/outputs
+	Error handling - run after
+		On action -> Settings -> Run After -> Has ex failed
+	You can this way do a branch split and run first if previous failed vs succeeded
+		Ex Terminate action 
+
+Variables
+	variable action - int, float, string, boolean 
+		Initialize variable - ex varCount
+		Increment variable - Add to variable
+		Set variable - Set variable to ex get item order quantity
+		examples 
+			varEmails(string - ) FX Mail column, condition before Office location value = zurich
+			Remember to reset booleans ex in a for loop
+	arrays - Can contain, objects, ints, strings (You are basically just working in json inside power automate)
+	object - JSON Object 
+		{
+			"title" :
+			"genre" :
+		}
+		Get key
+			@{items('for_each_object')?['ID']} - Gets the ID from the object
+			@{items('for_each_object')?['Author']?['Email']} - Gets the email and author from the object
+
+OData (Open Data Protocol) - standardized protocol used for building and consuming RESTful APIs
+	Great for selecting from the api (Sharepoint table for example.) Instead of foreach loops for filtering! 
+
+	Querying: You can filter, sort, select, and paginate data using query parameters (e.g., $filter, $orderby, $top, $skip).
+
+	Select
+		_api/Items?$Select=Title,population - Selecting different fields based on orderparameter
+	Sort
+		_api/Items?$orderby=population desc - 
+	Filter
+		_api/getbytitle('Cities')/Items?$filter=population lt 300000 - Less than 300000
+		_api/getbytitle('Cities')/Items?$filter=stateName eq 'California' - 
+	Combine with &
+		?$filter=population It 300000
+		&$filter=stateName eq 'California'
+		&$select=Title,population,stateName
+		&$orderby=population desc
+	Filter Operators - In power automate it does have these things built in to the filtering
+		Lt - less than
+		Le - less than or equal
+		Gt - Greater than
+		Ge - Greater than or equal
+		Eq - Equal
+		Ne - Not Equal
+
+		startsWith - 
+		substringof - Contain certain character in the specific column
+		Eq - Equal
+		Ne - Not Equal
+		day(), month(), year(), hour(), minute(), second() - Convert Date string to
+			'yyyy/MM/01' - Greater than the 1st of the month
+	Pagination
+		On get items request - Settings -> Networking, Pagination threshold

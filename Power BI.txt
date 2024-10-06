@@ -1,0 +1,88 @@
+Data analysis is about creating relationships between tables
+Conditional Columns - Create category
+	One-To-One - One matching to one matching
+	Many-To-One - More than one record from primary table to one matching in secondary
+	One-To-Many - Opposite of Many-To-One
+	Many-To-Many - Many from Primary table to many from secondary table.
+
+KEY - Understand Your Data!
+Backend - Data operations (Crucial) to get data visualization look good!
+	importing data
+		get Data -> sql server database -> select tables you want -> 
+	data operations
+		converting data types
+			Select column and datatype -> change (this casts values)
+			you can also duplicate column and do cast if you want to make whole number to category
+	create conditional columns (categorizing tables, ex rooms, pay, gender)
+		Add column -> cond column -> ex paycategory -> Add enums based on conditionals, hilowmedium pay
+		Add for gender -> based on name Female/Male -> otherwise Male -> 2nd conditional column
+		You can populate scale aswell, so ex is less than becomes low(0-2) High(5+) Otherwise Medium (3-4)
+		Custom Column based on expression
+			In relationship -> Edit Queries
+			Ex profit target = ([Revenue]*55)/100 - Creates a new custom column
+	creating tables (very uncommon)
+		Home -> Enter Data -> Create a year, change - looking at Historic Pay Data for example Two tables
+	applied steps
+		like fusion 360 history
+	Good steps
+		Filter out null values
+		Close & apply (obviously)
+	Table Relationships
+		Press Relationship Icon
+		Press down on ex ShopId-ShopId table1 to table2 just like with prop pointers in c#
+
+		
+
+Frontend - Where you create your visuals, dashboard
+	Headers(123)
+		Field ex pay and filter gender table by male
+		average instead of sum ex - in field dropdown menu
+	Charts
+		Settings
+			Legend - Which Category
+			Axis - X Axis
+			Value - Y Axis / pie chart
+		Visuals
+			Legend
+			Title
+			Data labels - 
+		Dropdown, new quick measure
+			Allows you to do a calculation ex Percentage difference, Sum of profit to Sum of revenue
+		Modifying The calcultions
+			Select the quick measure you created -> three dots -> more options -> code window pops up
+			QuickMeasureName = 
+				var NAME = sum('TABLE selection')
+				RETURN
+					if(
+						Ex NOT ISBLANK(_Revenue)
+						DIVIDE(_Profit, _Revenue)
+					)
+	Filters
+		Filter btn - select type, they filter based on that table(it becomes the category)
+			There is a slider aswell, so you can check range of ex rooms
+		Table
+			Select what values you want from sql table
+	Different types of charts used
+		Clustered Column Chart
+		Donut Chart
+		Clustered Bar Chart - Good for layered data -> Drawdown feature
+		Waterfall Chart
+		Table
+		Card
+		Slicer
+		Map
+			lat, long fields, Check for blank entries!
+			Bubbles, bigger/smaller
+			Colors based on ex final price
+		Tree Map
+			Boxes take up space, ex category car almost like pie chart but parking space like
+		Stack Area Chart
+		Gauge Chart (value) - Whether a revenue goal was met (meter)
+			Value, the profit ex
+			Max Value - What we are comparing to, aka revenue 
+			Target Value - profit targer
+		Gauge Chart (percentage)
+	Analysis
+		Draw Conclusions from the data findings
+
+I should do everything to UNDESTAND THE DATA. What are the different properties in their massive databsase and what can we get out of it!

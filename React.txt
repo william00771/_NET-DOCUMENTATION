@@ -13,6 +13,9 @@ Basics
 
 		ev.preventDefault() - To prevent default html behavior
 
+		using children prop + {children} inside component it means whatever you put between the tags.
+		children is of type React.ReactNode
+
 	Component and Subcomponent relationship w passing props
 		React works by building components for literally everything and passing down props to them
 			const data = []
@@ -217,3 +220,13 @@ React Router
 
 React Hook Form
 	const {register, handleSubmit, formState: {isSubmitting}} = useForm();
+
+
+
+Techniques
+	Image Preview
+		access the image using onchange input event.target.file[0]
+		use fileReader to create a thumbnail url using itself
+		new FileReader()
+		fileReader.onload = () => {setPickedImage(fileReader.result)}
+		fileReader.readAsDataURL(file);

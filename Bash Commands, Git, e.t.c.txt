@@ -36,6 +36,14 @@ Git
 		git push -u origin master 
 		git push whereName Branchname -
 
+		Template coauthored git commits
+			new file in ~ called .gitmessage.txt
+			git config --global commit.template path/to/.gitmessage.txt
+			- messages will now appear in every commit you make. So turn off when needed.
+
+			can also add it locally in the repo
+			git config commit.template .gitmessage.txt
+
 dotnet
 	Setup
 		dotnet run

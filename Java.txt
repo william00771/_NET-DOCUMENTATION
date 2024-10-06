@@ -1,0 +1,2 @@
+OpenJDK version 19 - Is the java runtime dev kit
+Maven - 

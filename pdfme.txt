@@ -1,0 +1,8 @@
+between 
+npm install @pdfme/common@3.4.3-dev.2 @pdfme/generator@3.4.3-dev.2 @pdfme/schemas@3.4.3-dev.2 @pdfme/ui@3.4.3-dev.2
+
+and
+
+npm install @pdfme/common@3.4.3-dev.3 @pdfme/generator@3.4.3-dev.3 @pdfme/schemas@3.4.3-dev.3 @pdfme/ui@3.4.3-dev.3
+
+Shit breaks designer!

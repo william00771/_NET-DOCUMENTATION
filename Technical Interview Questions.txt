@@ -1,0 +1,271 @@
+.NET______________________________________________________________________
+
+What is the difference between an an abstract class and class?
+	An abstract class cannot be instanciated directly. It's commonly used as inheritance by other classes.
+
+What is the difference between a class and a sealed class?
+	A sealed class cannot be inherited. It is used to prevent extension of a class, good for security
+
+What is a struct?
+	Structs are value types stored on the stack, more performant. No inheritance. Good for light data.
+
+What are access modifiers?
+	They define the visibility and accessibility of classes, methods and other members.
+
+What is the difference between an abstract class and an interface?
+	Both are contracts that a class implements, Abstract class can provide abstract methods. but only be inherited once. abstract if you want shared functionality and interfaces if you want to define a pure contract.
+
+Explain the Dispose pattern in C# and how it differs from finalizers.
+	It's used to release unmanaged resources when they are no longer needed. Finalizers are a form of auto dispose
+
+What the dependency injection pattern?
+	It's used to achieve inversion of control between classes and dependencies. a form of import for dependencies.
+
+What are extension methods?
+	They allow you to add new methods/utility to existing types without modifying their source code.
+
+What are key differences between value and reference types?
+	Value Types int/struct are stored in (fast)stack, while classes, IEnumerable are stored in the (slow)heap
+
+What are streams and what does it mean to leave an open stream?
+	Streams are abstractions used to read from or write to data sources. open means not disposed/closed
+
+What is the difference between string and StringBuilder?
+	string is immutable while the stringbuilder is mutable
+
+What is the difference between readonly and const in C#?
+	const is a (fixed)pre-compile value whereas readonly is a run-time value so it can vary between instances.
+
+What is a hash function and how does GetHashCode() work in C#?
+	a hash function maps data to a hash value. Gethashcode is used to generate hash for objects. Equals returns it.
+
+How does the HashSet<T> differ from a List<T> or Dictionary<TKey, TValue> in C#?
+	HashSet<T> is a collection that stores unique values. It does not allow duplicates and only stores keys.
+
+What is the relationship between Equals(), GetHashCode(), and Contains() in hash-based collections like HashSet or Dictionary?
+	In hash based collections GetHashCode() returns (bucket)hash, equals verifies truly equal. Contains is 2in1
+
+------------------------------------------------------------------------
+
+What is the difference between Authentication and Authorization?
+	Authentication deals with credentials and authorization deals with permissions.
+
+What are the different DI Container service lifecycles in .NET?
+	Transient: new instance each time service requested, Scoped: creates a new instance per request, Singleton: single instance during entire application lifetime.
+
+What is the purpose of IServiceScopeFactory.CreateScope() in .NET?
+	It's a way to manually create a new scope when an automatic scope(httprequest) doesnt exist.
+
+What is the purpose of the using statement in .NET?
+	It ensures unmanaged resources such as file streams, database connections e.t.c. are properly disposed of when they go out of scope.
+
+What is the difference between using IHostedService and BackgroundService in .NET?
+	They are both background services. IHostedService gives you more control over the lifecycle with methods like stopasync, startasync and access to a cancellationToken while BackgroundService is simpler with only ExecuteAsync.
+
+How does IHttpClientFactory help manage HttpClient instances in .NET Core?
+	Without factory the underlying sockets remain open. HttpClientFactory uses connection pooling. It also centralizes configuration and lifetime management. It uses HttpMessageHandlers under the hood and periodically refreshes them.
+
+What is middleware in ASP.NET Core and how does it work in the request pipeline?
+	Middleware is the software layer within the hosted application that forms the backbone of the request pipeline. They run sequentially.
+
+Explain how caching works in ASP.NET Core and the different types of caching available.
+	Caching is used to store data temporarily to improve performance and reduce load. In-Memory (data & obj in server memory), Distributed Caching (multible servers redis, sql), Response Caching (cache httpresponse for similar request).
+
+What is the purpose of IOptions<T> in .NET Core and how is it typically used?
+	IOptions<T> is used to manage configuration settings from a strongly typed class.
+
+What are asynchronous streams in C# and when would you use them?
+	IAsyncEnumerable<T> allow for asynchronous iteration over collections of data. Ex fetching where data arrives over time.
+
+Explain the difference between HttpContext and IHttpContextAccessor in ASP.NET Core.
+	HttpContext represents the current HTTP request/response context. The IHttpContextAccessor gives context access outside the standard request pipeline meaning outside of the controller or middleware.
+
+How does Model Binding work in ASP.NET Core?
+	It converts incoming request data into .NET Objects. From FormData, query strings, route-data e.t.c.
+
+Explain the IQueryable interface and how it differs from IEnumerable.
+	IEnumerable uses in-memory data processing while IQueryable allows for deferred execution. It represents a query that can be excecuted against a data source. It's not run until you enumerate it .ToList() .First().
+
+Explain the Factory Pattern and its purpose in C#.
+	It Provides an interface for creating objects without specifying the exact class. We rely on abstraction instead of concrete types.
+
+What is the Mediator Pattern and when would you use it in .NET?
+	Centralizes communication between components preventing them from communicating directly. It uses a central hub acting as the fascilitator.
+
+What is the difference between ref and out parameters in C#?
+	reference must be initialized before it is passed to the method wheras out does not. But instead must be assigned a
+	value.
+
+How does the Null-conditional (?.) operator work in C#?
+	If the object is null, it returns null instead of throwing a NullReferenceException
+
+What are expression-bodied members in C#?
+	They provide a more concise way to write methods or property accessors using the => lambda syntax
+	.
+What is the await keyword and how does it differ from Task.Wait()?
+	await is used to asynchronously wait for a task to complete without blocking the current thread, while Task.Wait()
+	blocks the current thread until the task is complete. 
+
+What is the difference between throw and throw ex in exception handling?
+	throw rethrows the original exception, preserving the original stack trace. throw ex resets it.
+
+
+Explain lazy loading and how to implement it in C#.
+	Lazy loading delays the initialization of an object until it is needed. In C#, this can be achieved using the Lazy<T>
+	class, which ensures that the object is only created when first accessed.
+
+What are Tuple and ValueTuple in C#, and how do they differ?
+	Tuple is a reference type used to group multiple values. ValueTuple is newer and more efficient performance wise.
+
+How would you implement thread safety in a C# application?
+	using synchronization mechanisms like lock, Monitor, Mutex, Semaphore, or ReaderWriterLockSlim. Other options include 
+	using concurrent collections (ConcurrentDictionary, BlockingCollection, etc.) or Interlocked for atomic operations.
+
+What is a Func<T>, Action<T>, and Predicate<T> in C#?
+	Func<T> is a delegate that returns a value. Action<T> is a delegate that doesn't return any value but can take
+	parameters. Predicate<T> is a delegate that takes one input and returns a bool, typically used for filtering.
+
+Explain how you would handle cross-cutting concerns like logging and exception handling in .NET applications.
+	Cross-cutting concerns can be handled using middleware, filters, dependency injection or aspect-oriented programming. 
+	Where the Aspects handle the concerns
+
+
+
+What is LINQ and what are the advantages of using it?
+	It's a query language that simplifies data querying. It has a declarative syntax making it more readable.
+
+What is Delegate in C#, and how does it differ from Event?
+	A delegate is a type-safe function pointer that allows methods to be passed as parameters. An event is a special kind 
+	of delegate that provides notifications.
+
+What is the difference between virtual and internal methods or fields in C#?
+	Virtual can be overridden by derived classes, customizing behavior. Internal is accessable only within that assembly.
+
+What is an event handler in .NET?
+	They are delegates used to handle events.
+
+What is the difference between IEnumerable, IQueryable, and IList in C#?
+	IEnumerable & IQueryable have deferred excecution. So they excecute when you enumerate them. IQueryable is typically 
+	used for database queries. IList provides random access to elements by index which the others do not.
+
+What is IClassFixture in xUnit, and when would you use it?
+	IClassFixture<T> is an interface in xUnit that allows test context sharing across multiple test methods within the same 
+	test class.
+
+What does shared context mean in .NET testing, and how is it used?
+	Using the same dependencies and states across multible test methods through IClassFixture, ICollectionFixture.
+
+What is the Observer pattern in .NET?
+	The Observer pattern is a design pattern where an object (the subject) maintains a list of dependents (observers) 
+	and notifies them of any state changes
+
+
+
+
+.SQL______________________________________________________________________
+What is SQL?
+	tructured Query Language is used to communicate with databases, allowing users to CRUD Data.
+
+What are the differences between SQL and NoSQL databases?
+	SQL databases are relational while noSQL are non-relational. SQL uses fixed schemas(structure) with tables and noSQL uses non fixed schemas with key-value, document or graph models.
+
+What is a Primary Key in SQL?
+	A unique identifier for a record in a table. It ensures no duplicate values.
+
+What is a Foreign Key?
+	A foreign key is a field that links to the primary key of another table.
+
+What are the ACID properties in a database?
+	Atomicity (all or nothing, if one part fails the entire transaction is rolled back), 
+	Consistency (Guarantees that a transaction brings the database from one valid state to another), Isolation (Ensures that transactions are executed independently of each other), and 
+	Durability, (Once a transaction committed, it remains in disk even in the case of a failure).
+
+What are Indexes in SQL?
+	They create a data structure that improves the speed of data retrieval for queries on a particular column or set of columns
+
+What is the difference between clustered and non-clustered indexes?
+	clustered index is created, the data is automatically restructured and sorted while with non-clustered index, the data itself is not restructured; instead, a separate structure is created to reference the data.
+
+
+.SSIS______________________________________________________________________
+What is SSIS?
+	SQL Server Integration Services is a tool for data integration, transformation, and workflow automation in SQL Server.
+
+What are the main components of SSIS?
+	Control Flow, Data Flow, Event Handlers, and Package Explorer.
+
+How do you handle errors in SSIS?
+	Use event handlers, logging, and error redirection in data flow tasks.
+
+What is a Data Flow Task in SSIS?
+	A task that moves and transforms data between different data sources.
+
+What is the use of a Configuration File in SSIS?
+	It stores connection strings and variables externally, making package deployment easier.
+
+What is a Lookup Transformation in SSIS?
+	It joins data from an input dataset with a reference dataset based on a key.
+
+How can you improve SSIS package performance?
+	Use parallel processing, set proper data types, limit memory usage, and use SQL queries over lookups.
+
+What is the use of a Derived Column in SSIS?
+	It creates new columns or modifies existing columns by applying expressions.
+
+How do you connect to multiple databases in SSIS?
+	By configuring multiple connection managers within the package.
+
+What is the purpose of a Script Task in SSIS?
+	It allows you to write custom .NET code to perform tasks that are not available out-of-the-box in SSIS.
+
+What is the difference between OLE DB and SQL Server Destination in SSIS?
+	OLE DB Destination works for multiple types of databases, while SQL Server Destination is optimized for SQL Server but only works on the same machine.
+
+.Power Automate______________________________________________________________________
+What is Microsoft Power Automate?
+	It's a cloud-based service that enables workflow automation across apps and services.
+
+How do you create a flow in Power Automate?
+	By selecting a trigger, adding actions, and configuring conditions.
+
+What are the types of flows available in Power Automate?
+	Automated, Instant, Scheduled, Business Process, and Desktop flows.
+
+How do connectors work in Power Automate?
+	Connectors are pre-built services that allow flows to interact with other applications.
+
+Can you explain the difference between a condition and a switch in Power Automate?
+	How do you handle errors in Power Automate?
+
+.Power Apps______________________________________________________________________
+What is Microsoft Power Apps?
+	A suite of apps, services, and connectors that provides a platform to build custom apps with low-code.
+
+What are the different types of Power Apps?
+	Canvas Apps, Model-driven Apps, and Portal Apps.
+
+Explain the difference between Canvas Apps and Model-driven Apps.
+	Model-driven Apps are more structured and data-driven while canvas apps have better ui control
+
+How do Power Apps integrate with Power Automate?
+	By triggering flows based on actions within the app.
+
+What is the Power Apps Patch function used for?
+	The Patch function is used to create, update, or modify records in a data source.
+	
+
+.Power BI______________________________________________________________________
+What is Power BI?
+	Power BI is a business analytics tool used to visualize data, create interactive reports, and share insights.
+
+How do you connect to different data sources in Power BI?
+	Via Power Query. It supports multiple data sources like Excel, SQL Server, Azure, Web APIs, and more
+
+What is DAX?
+	Data Analysis Expressions (DAX) is the formula language to create custom calculations, measures and columns.
+
+What is Power Query?
+	It's a data connection technology that allows you to discover, connect, combine, and refine data across various sources.
+
+Explain the difference between Import Mode and DirectQuery?
+	In Import Mode, data is imported into Power BI, allowing faster performance but larger files. DirectQuery allows querying the database directly, without importing data, ensuring real-time updates.

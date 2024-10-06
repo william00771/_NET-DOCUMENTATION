@@ -6,3 +6,21 @@
 			dotnet user-secrets init
 			dotnet user-secrets set "OpenAi:apiKey" "KEY"
 			dotnet user-secrets list
+
+
+
+Create Scope
+	Yes, if you do not use CreateScope and your DbSeeder.InitDb method uses services that are registered with a scoped lifetime, it can lead to prolonged memory usage. Here's a detailed breakdown:
+
+	Prolonged Memory Usage
+	Scoped Services Not Disposed:
+
+	Scoped services are intended to have a short lifetime, typically the duration of a single web request or a similar unit of work.
+	Without creating a scope, these services will not be disposed of until the application's root service provider is disposed, which usually happens only when the application shuts down.
+	This means that any resources held by these scoped services (e.g., database connections, file handles, etc.) remain allocated longer than necessary, leading to increased memory usage over time.
+	Resource Leaks:
+
+	If the application frequently requires new instances of scoped services (e.g., on every request), and these services are not disposed of properly, the memory footprint of the application will grow as more and more instances are created and not released.
+	Connection Pool Exhaustion:
+
+	For example, in the context of Entity Framework Core, if DbContext instances are not disposed of, database connections might remain open, potentially exhausting the connection pool and causing performance issues or failures to acquire new connections.

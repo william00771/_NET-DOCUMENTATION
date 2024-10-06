@@ -1,4 +1,41 @@
 Basics
+	Importing tables into SQL Server
+		Tasks -> Import & Export Wizard - You can see all of your columns listed out & format
+			use microsoft OLE DB Provider for sql server as destination
+		flat file(csv) is much better to import than an excel file
+		Always double check delimiter and text qualifier have been correctly defined!
+	Running scripts/queries
+		New Query -> name of table same as table in SQL Server -> Execute
+		Running Procedure -> make sure same name -> excecute store procedure in stored procedures -> return value should be 0
+	Data types
+		Props
+			type, null - means it's nullable
+		Value types
+			varchar - String
+			nvarchar - String with unicode characters
+
+			int - Int
+			decimal - float
+			float - any number of decimal places (terrible performance)
+
+			date - DateFormat DD-MM-YY
+			datetime - DateTime Timestamp like c# datetime
+		Reference Types
+	Selecting
+		-> FROM [table].[Name]
+		SELECT [name], [age]
+		SELECT [name] AS [FirstName] - select and specify displayname
+		SELECT ([Finalprice] + 1) AS [Price (000)] - Displayformat & math operation
+		SELECT [Suburb] + ' - ' + [Address] AS [Suburb - Address]
+
+Linking SQL To Excel
+	
+
+ALTER TABLE "Students"
+ADD COLUMN "PreviewImageUrl" text,
+ADD COLUMN "PreviewImageLQIPUrl" text;
+
+Basics
 	filtering
 		selecting item
 			SELECT entity FROM table

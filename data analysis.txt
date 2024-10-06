@@ -1,0 +1,8 @@
+
+
+
+Common Calculations
+	orders(quanity of units) * price per unit = total
+	(orders(quanity of units) * price per unit) * prevOrders = subtotal
+	subtotal / totalprevOrders count = average order value
+	

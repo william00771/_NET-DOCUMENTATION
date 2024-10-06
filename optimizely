@@ -1,0 +1,54 @@
+Installation
+	dotnet new -i EpiServer.Templates
+	dotnet new epi-cms-empty
+	create a db and connect to it through appsettings.dev.json
+	setup account
+	/Episerver/Cms
+	.gitignore add *licence.config and modules/
+	
+Content Models
+	Content / IContent
+		Pages
+		Blocks (BlockData)
+		Media - Binary content, files, excel, images, url
+			ImageData, VideoData, Other MediaData - Blob, metadata e.t.c.
+
+Creating a page
+	Folder structure
+		Models -> Pages -> Page - This is where you put your page models and properties
+		Controllers -> PageController - This is where you put your "controller"
+		Views -> Page -> Index.cshtml e.t.c. - This is where you put your views
+		
+	Models -> Pages - This is the module itself, it will pop us as page inside control panel
+		PageModel : PageData
+		ContentType(...) as annotation
+			DisplayName
+			GUID
+			Description
+		add props to module
+			all props need to be virtual!
+			add display annotation Name, GroupName, Order
+				SystemTabNames.Content
+			Types
+				string
+				XhtmlString -> This enables markup!
+		You can create Abstract content pages, so you can inherit
+To actually make cms recognize rendering of pages - It scans for controllers and recognizes to render
+	Controllers -> Pages -> PageController 
+		PageController : PageController<PageToRender>
+			IActionResult index(PageToRender currentContent)
+				return View(currentContent)
+	View - Don't follow views however! Views are pretty bad way of working.
+		Views/PageToRender/Index.cshtml
+		@model ...PageToRender
+
+The way rendering content works is you bring the html markup into the cms!
+	wwwroot -> Take static assets into wwwroot (build)
+
+
+
+A/B Testing experimentation - Create higher Conversion rates
+	setup
+		experiments tab, copy the settings snippet import to your website
+		templates, new page template. Trigger, exact match, substring
+
