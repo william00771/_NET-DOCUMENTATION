@@ -7,29 +7,36 @@ Conditional Columns - Create category
 
 KEY - Understand Your Data!
 Backend - Data operations (Crucial) to get data visualization look good!
-	importing data
-		get Data -> sql server database -> select tables you want -> 
-	data operations
-		converting data types
-			Select column and datatype -> change (this casts values)
-			you can also duplicate column and do cast if you want to make whole number to category
-	create conditional columns (categorizing tables, ex rooms, pay, gender)
-		Add column -> cond column -> ex paycategory -> Add enums based on conditionals, hilowmedium pay
-		Add for gender -> based on name Female/Male -> otherwise Male -> 2nd conditional column
-		You can populate scale aswell, so ex is less than becomes low(0-2) High(5+) Otherwise Medium (3-4)
+importing data
+	get Data -> sql server database -> select tables you want -> 
+Normal Edit mode
+	Dropdown arrow - Remove ex blank/null data. ex lat, long geographic places
+Table edit mode
+	right click -> Edit Query
+	Basic Operations
+		Data type - Converting data type -> Select column and datatype -> change (this casts values)
+		(you can also duplicate column and do cast if you want to make whole number to category		
+
+	Create conditional columns (categorizing tables, ex rooms, pay, gender based on if statement (flags))
+		Add column -> cond column -> ex paycategory -> Add enums based on conditionals
+			High, Low, Medium
+			You can populate scale aswell, so ex is less than becomes low(0-2) High(5+) Otherwise Medium (3-4)
+			Add for gender -> based on name Female/Male -> otherwise Male -> 2nd conditional column
 		Custom Column based on expression
 			In relationship -> Edit Queries
 			Ex profit target = ([Revenue]*55)/100 - Creates a new custom column
-	creating tables (very uncommon)
+
+	Create custom tables
 		Home -> Enter Data -> Create a year, change - looking at Historic Pay Data for example Two tables
-	applied steps
-		like fusion 360 history
-	Good steps
-		Filter out null values
-		Close & apply (obviously)
-	Table Relationships
-		Press Relationship Icon
-		Press down on ex ShopId-ShopId table1 to table2 just like with prop pointers in c#
+
+applied steps
+	like fusion 360 history
+Good steps
+	Filter out null values
+	Close & apply (obviously)
+Table Relationships
+	Press Relationship Icon
+	Press down on ex ShopId-ShopId table1 to table2 just like with prop pointers in c#
 
 		
 
@@ -39,9 +46,9 @@ Frontend - Where you create your visuals, dashboard
 		average instead of sum ex - in field dropdown menu
 	Charts
 		Settings
-			Legend - Which Category
 			Axis - X Axis
-			Value - Y Axis / pie chart
+			Value - Y Axis
+			Legend - Splits chart into multible colors based on Category Flag
 		Visuals
 			Legend
 			Title
@@ -57,26 +64,36 @@ Frontend - Where you create your visuals, dashboard
 						Ex NOT ISBLANK(_Revenue)
 						DIVIDE(_Profit, _Revenue)
 					)
-	Filters
-		Filter btn - select type, they filter based on that table(it becomes the category)
+	Available in all charts
+		Dropdown - Ex average instead of sum (the little arrow)
+		Filters - Ex select only males from table of males/females or similar specific data
+		Legend - What to split by (Category)
+		Color control - FX: Ex Gradient format style based on lowers -> highest value for example
+
+	Different types of charts used
+		OBS - You can add deeper levels into each value/legend - ex gender and then name deeper layer
+		OBS - Remember if you have blanks in your data you have to filter that out in all charts!
+		
+		Clustered Column Chart - Basic Column chart up y axis
+		Donut Chart - Splits donut into colors representing different categories
+			Value - What value to represent
+			Legend - What to split by (Category)
+		Clustered Bar Chart - Like Column but instead left to right
+		Waterfall Chart - Displays Change Over Time or similar (difference based on ex time)
+		Slicer - Aka Filter!
+		Filter - select type, they filter based on that table(it becomes the category)
 			There is a slider aswell, so you can check range of ex rooms
 		Table
-			Select what values you want from sql table
-	Different types of charts used
-		Clustered Column Chart
-		Donut Chart
-		Clustered Bar Chart - Good for layered data -> Drawdown feature
-		Waterfall Chart
-		Table
-		Card
-		Slicer
-		Map
-			lat, long fields, Check for blank entries!
-			Bubbles, bigger/smaller
-			Colors based on ex final price
-		Tree Map
+			Add a clickable table just like the table view but user can click on it and you specify columns to display
+		Card - Can apply filters to the actual header itself, 
+			We can get different values ex male pay
+
+		Map - Displays bubbles on a map based on certain characteristics
+			lat, long fields
+			Check for blank entries!
+		Tree Map - Parking Space map
 			Boxes take up space, ex category car almost like pie chart but parking space like
-		Stack Area Chart
+		Stacked Area Chart - 
 		Gauge Chart (value) - Whether a revenue goal was met (meter)
 			Value, the profit ex
 			Max Value - What we are comparing to, aka revenue 

@@ -42,11 +42,14 @@ Basics
 			SELECT entity, entity FROM table
 			SELECT entitygdp/entitypopulation FROM table - Selects gdp per capita
 				   population/1000000
+
 		filtering item
 			WHERE prop = 'Germany' - Selects one prop parameter
 			WHERE prop IN ('Brazil','Germany') - Selects multible prop parameters
 			WHERE prop BEWTEEN 25000 AND 30000 - Select props between specified range
 			WHERE population > 200000000 - Qualifiers
+
+	ctrl + shift + r - rediscoveres tables!
 
 	CREATE DATABASE CRMSystem;
 
