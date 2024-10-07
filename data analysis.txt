@@ -1,5 +1,12 @@
+DataSets
+	Revenue - How much money we made based on pure sales
+	Profit - How much money we made accounting for expenses (what we actually made)
+	Profit Target - What the company wanted to make
 
-
+Common Visualizations Calculations
+	Percentage difference between - Sum Of Profit / Sum Of Revenue
+		DIVIDE(__Profit, __Revenue)
+	Value over/under profit margin - Sum Of Profit - Profit Target
 
 Common Calculations
 	orders(quanity of units) * price per unit = total

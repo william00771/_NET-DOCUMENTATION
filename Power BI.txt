@@ -25,7 +25,9 @@ Table edit mode
 		Custom Column based on expression
 			In relationship -> Edit Queries
 			Ex profit target = ([Revenue]*55)/100 - Creates a new custom column
-
+	Create custom column (Like conditional but CUSTOM expression Power Query)
+		Like sql almost ex: column name: profit targer expression = ([Revenue]*55)/100
+		OBS Check For any field when creating custom column!
 	Create custom tables
 		Home -> Enter Data -> Create a year, change - looking at Historic Pay Data for example Two tables
 
@@ -34,11 +36,9 @@ applied steps
 Good steps
 	Filter out null values
 	Close & apply (obviously)
-Table Relationships
-	Press Relationship Icon
-	Press down on ex ShopId-ShopId table1 to table2 just like with prop pointers in c#
-
-		
+Table Relationships - This makes you able to use values from both tables
+	Relationship view -> Just drag and drop. Like pointers in c#
+	Manage Relationships (many all over the place) -> Shows all relationships present, edit, autodetect
 
 Frontend - Where you create your visuals, dashboard
 	Headers(123)
@@ -69,11 +69,14 @@ Frontend - Where you create your visuals, dashboard
 		Filters - Ex select only males from table of males/females or similar specific data
 		Legend - What to split by (Category)
 		Color control - FX: Ex Gradient format style based on lowers -> highest value for example
+		Quick Measure (Custom calculations ex percentage)
+			Percentage difference ex sum of profit to sum of revenue
+			Really Powerful to Edit these, change name, mess around with formulas, just like code here!
 
 	Different types of charts used
 		OBS - You can add deeper levels into each value/legend - ex gender and then name deeper layer
 		OBS - Remember if you have blanks in your data you have to filter that out in all charts!
-		
+
 		Clustered Column Chart - Basic Column chart up y axis
 		Donut Chart - Splits donut into colors representing different categories
 			Value - What value to represent
@@ -87,14 +90,14 @@ Frontend - Where you create your visuals, dashboard
 			Add a clickable table just like the table view but user can click on it and you specify columns to display
 		Card - Can apply filters to the actual header itself, 
 			We can get different values ex male pay
-
+			OBS Go for Id if counting objects for example, very good practice
 		Map - Displays bubbles on a map based on certain characteristics
 			lat, long fields
 			Check for blank entries!
 		Tree Map - Parking Space map
 			Boxes take up space, ex category car almost like pie chart but parking space like
 		Stacked Area Chart - 
-		Gauge Chart (value) - Whether a revenue goal was met (meter)
+		Gauge Chart (like a car meter) - Whether a revenue goal was met (meter)
 			Value, the profit ex
 			Max Value - What we are comparing to, aka revenue 
 			Target Value - profit targer
