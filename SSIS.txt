@@ -1,0 +1,111 @@
+ETL - Extract data, Transform data, Load data into other source
+
+Setup inside Visual Studio
+	File -> new project -> Integration Services Project
+	Create a package -> SSIS Packages -> Right click create
+
+Basics
+	Running Flow
+		Press Start
+	Sections
+		Control Flow - 
+		Data Flow - 
+		Parameters - 
+		Event Handlers -
+		Package Explorer -
+		Connections Manager - Where you setup ex sql database connections, right click.
+
+Control Flow
+	Data Flow Task - Like a power automate flow.
+	Breakpoints, can right click on the data flow and add breakpoint in the data flow itself. In watch you can write the variable you are after
+
+	Script Task - Right click to edit in c# for example.
+		Now you can create your own task from c# scripts
+		I'm Guessing the bulk of what they are doing in SSIS is this type of scripting
+		ex connecting external apis
+			using(var client = new HttpClient()) {
+			    var response = client.GetAsync("https://api.example.com/data").Result;
+			    var result = response.Content.ReadAsStringAsync().Result;
+			    Dts.Variables["User::ApiResponse"].Value = result;
+			}
+		File Operations
+			var filePath = Dts.Variables["User::FilePath"].Value.ToString();
+			System.IO.File.WriteAllText(filePath, "File content here");
+		Logging
+			bool fireAgain = true;
+			Dts.Events.FireInformation(0, "Script Task", "Processing started", "", 0, ref fireAgain);
+			Dts.Events.FireError(0, "Script Task", "An error occurred", "", 0);
+		Working with connection managers
+			var connection = (SqlConnection)Dts.Connections["MyConnection"].AcquireConnection(Dts.Transaction);
+			// Use connection...
+			Dts.Connections["MyConnection"].ReleaseConnection(connection);
+		Reading and writing variables
+			// Read input variables
+		    string connectionString = Dts.Variables["User::SalesDbConnection"].Value.ToString();
+		    int totalSales = (int)Dts.Variables["User::TotalSales"].Value;
+		    decimal commissionRate = (decimal)Dts.Variables["User::CommissionRate"].Value;
+
+		    // Calculate commission
+		    decimal commission = totalSales * commissionRate;
+
+		    // Save commission to a variable
+		    Dts.Variables["User::CommissionAmount"].Value = commission;
+
+		    // Log calculated commission for audit purposes
+		    bool fireAgain = true;
+		    Dts.Events.FireInformation(0, "Script Task", $"Calculated Commission: {commission}", "", 0, ref fireAgain);
+
+		    // Store the commission in the database
+		    using (SqlConnection conn = new SqlConnection(connectionString))
+		    {
+		        conn.Open();
+		        using (SqlCommand cmd = new SqlCommand("INSERT INTO SalesCommission (TotalSales, CommissionAmount) VALUES (@TotalSales, @CommissionAmount)", conn))
+		        {
+		            cmd.Parameters.AddWithValue("@TotalSales", totalSales);
+		            cmd.Parameters.AddWithValue("@CommissionAmount", commission);
+		            cmd.ExecuteNonQuery();
+		        }
+		    }
+
+		    // Mark the task as successful
+		    Dts.TaskResult = (int)ScriptResults.Success;
+
+Data Flow
+	Universal
+		Data Viewer - To get better view of what's happening. You get a dataflow window great for debugging
+			Right Click on connection -> Enable data viewer
+		Advanced Editor - To get more fine grained control over for example data conversion e.t.c.
+			Right Click on node -> Show advanced editor
+		Error Handling/Checking - Configure data output
+			Ignore failure, redirect flow, fail component
+			Put Split Error Output into Derived Column -
+			Derived Column -> Contains the errored rows. Fails on nulls for example
+	Source Assistant - Import table from database/source
+		can specify which columns to select/exclude
+	Destination Assistant - Export Out Data into table in database/source
+		can see the mapping of table to table. if they are named the same
+		We can specify mapping manually aswell
+	Data Conversion - Convert prop type to another type
+		Remember to select the new type later down the chain
+	Derived Column VERY USEFUL - Just a normal Data node that holds whatever input, can do operations on the data within it
+	Aggregate - ex count by/group by
+	Multicast - Splits node Into Two outputs.
+	Conditional split - Split depending on conditional 
+		ex Condition [Title]=="Mr."
+	Row Sampling - Has a selected output and non selected. You can select ex sample 25 rows
+	Percentage Sampling - ex sample 25% of rows
+	Sort - Sort based on sort order ex, ascending, descending, comparison flags. and pass through columns you do not want
+	Union All - Combines tables together
+	Merge - merges two data sources together - But both inputs need to be sorted first! ex by customer id before passing into merge
+	Row Count - Returns number of rows
+
+	Logging (Auditing)
+		Audit - Information about what I'm doing. Ex task name, user name e.t.c.
+		Helps document any addition to database
+		Making a derived column to audit, where you log My Auditing "This was added by me"
+			ex "this was added by me" + STR(GETDATE())
+		Multicast - With aggregate ex starttime into a derived column
+
+	Variables (top right corner of window, looks like a soap)
+		Add variable -> Data type Scope (Package), expression e.t.c.
+		Can now assign ex row count to variable
