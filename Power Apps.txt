@@ -1,4 +1,5 @@
 Power Apps - Low code business apps, ms tools, connectors, connect to data sources (sharepoint) or others
+Active Directory = User database
 Dashboard
 	Create - You can start from
 		Dataverse table
@@ -15,6 +16,87 @@ Power apps types
 	Model Driven Apps - For Business processes and data structure, complex data relationships, workflows, and business logic
 	Portal Apps - where you need to expose your SQL data or business processes to external users via web-based interface.
 
+States - Top left corner
+	Onvisible - Whenever you go to a screen/component is visible
+
+FX - All magic happens here
+	OBS Typically you would set global variables/props in screen FX onVisible
+	Variables
+		Initialize Colors
+			Set(gblAppColors,
+			    {
+			        backgroundDark: { hex: "#2d2b2c", rgba: RGBA(45,43,44,1) },
+			        backgroundDefault: { hex: "#e4e4e5", rgba: RGBA(228,228,229,1) },)
+			    }
+			);
+		Selecting Colors - gblAppColors.backgroundDefault.rgba
+	Connecting Forms(Textinputs)
+		Populating selectinput with items from db - Choices([@DataSource].Category)
+		Submit btn, onSelect use Patch function, select each field
+		Patch(
+			SourceName,
+			Defaults(SourceName) - Creates a new record in the list,
+			{
+				Description: txtdescription.Text,
+				Date: dteinput.selectedDate,
+				Category: drpcategory.Selected
+				Person: "",
+					Formatting matters here! - Search power apps patch person field
+					Claims, Department, DisplayName, Email, JobTitle, Picture
+					Can use ex
+						Claims "...."  User().Email
+						User().Email - Current user email
+						User().Fullname
+				Manager: "",
+					Formatting matters here! - Search power apps patch person field
+
+				Total: Value(txtTtalExpense.Text)
+			}
+		)
+		Office 365 Users Connector
+			Office365Users.ManagerV2(User().Email).UserPrincipalName, - or ID
+		With( - Define local variable to limit number of fetches from power app!
+			{
+				varManager: Office365Users.ManagerV2(User().Email) - Uses the call once great!
+			},
+
+			...Rest of code
+		)
+		Reset() - Resets the input fields
+		TIP! Use error handling to check If( IsEmpty(Errors(Expenses)), success, fail)
+	Displaying data from external database
+		Gallery - Filter(
+			dataSource,
+			Person.Email = User().Email - Filter based on current users email
+		)
+		Selecting from items in table. Ex ThisItem.Title, ThisItem.Date ThisItem.Total e.t.c..
+		ex - ThisItem.Currency.Value  & " " & Text(Thisitem.Total, "##.00")
+
+Trigger Powerautomate flow with powerapps
+	Action -> Power Automate -> Select Flow -> 'Flow'.Run( 
+		LookUp(Users, User = input.Selected.User).'Primary Email', Dataverse User 
+		Dropdown3.Selected.Value,
+	)
+
+Positioning formulas
+	Parent.TemplateWidth / 2 - (Self.Width / 2) - Aligns in center based on parent
+	Parent.Width / 5 - makes gallery split evenly 5 times
+	Parent.Height - Self.Y - 
+Selectors
+	ThisItem - the gallery
+	Self - The icon itself
+	Parent - The closest parent in hiearchy
+Functions
+	Switch(
+		ThisItem.Title,
+		"CASE",
+		"Output",
+		"CASE2",
+		"Output",
+	)
+	Back() - Navigate to last screen
+	Navigate("Screen Name") - Navigate to screen
+
 Editor - For syntax correct change browser settings language to english
 	Tree view - Layers/PagesScreens
 	Data aka DBconnections - sharepoint, sql, Tables
@@ -22,11 +104,22 @@ Editor - For syntax correct change browser settings language to english
 	Power Automate flows connected to this app
 	Variables & Collections
 	Testing & Monitoring
+	Settings - 
+		Display - Always relative to space -> Turn of scale to fit!
 
 Inserts
+	Screens
+		Scrollable - Good for scrollable screen, copy + paste canvas ? into your screen
+			Move your content into the card
+	Responsiveness
+		Horizontal container/vertical container
+		Container - More flexible that hor/vertical container
+	Normal
+		Button(visibility view) - For border radius backgrounds
 	Text Label
 	Button, Date Picker, Text Input
 	Edit Form
+
 
 Controls & Forms
 	Naming convention for tree layers - lb,txt,dte

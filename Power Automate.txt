@@ -54,6 +54,8 @@ Triggers & Actions
 			Check based on interval
 		SQL - When an item is created
 			When an Item is modified
+		Powerapps
+			Init variable, type string, ask in powerapps for name
 		Make each Trigger change It's own flow run per item instead of all of them then a bunch of for loops
 			Settings -> Split on -> Array trigger output -> on the trigger
 			So all changes are triggered one by one (Drag out n delete for each loop) So each change is an individual flow run!
@@ -91,6 +93,11 @@ Triggers & Actions
 			Update Tables
 			Transform Data using Power Query
 			Delete Row
+		Power BI
+			Add rows to a dataset
+			Refresh a dataset
+			Export To File for Paginated Reports
+			Export To File for Power BI Reports
 		Outlook
 			Send an email (V2)
 			Send an HTTP Request - Outlook endpoint Microsoft Graph REST API v1.0 Documentation

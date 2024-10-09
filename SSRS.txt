@@ -1,0 +1,7 @@
+Creating a report
+	New -> Paginated Report
+	Table or matrix -> Data source connect ex though SQL Server -> Select table or view
+	Now you can drag them to certaint columns.
+	Now report is built
+	Add Title, Change colors, display names e.t.c.
+	Run report creates it for you in a report spreadsheet, lovely beautiful report!

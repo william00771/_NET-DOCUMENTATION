@@ -1,0 +1,16 @@
+SnowFlake - SQL-based data warehouse for storing Massive Volume of data
+	Worksheets - Where you write all the sql queries, python e.t.c.
+	Dashboards
+	Apps - To integrate
+	Data - All databases connected
+
+	Similar to SSMS
+
+	ex syntax
+		SELECT * FROM "SNOWFLAKE_SAMPLE_DATA"."TPCH_SF100"."CUSTOMER" LIMIT 10;
+
+		SELECT SUM(l_quantity) AS total_quantity_sold FROM
+		"SNOWFLAKE_SAMPLE_DATA"."TPCH_SF100"."LINEITEM";
+
+
+	If your work primarily involves heavy analytics, flexible scaling, or cloud-native features, Snowflake provides advantages over SQL Server. However, SQL Server can be optimal for transactional systems and applications with stable, predictable workloads.

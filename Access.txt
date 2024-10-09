@@ -1,0 +1,4 @@
+Access is like excel but with relational tables
+essentially a user-friendly database management tool that differs from SQL Server in that it stores data within a single file rather than a separate, dedicated server.
+
+Often used for small-scale database applications where ease of use and rapid development are key.
