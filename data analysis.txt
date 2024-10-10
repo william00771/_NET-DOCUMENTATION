@@ -1,5 +1,5 @@
 DataSets
-	Revenue - How much money we made based on pure sales
+	Revenue- How much money we made based on pure sales
 	Profit - How much money we made accounting for expenses (what we actually made)
 	Profit Target - What the company wanted to make
 
@@ -12,4 +12,262 @@ Common Calculations
 	orders(quanity of units) * price per unit = total
 	(orders(quanity of units) * price per unit) * prevOrders = subtotal
 	subtotal / totalprevOrders count = average order value
-	
+	e 
+
+
+// 1. Gross Profit Margin
+// Formula: (Revenue - COGS) / Revenue * 100
+// Purpose: Measures profitability at the gross level, giving insight into how efficiently Scania produces and sells its products.
+Gross Profit Margin = 
+VAR __Revenue = SUM('Table'[Revenue])
+VAR __COGS = SUM('Table'[COGS])
+RETURN
+    IF(
+        NOT ISBLANK(__Revenue),
+        DIVIDE(__Revenue - __COGS, __Revenue) * 100
+    )
+
+// 2. Net Profit Margin
+// Formula: (Net Profit / Revenue) * 100
+// Purpose: Shows the percentage of revenue remaining after all expenses, useful for assessing overall profitability.
+Net Profit Margin = 
+VAR __NetProfit = SUM('Table'[Net Profit])
+VAR __Revenue = SUM('Table'[Revenue])
+RETURN
+    IF(
+        NOT ISBLANK(__Revenue),
+        DIVIDE(__NetProfit, __Revenue) * 100
+    )
+
+
+// 3. Break-Even Point
+// Formula: Fixed Costs / (Selling Price per Unit - Variable Cost per Unit)
+// Purpose: Finds the sales volume needed to cover all costs, helping determine sales targets and price adjustments.
+Break Even Point = 
+VAR __FixedCosts = SUM('Table'[Fixed Costs])
+VAR __SellingPrice = SUM('Table'[Selling Price per Unit])
+VAR __VariableCost = SUM('Table'[Variable Cost per Unit])
+RETURN
+    IF(
+        NOT ISBLANK(__SellingPrice - __VariableCost),
+        DIVIDE(__FixedCosts, __SellingPrice - __VariableCost)
+    )
+
+
+// 4. Cost of Goods Sold (COGS)
+// Formula: Beginning Inventory + Purchases - Ending Inventory
+// Purpose: Calculates the direct costs associated with Scania’s vehicle and parts production.
+COGS = 
+VAR __BeginningInventory = SUM('Table'[Beginning Inventory])
+VAR __Purchases = SUM('Table'[Purchases])
+VAR __EndingInventory = SUM('Table'[Ending Inventory])
+RETURN
+    __BeginningInventory + __Purchases - __EndingInventory
+
+
+// 5. Inventory Turnover Ratio
+// Formula: COGS / Average Inventory
+// Purpose: Shows how efficiently Scania uses its inventory. High turnover indicates efficient inventory management.
+Inventory Turnover Ratio = 
+VAR __COGS = SUM('Table'[COGS])
+VAR __AverageInventory = AVERAGE('Table'[Inventory])
+RETURN
+    IF(
+        NOT ISBLANK(__AverageInventory),
+        DIVIDE(__COGS, __AverageInventory)
+    )
+
+
+// 6. Return on Assets (ROA)
+// Formula: (Net Profit / Total Assets) * 100
+// Purpose: Measures how effectively Scania uses its assets to generate profit, valuable for resource allocation.
+Return on Assets = 
+VAR __NetProfit = SUM('Table'[Net Profit])
+VAR __TotalAssets = SUM('Table'[Total Assets])
+RETURN
+    IF(
+        NOT ISBLANK(__TotalAssets),
+        DIVIDE(__NetProfit, __TotalAssets) * 100
+    )
+
+
+// 7. Return on Investment (ROI)
+// Formula: (Net Profit / Investment Cost) * 100
+// Purpose: Assesses the profitability of investments, such as new technologies or facilities.
+Return on Investment = 
+VAR __NetProfit = SUM('Table'[Net Profit])
+VAR __InvestmentCost = SUM('Table'[Investment Cost])
+RETURN
+    IF(
+        NOT ISBLANK(__InvestmentCost),
+        DIVIDE(__NetProfit, __InvestmentCost) * 100
+    )
+
+
+// 8. Customer Lifetime Value (CLV)
+// Formula: (Average Purchase Value * Purchase Frequency) * Customer Lifespan
+// Purpose: Estimates the total revenue Scania expects from a customer over their engagement period, helping prioritize high-value customers.
+Customer Lifetime Value = 
+VAR __AveragePurchase = AVERAGE('Table'[Average Purchase Value])
+VAR __PurchaseFrequency = SUM('Table'[Purchase Frequency])
+VAR __CustomerLifespan = SUM('Table'[Customer Lifespan])
+RETURN
+    __AveragePurchase * __PurchaseFrequency * __CustomerLifespan
+
+
+// 9. Sales Growth Rate
+// Formula: ((Current Period Sales - Previous Period Sales) / Previous Period Sales) * 100
+// Purpose: Analyzes trends in sales performance and market growth, critical for strategic planning.
+Sales Growth Rate = 
+VAR __CurrentSales = SUM('Table'[Current Period Sales])
+VAR __PreviousSales = SUM('Table'[Previous Period Sales])
+RETURN
+    IF(
+        NOT ISBLANK(__PreviousSales),
+        DIVIDE(__CurrentSales - __PreviousSales, __PreviousSales) * 100
+    )
+
+
+// 10. Employee Productivity Ratio
+// Formula: Revenue / Number of Employees
+// Purpose: Measures productivity on a per-employee basis, helping evaluate staffing needs and efficiency.
+Employee Productivity Ratio = 
+VAR __Revenue = SUM('Table'[Revenue])
+VAR __Employees = SUM('Table'[Number of Employees])
+RETURN
+    IF(
+        NOT ISBLANK(__Employees),
+        DIVIDE(__Revenue, __Employees)
+    )
+
+
+// 11. Contribution Margin
+// Formula: (Sales Revenue - Variable Costs) / Sales Revenue * 100
+// Purpose: Helps determine the percentage of sales revenue available to cover fixed costs and generate profit.
+Contribution Margin = 
+VAR __Revenue = SUM('Table'[Revenue])
+VAR __VariableCosts = SUM('Table'[Variable Costs])
+RETURN
+    IF(
+        NOT ISBLANK(__Revenue),
+        DIVIDE(__Revenue - __VariableCosts, __Revenue) * 100
+    )
+
+
+// 12. Operating Margin
+// Formula: (Operating Income / Revenue) * 100
+// Purpose: Reflects profitability from core business operations, excluding non-operational income and expenses.
+Operating Margin = 
+VAR __OperatingIncome = SUM('Table'[Operating Income])
+VAR __Revenue = SUM('Table'[Revenue])
+RETURN
+    IF(
+        NOT ISBLANK(__Revenue),
+        DIVIDE(__OperatingIncome, __Revenue) * 100
+    )
+
+
+// 13. Customer Retention Rate
+// Formula: ((Customers at End of Period - New Customers Acquired) / Customers at Start of Period) * 100
+// Purpose: Measures the percentage of customers retained over a period, key for understanding customer loyalty.
+Customer Retention Rate = 
+VAR __EndCustomers = SUM('Table'[Customers at End of Period])
+VAR __NewCustomers = SUM('Table'[New Customers Acquired])
+VAR __StartCustomers = SUM('Table'[Customers at Start of Period])
+RETURN
+    IF(
+        NOT ISBLANK(__StartCustomers),
+        DIVIDE(__EndCustomers - __NewCustomers, __StartCustomers) * 100
+    )
+
+
+// 14. Employee Turnover Rate
+// Formula: (Number of Employees Who Left / Average Number of Employees) * 100
+// Purpose: Helps analyze workforce stability, which can impact productivity and operational costs.
+Employee Turnover Rate = 
+VAR __EmployeesLeft = SUM('Table'[Employees Who Left])
+VAR __AverageEmployees = AVERAGE('Table'[Number of Employees])
+RETURN
+    IF(
+        NOT ISBLANK(__AverageEmployees),
+        DIVIDE(__EmployeesLeft, __AverageEmployees) * 100
+    )
+
+
+// 15. Return on Equity (ROE)
+// Formula: (Net Income / Shareholder's Equity) * 100
+// Purpose: Measures profitability from shareholders’ perspective, useful for assessing overall financial health.
+Return on Equity = 
+VAR __NetIncome = SUM('Table'[Net Income])
+VAR __Equity = SUM('Table'[Shareholder's Equity])
+RETURN
+    IF(
+        NOT ISBLANK(__Equity),
+        DIVIDE(__NetIncome, __Equity) * 100
+    )
+
+
+// 16. Debt-to-Equity Ratio
+// Formula: Total Liabilities / Shareholder's Equity
+// Purpose: Indicates financial leverage and helps in assessing long-term financial stability.
+Debt to Equity Ratio = 
+VAR __TotalLiabilities = SUM('Table'[Total Liabilities])
+VAR __Equity = SUM('Table'[Shareholder's Equity])
+RETURN
+    IF(
+        NOT ISBLANK(__Equity),
+        DIVIDE(__TotalLiabilities, __Equity)
+    )
+
+
+// 17. Current Ratio
+// Formula: Current Assets / Current Liabilities
+// Purpose: Assesses liquidity by indicating the company's ability to meet short-term obligations with its current assets.
+Current Ratio = 
+VAR __CurrentAssets = SUM('Table'[Current Assets])
+VAR __CurrentLiabilities = SUM('Table'[Current Liabilities])
+RETURN
+    IF(
+        NOT ISBLANK(__CurrentLiabilities),
+        DIVIDE(__CurrentAssets, __CurrentLiabilities)
+    )
+
+
+// 18. Churn Rate
+// Formula: (Customers Lost During Period / Total Customers at Start of Period) * 100
+// Purpose: Measures customer attrition, useful for understanding customer retention and satisfaction.
+Churn Rate = 
+VAR __CustomersLost = SUM('Table'[Customers Lost During Period])
+VAR __StartCustomers = SUM('Table'[Total Customers at Start of Period])
+RETURN
+    IF(
+        NOT ISBLANK(__StartCustomers),
+        DIVIDE(__CustomersLost, __StartCustomers) * 100
+    )
+
+
+// 19. Capital Expenditure (CapEx) to Sales Ratio
+// Formula: (Capital Expenditures / Sales Revenue) * 100
+// Purpose: Shows the proportion of revenue spent on capital investments, useful for assessing long-term investment in infrastructure and growth.
+CapEx to Sales Ratio = 
+VAR __CapEx = SUM('Table'[Capital Expenditures])
+VAR __Sales = SUM('Table'[Sales Revenue])
+RETURN
+    IF(
+        NOT ISBLANK(__Sales),
+        DIVIDE(__CapEx, __Sales) * 100
+    )
+
+
+// 20. Days Sales Outstanding (DSO)
+// Formula: (Accounts Receivable / Total Credit Sales) * Number of Days
+// Purpose: Measures the average number of days it takes to collect payment after a sale, crucial for cash flow management.
+Days Sales Outstanding = 
+VAR __AccountsReceivable = SUM('Table'[Accounts Receivable])
+VAR __CreditSales = SUM('Table'[Total Credit Sales])
+VAR __Days = 365 // Or replace with the number of days in your desired period
+RETURN
+    IF(
+        NOT ISBLANK(__CreditSales),
+        DIVIDE(__AccountsReceivable, __CreditSales) * __Days
+    )
