@@ -1,0 +1,113 @@
+Business Flow & Structure
+	Keywords
+		Distributor - Mellanhanden mellan fabrik och återförsäljaren (Dealer)
+		Dealer - återförsäljaren till kund
+		Invoice - Faktura
+		AP-transaktioner (Accounts Payable-transaktioner, leverantörsskulder) - 
+			Alla financiella transaktioner som verksamhet har med sina leverantörer och kreditorer.  Dvs. Inköp av varor, tjänster och andra driftrelaterade utgifter. Angår ej kunder.
+		Captive dealers - 
+			återförsäljare som är direkt knutna till en specifik tillverkare eller leverantör.
+		Accounting data - 
+			All finansiell information som behövs för att hantera fakturan i företagets bokföring. Det innefattar alltså alla ekonomiska aspekter kring fakturan, från belopp och betalningsvillkor till leverantörsinformation och kostnadsfördelning.
+		Stock data - 
+			inkluderar all information som relaterar till lagret och varorna som hör till ordern.
+
+	Departments
+
+Files
+	Invoice - could contain
+		Invoice Details
+			Invoice Number
+			Invoice Date
+			Total Amount
+			Currency Type
+		Vehicle Information
+			Chassis Number
+			Vehicle Model and Variant
+			Manufacturing Date
+			VIN (Vehicle Identification Number)
+			Engine and Transmission Specifications
+			Body Type and Dimensions
+		Customer Information
+			Customer Name and Contact Details
+			Customer ID (if available)
+		Dealer Information
+			Dealer Name and Address
+			Dealer ID
+		Pricing and Cost Breakdown
+			Base Price of the Vehicle
+			Additional Parts/Accessories Cost
+			Discounts or Offers Applied
+			Tax Details (VAT, Excise, etc.)
+			Final Cost after Discounts and Taxes
+		Delivery Details
+			Estimated Delivery Date
+			Shipping/Transportation Information (if applicable)
+			Delivery Address
+		Payment Information
+			Payment Terms (due date, mode of payment, etc.)
+			Bank Details for Payment
+
+Programs
+	Actit Business - Financial forecasting
+	Adato - HR, Personel rehab module
+	Alchemy - Reprint of Automaster invoices
+	Automaster DPA - Dealer Management System, Reservdelsmodul för distributören
+	Automaster Parts & Workshop - Dealer Management System - Lastbilsförsäljning
+	BBH - Body Builder Handbook - Påbyggarinformation
+	BegBil - Used Vehicles
+	BIBAT - Sales support
+	Bisnode - Vehicle owner information (extern källa)
+	Comarch - Fakturaflöde (Inkommande) (AP)
+	SPORT - Sales Portal - Bilspecar för beställning
+	COW - Chassiinformation
+	COW AP2 - Påbyggnationer, flödesplanering
+	DSM - Dealer Stock Management - Reservdelsplanering
+	D365 - Ekonomisystem
+	ECM/Etel - Bilspecning inför montering
+	ETEL BO - 
+	Exflow - Faktura/attestflöde (AP)
+	FMAT - Connected Services
+	FMP - Connected Services / Data Download
+	FRAS - Vehicle trouble reports
+	Hyperion - Koncernredovisningssystem
+	Hyrbok - Hyrfordonsstöd
+	MAC - Underhållsplaner för fordon
+	MPP - Underhållsplaner för fordon
+	Multi - Reservdelsinformation/sprängskisser
+	My Compass - Utbildningportal
+	ORION - Oíl distribution system
+	O365 - User Collaboration
+	Personec - HR stödsystem
+	Power BI - BI-stöd
+	PricePoint - Parts Pricing
+	RAMAS - Underhållsavtal mot kunder
+	Resax - Reseräkningar
+	SBA AM - Datakub - Automaster (Parts & Workshop)
+	SBA-CS - Datakub - Service & Underhållsavtal
+	Scrive - e-signing
+	SGWS - 
+	SPII - 
+	SPO - Scania Parts Online - Reservdelbeställningar
+	SSE DW - Data Warehouse
+	SUV - Scania Used Vehicles
+	SVAS - Chassis invoices from factory
+	SWAT - Scania Warranty Admin Tool
+	CABAS - Insurance repair reporting
+	VRPC - Vehicle Related Parts
+	WCP - Weight Calculation Program
+	Webkalla - 
+	Westmatic - Vehicle Washing
+	WHI - Workshop History
+	CC-Bridge (Vision8020) - Telephony switchboard
+	Centraldriften Bitsdata - IT Operations
+	Card Hotel - Connected Services (Tachograf)
+	OrderIT - Request fulfilment
+	ScaniaNow - Request fulfilment
+	Extranet Bitsdata - Vendor Extranet
+	Inline - Intranet
+	Reflex - Intranet
+	Inexchange - AR Invoice distribution
+	Postnord/Strålfors - AP Invoices
+	21 Grams - AP Invoices
+	Webgis - Retail Network Development
