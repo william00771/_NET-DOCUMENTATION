@@ -1,0 +1,88 @@
+Install Node.js
+	$node --version
+To run a node app
+	$node app.js
+Node Module System
+	global objects vs local objects
+	global.
+		setTimeout()
+		console.log()
+		clearTimeout()
+		clearInterval() 
+
+variables have a local scope
+	var message = global.message
+
+Should build modules for functions
+	example app.js == Module 1
+	logger.js == Module 2
+
+To export function scope to global
+	module.exports.log = log;
+	module.exports.endPoint = url;
+
+To load a module
+	require('../subFolder)logger.js') 
+
+
+Most Used Modules in node.js
+call modules with
+	const path = require('path');
+Modules
+	File System
+	HTTP
+	OS
+		.uptime()
+		.totalmem()
+		.freemem()
+	Path
+		.parse() - Gives information of path
+	Process
+	Query Strings
+	Stream
+	Event
+
+Event Module - Event: New Request
+	Import the class
+		const EventEmitter = require('events');
+	Create an object from that class
+		const emitter = new EventEmitter();
+
+	emitter
+		Raise an event
+			.emit("messageLogged") - To raise an event has happened
+		Send some data over with raising the event
+			.emit("messageLogged", {id: 1, url 'http//xd.com'})
+
+		Add an event Listener
+			.on / addListener('nameofevent' function(e){
+
+			});
+	Best Practices to use events
+		Create a class and then add the functionalities inside of the class
+		Import the events class
+			const EventEmitter = require('events');
+
+		Create the class that extends from the events class and put the functions inside of that
+			class Logger extends EventEmitter{
+				log(message){
+					console.log(message);
+
+					emitter.emit("messageLogged", {id: 1, url 'http//xd.com'})
+				}
+			}
+
+		const logger = new Logger();
+
+		logger.log("message");
+
+HTTP Module
+	'http'
+	http.createServer();
+		server.listen(port);
+		server.on()
+
+
+Javascript tip
+	var name = "john";
+	console.log('hello ${name}')

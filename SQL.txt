@@ -28,6 +28,127 @@ Basics
 		SELECT ([Finalprice] + 1) AS [Price (000)] - Displayformat & math operation
 		SELECT [Suburb] + ' - ' + [Address] AS [Suburb - Address]
 
+
+Data Washing
+	Do the first cleaning operation -> a new [clean table]
+	Now you can continue to do cleaning operations on that table.
+
+	Removing Unnecessary Data
+		ALTER TABLE table_name DROP COLUMN unused_column;
+
+	Removing Duplicates - 
+		Use 
+			UNION
+		Use
+			SELECT DISTINCT * INTO #temptable FROM [dbo].[Customers clean];
+			DELETE FROM [dbo].[Customers clean];
+			INSERT INTO [dbo].[Customers cleaning]
+			DROP TABLE #temptable;
+
+	Handling Inconsistent Values
+		Correct typos
+			UPDATE table_name
+			SET column_name = 'correct_value'
+			WHERE column_name = 'typo_value';
+		Convert categorical values to a standard format
+			UPDATE table_name
+			SET status = 'Yes'
+			WHERE status IN ('Y', 'yes', 'YES');
+
+	Pivoting and Unpivoting Data
+		Pivot
+			SELECT category, SUM(amount) AS total_amount
+			FROM table_name
+			GROUP BY category;
+		calculate ratios
+			SELECT column1 / column2 AS ratio
+			FROM table_name;
+
+	Data Integrity Checks
+		validate ranges
+			SELECT *
+			FROM table_name
+			WHERE column_name < min_value OR column_name > max_value;
+	Outlier Detection and Handling
+		Identify outliers
+			SELECT *
+			FROM table_name
+			WHERE column_name > threshold;
+		Cap values:
+			UPDATE table_name
+			SET column_name = threshold
+			WHERE column_name > threshold;
+
+	Handle NULL Values -
+		Fill NULL with default values
+			Numerical - 
+				UPDATE table_name 
+				SET column_name = 0 
+				WHERE column_name IS NULL;
+			Categorical - 
+				UPDATE table_name 
+				SET column_name = 'Unknown' 
+				WHERE column_name IS NULL;
+			Date - 
+				UPDATE table_name 
+				SET date_column = '1900-01-01' 
+				WHERE date_column IS NULL;
+			Boolean - 
+				UPDATE table_name 
+				SET boolean_column = 0 
+				WHERE boolean_column IS NULL;
+		Replace NULLs with mean
+			UPDATE table_name SET column_name = (SELECT AVG(column_name) FROM table_name)
+			WHERE column_name IS NULL;
+		Remove rows with NULLs:
+			DELETE FROM table_name WHERE column_name IS NULL;
+
+	Standardizing Data
+		Convert to consistent data types
+			ALTER TABLE table_name
+			ALTER COLUMN column_name TYPE DATE
+			USING column_name::DATE;
+		Standardize case
+			UPDATE table_name
+			SET column_name = LOWER(column_name);
+		Trim whitespace
+			UPDATE table_name
+			SET column_name = TRIM(column_name);
+		Remove special characters
+			UPDATE table_name
+			SET column_name = REGEXP_REPLACE(column_name, '[^a-zA-Z0-9]', '', 'g');
+
+
+	Data Type Transformation
+		Convert Text to integer
+			ALTER TABLE table_name
+			ALTER COLUMN text_column TYPE INTEGER USING text_column::INTEGER;
+		Convert Text to Decimal
+			ALTER TABLE table_name
+			ALTER COLUMN text_column TYPE DECIMAL USING text_column::DECIMAL;
+		Convert Text to Date
+			ALTER TABLE table_name
+			ALTER COLUMN text_date_column TYPE DATE USING TO_DATE(text_date_column, 'YYYY-MM-DD');
+		Convert Date to Text
+			ALTER TABLE table_name
+			ALTER COLUMN date_column TYPE TEXT USING date_column::TEXT;
+		Convert Integer to Text
+			ALTER TABLE table_name
+			ALTER COLUMN integer_column TYPE TEXT USING integer_column::TEXT;
+		Convert Boolean to Integer
+			ALTER TABLE table_name
+			ALTER COLUMN boolean_column TYPE INTEGER USING CASE WHEN boolean_column THEN 1 ELSE 0 END;
+		Convert Integer to Boolean
+			ALTER TABLE table_name
+			ALTER COLUMN integer_column TYPE BOOLEAN USING CASE WHEN integer_column = 1 THEN TRUE ELSE FALSE END;
+		Convert Text to Boolean
+			ALTER TABLE table_name
+			ALTER COLUMN text_column TYPE BOOLEAN 
+			USING CASE 
+			  WHEN LOWER(text_column) IN ('yes', 'true', '1') THEN TRUE 
+			  ELSE FALSE 
+			END;
+
 Linking SQL To Excel
 	
 
