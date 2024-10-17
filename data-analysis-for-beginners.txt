@@ -1,3 +1,34 @@
+Power BI (New info)
+	Query Editor
+		Merge Queries -> Based on common row
+			Make sure they can merge well
+				Transform -> Text Before Delimiter ex "("
+				Format - Trim
+		Data Cleaning
+			Replace Values -> null with ex "no country code availible"
+	Home
+		Text Box - Title
+		Refresh - Refresh data
+	Visualizations
+		style based on condition/expression
+		data cleaning - 
+			use filters to exclude ex no data in an important chart
+		Filters (applies to that visual) -> Filter visuals based on selection/expression
+		Slicers (applies to all visuals) -> Same as filters but for UI
+	Navigation
+		Insert Buttons -> Navigate -> page navigator or insert ex arrow -> Action -> Type
+			Can also go to hidden pages using navbuttons
+		Bookmarks
+			Daily reports for example. View -> Bookmarks, day 1. It saves a snapshot of state of report
+	DAX fields (custom columns)
+		arrow in data field -> new column
+		ex Today's Date = TODAY()
+	DAX Measures (custom calculations that generate field based on existing columns)
+		arrow in data field -> new quick measure
+		ex Population per sq mile = SUM(populationColumn/SUM(areainsqmileColumn))
+	DAX Expressions
+		SUM(),
+		
 Excel
 	layout
 		Auto scale -> double click on width cell space
