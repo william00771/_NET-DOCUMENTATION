@@ -1,278 +1,176 @@
-Some BI stuff you can do
-    top 10% of earners
-    profit based on number of empoyees
+Olika Business Intelligence slutsatser som jag kanske ska sträva efter när jag börjar på scania
+    * Leverantörsprestanda och SSEI-score över tid - Visar hur leverantörernas SSEI-score har förändrats under det senaste året, vilket identifierar förbättringsområden och risker.
 
+    * Fördelning av betalningsstatus i leverantörsreskontra - Andelen fakturor i olika betalningsstatusar (betalda, obetalda, förfallna) för att identifiera kassaflödesrisker.
 
-DataSets
-	Revenue- How much money we made based on pure sales
-	Profit - How much money we made accounting for expenses (what we actually made)
-	Profit Target - What the company wanted to make
+    * Topp 10 leverantörer baserat på köpkvantitet - Visualiserar volymen av produkter köpta från olika leverantörer för att identifiera de viktigaste leverantörerna.
 
-Common Visualizations Calculations
-	Percentage difference between - Sum Of Profit / Sum Of Revenue
-		DIVIDE(__Profit, __Revenue)
-	Value over/under profit margin - Sum Of Profit - Profit Target
+    * Lageromsättningshastighet per produktkategori - Visar omsättningshastigheten för varje produktkategori, vilket kan hjälpa till att optimera lagerhållning och minska lagerkostnader.
 
-Common Calculations
-	orders(quanity of units) * price per unit = total
-	(orders(quanity of units) * price per unit) * prevOrders = subtotal
-	subtotal / totalprevOrders count = average order value
-	e 
+    * Garantikostnader per fordonsmodell - Identifierar vilka modeller som orsakar högre garantikostnader och kan kräva ytterligare undersökning eller förbättring.
 
+    * Försäljning per geografiskt område - Visar var efterfrågan är störst, vilket underlättar marknadsanpassade försäljningsinsatser.
 
-// 1. Gross Profit Margin
-// Formula: (Revenue - COGS) / Revenue * 100
-// Purpose: Measures profitability at the gross level, giving insight into how efficiently Scania produces and sells its products.
-Gross Profit Margin = 
-VAR __Revenue = SUM('Table'[Revenue])
-VAR __COGS = SUM('Table'[COGS])
-RETURN
-    IF(
-        NOT ISBLANK(__Revenue),
-        DIVIDE(__Revenue - __COGS, __Revenue) * 100
-    )
+    * Förfallna fakturor och förfallodatumprognos - För att följa förfallodatum och undvika sena betalningar, vilket hjälper till med kassaflödeshantering.
 
-// 2. Net Profit Margin
-// Formula: (Net Profit / Revenue) * 100
-// Purpose: Shows the percentage of revenue remaining after all expenses, useful for assessing overall profitability.
-Net Profit Margin = 
-VAR __NetProfit = SUM('Table'[Net Profit])
-VAR __Revenue = SUM('Table'[Revenue])
-RETURN
-    IF(
-        NOT ISBLANK(__Revenue),
-        DIVIDE(__NetProfit, __Revenue) * 100
-    )
+    * Vinstmarginal per produktkategori - Visualiserar lönsamheten för olika produktkategorier genom att visa kostnader, intäkter och nettoresultat.
 
+    * Användning av Power Apps per avdelning - För att spåra och jämföra hur mycket olika avdelningar använder automatiseringsverktyg, vilket kan peka på utbildningsbehov.
 
-// 3. Break-Even Point
-// Formula: Fixed Costs / (Selling Price per Unit - Variable Cost per Unit)
-// Purpose: Finds the sales volume needed to cover all costs, helping determine sales targets and price adjustments.
-Break Even Point = 
-VAR __FixedCosts = SUM('Table'[Fixed Costs])
-VAR __SellingPrice = SUM('Table'[Selling Price per Unit])
-VAR __VariableCost = SUM('Table'[Variable Cost per Unit])
-RETURN
-    IF(
-        NOT ISBLANK(__SellingPrice - __VariableCost),
-        DIVIDE(__FixedCosts, __SellingPrice - __VariableCost)
-    )
+    * Service- och underhållskostnader per kilometer - Visualiserar servicekostnader per körd kilometer för olika modeller, vilket hjälper till med kostnadskontroll och förbättring.
 
+    * Underhållsbehov baserat på fordonsålder - Visar om äldre fordon kräver mer frekvent eller kostsamt underhåll, vilket kan underlätta budgetering.
 
-// 4. Cost of Goods Sold (COGS)
-// Formula: Beginning Inventory + Purchases - Ending Inventory
-// Purpose: Calculates the direct costs associated with Scania’s vehicle and parts production.
-COGS = 
-VAR __BeginningInventory = SUM('Table'[Beginning Inventory])
-VAR __Purchases = SUM('Table'[Purchases])
-VAR __EndingInventory = SUM('Table'[Ending Inventory])
-RETURN
-    __BeginningInventory + __Purchases - __EndingInventory
+    * Kostnadsfördelning för lagerhållning - Bryter ner kostnaderna för lagerhållning i olika komponenter, såsom utrymme, personal och hantering.
 
+    * Ordervolym och ledtid per leverantör - Jämför ledtider för olika leverantörer, vilket kan hjälpa till att identifiera var det finns förseningar i försörjningskedjan.
 
-// 5. Inventory Turnover Ratio
-// Formula: COGS / Average Inventory
-// Purpose: Shows how efficiently Scania uses its inventory. High turnover indicates efficient inventory management.
-Inventory Turnover Ratio = 
-VAR __COGS = SUM('Table'[COGS])
-VAR __AverageInventory = AVERAGE('Table'[Inventory])
-RETURN
-    IF(
-        NOT ISBLANK(__AverageInventory),
-        DIVIDE(__COGS, __AverageInventory)
-    )
+    * Försäljningsintäkter och marknadsandel per region - Visualiserar varje regions bidrag till totala försäljningsintäkter och marknadsandel.
 
+    * Användningsfrekvens för Power Automate-flöden - Spårar användningen av automatiseringsflöden över tid för att identifiera områden för optimering eller utbildningsbehov.
 
-// 6. Return on Assets (ROA)
-// Formula: (Net Profit / Total Assets) * 100
-// Purpose: Measures how effectively Scania uses its assets to generate profit, valuable for resource allocation.
-Return on Assets = 
-VAR __NetProfit = SUM('Table'[Net Profit])
-VAR __TotalAssets = SUM('Table'[Total Assets])
-RETURN
-    IF(
-        NOT ISBLANK(__TotalAssets),
-        DIVIDE(__NetProfit, __TotalAssets) * 100
-    )
+    * Lagersaldo per lagerplats - Ger en översikt över lagersaldot för varje lagerplats för att förbättra lagerhanteringen och minska överfyllda eller underfyllda områden.
 
+    * Leveransprecision per leverantör - Mäter hur ofta leverantörer levererar i tid för att stödja leverantörsutvärdering och inköpsbeslut.
 
-// 7. Return on Investment (ROI)
-// Formula: (Net Profit / Investment Cost) * 100
-// Purpose: Assesses the profitability of investments, such as new technologies or facilities.
-Return on Investment = 
-VAR __NetProfit = SUM('Table'[Net Profit])
-VAR __InvestmentCost = SUM('Table'[Investment Cost])
-RETURN
-    IF(
-        NOT ISBLANK(__InvestmentCost),
-        DIVIDE(__NetProfit, __InvestmentCost) * 100
-    )
+    * Kundernas användning av uppkopplade tjänster - Följer hur kunder använder olika uppkopplade tjänster för att anpassa framtida utveckling och marknadsföring.
 
+    * Ordervärde per månad för senaste året - Följer ordervärde över tid för att identifiera säsongstrender och göra bättre framtida prognoser.
 
-// 8. Customer Lifetime Value (CLV)
-// Formula: (Average Purchase Value * Purchase Frequency) * Customer Lifespan
-// Purpose: Estimates the total revenue Scania expects from a customer over their engagement period, helping prioritize high-value customers.
-Customer Lifetime Value = 
-VAR __AveragePurchase = AVERAGE('Table'[Average Purchase Value])
-VAR __PurchaseFrequency = SUM('Table'[Purchase Frequency])
-VAR __CustomerLifespan = SUM('Table'[Customer Lifespan])
-RETURN
-    __AveragePurchase * __PurchaseFrequency * __CustomerLifespan
+    * Intäkt per leverantörsregion - Visar vilka leverantörsregioner som bidrar mest till intäkterna, vilket kan användas för att anpassa inköpsstrategier.
 
+    * Fördelning av risknivåer i leverantörsbasen - Ger en översikt över risknivån för olika leverantörer, vilket underlättar riskhantering.
 
-// 9. Sales Growth Rate
-// Formula: ((Current Period Sales - Previous Period Sales) / Previous Period Sales) * 100
-// Purpose: Analyzes trends in sales performance and market growth, critical for strategic planning.
-Sales Growth Rate = 
-VAR __CurrentSales = SUM('Table'[Current Period Sales])
-VAR __PreviousSales = SUM('Table'[Previous Period Sales])
-RETURN
-    IF(
-        NOT ISBLANK(__PreviousSales),
-        DIVIDE(__CurrentSales - __PreviousSales, __PreviousSales) * 100
-    )
+    * Kostnadsbesparingar från automatiserade processer - Visualiserar de ekonomiska fördelarna från automatisering genom att visa sparade kostnader i olika processer.
 
+    * Kostnadsanalys av leverantörsbaserade projekt - För att identifiera vilka projekt eller leverantörer som är mest kostnadseffektiva.
 
-// 10. Employee Productivity Ratio
-// Formula: Revenue / Number of Employees
-// Purpose: Measures productivity on a per-employee basis, helping evaluate staffing needs and efficiency.
-Employee Productivity Ratio = 
-VAR __Revenue = SUM('Table'[Revenue])
-VAR __Employees = SUM('Table'[Number of Employees])
-RETURN
-    IF(
-        NOT ISBLANK(__Employees),
-        DIVIDE(__Revenue, __Employees)
-    )
+    * Avvikelser mellan planerat och faktiskt lagerbehov - Följer skillnaden mellan förväntat och faktiskt lagerbehov, vilket förbättrar lagerprognoser.
 
+    * Effekten av försäljningskampanjer på reservdelar - Analyserar försäljningsökningen under kampanjer för att se hur framgångsrika de är, och för att planera framtida kampanjer.
 
-// 11. Contribution Margin
-// Formula: (Sales Revenue - Variable Costs) / Sales Revenue * 100
-// Purpose: Helps determine the percentage of sales revenue available to cover fixed costs and generate profit.
-Contribution Margin = 
-VAR __Revenue = SUM('Table'[Revenue])
-VAR __VariableCosts = SUM('Table'[Variable Costs])
-RETURN
-    IF(
-        NOT ISBLANK(__Revenue),
-        DIVIDE(__Revenue - __VariableCosts, __Revenue) * 100
-    )
+    * Intäktsfördelning per fordonsmodell - Visar intäkter för varje fordonsmodell för att identifiera de mest lönsamma modellerna.
 
+    * Förseningar i leveranskedjan per leverantör - Visar vilka leverantörer som ofta har förseningar, vilket hjälper till att planera inköp och förbättra leveransprecision.
 
-// 12. Operating Margin
-// Formula: (Operating Income / Revenue) * 100
-// Purpose: Reflects profitability from core business operations, excluding non-operational income and expenses.
-Operating Margin = 
-VAR __OperatingIncome = SUM('Table'[Operating Income])
-VAR __Revenue = SUM('Table'[Revenue])
-RETURN
-    IF(
-        NOT ISBLANK(__Revenue),
-        DIVIDE(__OperatingIncome, __Revenue) * 100
-    )
+    * Försäljning per kvartal jämfört med föregående år - Visar försäljningsvolym per kvartal och jämför med föregående år för att identifiera tillväxt eller nedgång.
 
+    * Garantikostnader per marknad - Visar kostnader för garantireparationer i olika marknader för att identifiera geografiska trender.
 
-// 13. Customer Retention Rate
-// Formula: ((Customers at End of Period - New Customers Acquired) / Customers at Start of Period) * 100
-// Purpose: Measures the percentage of customers retained over a period, key for understanding customer loyalty.
-Customer Retention Rate = 
-VAR __EndCustomers = SUM('Table'[Customers at End of Period])
-VAR __NewCustomers = SUM('Table'[New Customers Acquired])
-VAR __StartCustomers = SUM('Table'[Customers at Start of Period])
-RETURN
-    IF(
-        NOT ISBLANK(__StartCustomers),
-        DIVIDE(__EndCustomers - __NewCustomers, __StartCustomers) * 100
-    )
+    * Trender i returfrekvens per leverantör - Analys av returer för att identifiera leverantörer med kvalitetsproblem.
+    
+    * Fakturor per valuta - Fördelning av fakturor per valuta, vilket kan visa om en viss valuta dominerar och påverkar valutahantering.
 
+    * Lageråteranskaffning baserat på genomsnittlig efterfrågan - Visar när lager behöver återfyllas baserat på genomsnittlig efterfrågan för olika produkter.
 
-// 14. Employee Turnover Rate
-// Formula: (Number of Employees Who Left / Average Number of Employees) * 100
-// Purpose: Helps analyze workforce stability, which can impact productivity and operational costs.
-Employee Turnover Rate = 
-VAR __EmployeesLeft = SUM('Table'[Employees Who Left])
-VAR __AverageEmployees = AVERAGE('Table'[Number of Employees])
-RETURN
-    IF(
-        NOT ISBLANK(__AverageEmployees),
-        DIVIDE(__EmployeesLeft, __AverageEmployees) * 100
-    )
+    * Uppföljning av efterlevnad i leverantörsavtal - Visualiserar hur väl leverantörer följer avtalsvillkor, såsom kvalitet och leveransprecision.
 
+    * Trend för lönsamhet per fordonskategori - Visar lönsamhetstrender för olika fordonskategorier över tid.
+    
+    * Analyserade supportärenden per månad - Följer antal supportärenden över tid för att identifiera förbättringsområden i kundservice.
 
-// 15. Return on Equity (ROE)
-// Formula: (Net Income / Shareholder's Equity) * 100
-// Purpose: Measures profitability from shareholders’ perspective, useful for assessing overall financial health.
-Return on Equity = 
-VAR __NetIncome = SUM('Table'[Net Income])
-VAR __Equity = SUM('Table'[Shareholder's Equity])
-RETURN
-    IF(
-        NOT ISBLANK(__Equity),
-        DIVIDE(__NetIncome, __Equity) * 100
-    )
+    * Fördelning av underhållskostnader för olika fordonskomponenter - Visar vilka komponenter som kräver mest underhåll, vilket kan leda till produktförbättringar.
 
+    * Genomsnittlig leveranstid per leverantörsregion - Jämför leveranstider för leverantörer i olika regioner för att optimera försörjningskedjan.
 
-// 16. Debt-to-Equity Ratio
-// Formula: Total Liabilities / Shareholder's Equity
-// Purpose: Indicates financial leverage and helps in assessing long-term financial stability.
-Debt to Equity Ratio = 
-VAR __TotalLiabilities = SUM('Table'[Total Liabilities])
-VAR __Equity = SUM('Table'[Shareholder's Equity])
-RETURN
-    IF(
-        NOT ISBLANK(__Equity),
-        DIVIDE(__TotalLiabilities, __Equity)
-    )
+    * Kostnadsförändring över tid för viktiga reservdelar - Följer prisförändringar för reservdelar över tid, vilket påverkar budgetering.
 
+    * Avvikelser mellan budgeterade och faktiska utgifter - Visar var kostnaderna avviker från budgeten, vilket hjälper till att identifiera budgetläckor.
 
-// 17. Current Ratio
-// Formula: Current Assets / Current Liabilities
-// Purpose: Assesses liquidity by indicating the company's ability to meet short-term obligations with its current assets.
-Current Ratio = 
-VAR __CurrentAssets = SUM('Table'[Current Assets])
-VAR __CurrentLiabilities = SUM('Table'[Current Liabilities])
-RETURN
-    IF(
-        NOT ISBLANK(__CurrentLiabilities),
-        DIVIDE(__CurrentAssets, __CurrentLiabilities)
-    )
+    * Lagerkostnader per kvartal - Ger en bild av hur mycket som spenderas på lagerhållning varje kvartal.
 
+    * Topp 10 kunder baserat på inköp - Visar vilka kunder som bidrar mest till intäkterna.
 
-// 18. Churn Rate
-// Formula: (Customers Lost During Period / Total Customers at Start of Period) * 100
-// Purpose: Measures customer attrition, useful for understanding customer retention and satisfaction.
-Churn Rate = 
-VAR __CustomersLost = SUM('Table'[Customers Lost During Period])
-VAR __StartCustomers = SUM('Table'[Total Customers at Start of Period])
-RETURN
-    IF(
-        NOT ISBLANK(__StartCustomers),
-        DIVIDE(__CustomersLost, __StartCustomers) * 100
-    )
+    * Faktureringsfrekvens per leverantör - Visar hur ofta olika leverantörer fakturerar, vilket hjälper till med betalningsplanering.
 
+    * Produktreturer per månad - Följer returtrender för att förstå kundbeteende och kvalitetsproblem.
 
-// 19. Capital Expenditure (CapEx) to Sales Ratio
-// Formula: (Capital Expenditures / Sales Revenue) * 100
-// Purpose: Shows the proportion of revenue spent on capital investments, useful for assessing long-term investment in infrastructure and growth.
-CapEx to Sales Ratio = 
-VAR __CapEx = SUM('Table'[Capital Expenditures])
-VAR __Sales = SUM('Table'[Sales Revenue])
-RETURN
-    IF(
-        NOT ISBLANK(__Sales),
-        DIVIDE(__CapEx, __Sales) * 100
-    )
+    * Jämförelse av betalningsvillkor för toppleverantörer - Visar vilka betalningsvillkor som är vanligast bland de största leverantörerna.
 
+    * Fordonskostnader jämfört med användning per fordonsmodell - Jämför användning med kostnader för olika modeller för att identifiera kostnadseffektiva fordon.
 
-// 20. Days Sales Outstanding (DSO)
-// Formula: (Accounts Receivable / Total Credit Sales) * Number of Days
-// Purpose: Measures the average number of days it takes to collect payment after a sale, crucial for cash flow management.
-Days Sales Outstanding = 
-VAR __AccountsReceivable = SUM('Table'[Accounts Receivable])
-VAR __CreditSales = SUM('Table'[Total Credit Sales])
-VAR __Days = 365 // Or replace with the number of days in your desired period
-RETURN
-    IF(
-        NOT ISBLANK(__CreditSales),
-        DIVIDE(__AccountsReceivable, __CreditSales) * __Days
-    )
+    * Medelvärde och standardavvikelse för leveranstider - Visar variation i leveranstider för att förbättra leveransprognoser.
+
+    * Planerade vs. faktiska underhållskostnader - Följer underhållskostnader i förhållande till budgeten för att förbättra kostnadsprognoser.
+
+    * Kundnöjdhet per region - Visualiserar kundnöjdhetsbetyg per region för att identifiera behov av förbättring.
+
+    * Kostnad per kilometer för serviceavtal - Visar kostnader för service per kilometer för att analysera lönsamhet för serviceavtal.
+
+    * Effekt av nya produktlanseringar på försäljning - Visar försäljningsökningar i samband med lanseringar av nya produkter, vilket hjälper att utvärdera marknadsföringsinsatser.
+
+Financiella och operativa mått
+    Procentuell vinstmarginal – Visar förhållandet mellan vinst och intäkter för att se lönsamheten.
+    Summa Vinst / Summa Intäkter
+
+    Värde över/under vinstmål – Visar hur mycket vinsten ligger över eller under företagets vinstmål.
+    Summa Vinst - Vinstmål
+
+    Totalt ordervärde – Beräknar totalförsäljningsvärdet baserat på enhetsantal och pris per enhet.
+    Antal enheter * Pris per enhet
+
+    Delbelopp av tidigare ordrar – Visar delbeloppet för tidigare ordrar som en uppskattning av tidigare försäljningar.
+    (Antal enheter * Pris per enhet) * Föregående ordrar
+
+    Genomsnittligt ordervärde – Genomsnittligt värde för tidigare ordrar, vilket indikerar trender i orderstorlek.
+    Delbelopp / Totalt antal tidigare ordrar
+
+    Bruttomarginal – Visar hur effektivt företaget producerar och säljer varor.
+    (Intäkter - Varukostnad) / Intäkter * 100
+
+    Nettomarginal – Andelen av intäkterna som kvarstår efter alla kostnader.
+    (Nettoresultat / Intäkter) * 100
+
+    Nollpunktsomsättning – Försäljningsvolym som behövs för att täcka alla kostnader.
+    Fasta kostnader / (Försäljningspris per enhet - Rörlig kostnad per enhet)
+
+    Varukostnad (COGS) – Direkt kostnad kopplad till produktionen av varor.
+    Startlager + Inköp - Slutlager
+
+    Lageromsättningshastighet – Mäter effektiviteten i lagerhanteringen.
+    Varukostnad / Genomsnittligt lager
+
+    Avkastning på tillgångar (ROA) – Visar hur väl tillgångar genererar vinst.
+    (Nettoresultat / Totala tillgångar) * 100
+
+    Avkastning på investering (ROI) – Bedömer investeringslönsamhet.
+    (Nettoresultat / Investeringskostnad) * 100
+
+    Kundens livstidsvärde (CLV) – Förväntad intäkt från en kund under dess livstid.
+    (Genomsnittligt köpbelopp * Köpfrekvens) * Kundens livslängd
+
+    Försäljningstillväxt – Analyserar försäljningsutveckling över tid.
+    ((Nuvarande försäljning - Föregående försäljning) / Föregående försäljning) * 100
+
+    Produktivitetsmått per anställd – Mäter intäkter per anställd.
+    Intäkter / Antal anställda
+
+    Täckningsgrad – Andelen intäkter som kan täcka fasta kostnader och ge vinst.
+    (Försäljningsintäkter - Rörliga kostnader) / Försäljningsintäkter * 100
+
+    Rörelsemarginal – Visar lönsamhet från kärnverksamheten.
+    (Rörelseresultat / Intäkter) * 100
+
+    Kundlojalitet – Andel kunder som bibehålls under en period.
+    ((Kunder i slutet - Nya kunder) / Kunder i början) * 100
+
+    Personalomsättning – Mäter personalstabilitet genom andelen anställda som slutat.
+    (Antal anställda som slutat / Genomsnittligt antal anställda) * 100
+
+    Avkastning på eget kapital (ROE) – Visar avkastning ur aktieägarnas perspektiv.
+    (Nettoresultat / Eget kapital) * 100
+
+    Skuldsättningsgrad – Anger företagets finansiella hävstång.
+    Totala skulder / Eget kapital
+
+    Kassalikviditet – Bedömer förmågan att betala kortfristiga skulder.
+    Omsättningstillgångar / Kortfristiga skulder
+
+    Kundbortfall – Andelen kunder som lämnar företaget under en period.
+    (Förlorade kunder under perioden / Totalt antal kunder vid periodens början) * 100
+
+    Investeringar som andel av försäljning – Andelen intäkter som går till investeringar.
+    (Kapitalutgifter / Försäljningsintäkter) * 100
+
+    Kundfordringsdagar (DSO) – Genomsnittlig tid för att få betalning efter försäljning.
+    (Kundfordringar / Totala kreditförsäljningar) * Antal dagar
