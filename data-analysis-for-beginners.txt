@@ -1,0 +1,57 @@
+Excel
+	layout
+		Auto scale -> double click on width cell space
+		Insert row anywhere -> right click, insert row (instead of copy paste to give space)
+		Index column(auto sequencing) -> insert new column -> create pattern + Drag down
+		Go to corner of table - ctrl/+shift + arrow key
+	formatting
+		types 
+			Change type - Home -> Number section
+			Decimal places display - Rclick column -> Format Cells -> Number
+		alignment
+			Wrap text - Makes text take up two rows if long
+			Merge & Center - Merges multible cells to one big
+		editing
+			autofill - Choose in the little menu, fill options (can also just click on it and it fills it out)
+			paste - Ex paste as values/formulas e.t.c.
+			sorting - Home -> sort & filter, can do custom sorting
+			filter - Home -> sort & filter -> Filter, Now you get the filter arrows (it knows the table)
+			find & select/replace -> Home - ctrl + h
+
+	calculations
+		=SUMMA(A1:A10) - SUM
+			=SUMMAOM(A1:120,"<10") - SUMIF - Calculate sum based on if statement
+			=SUMMAOMS(A1:120,F2:F11,"=Male", H2:H11, ">50") - SUMIFS - calculate sum based on multible ifs
+		=OM(A1>10; "Value if true"; "Value if false") - ELSE/IF
+		=LETARAD(search_value; A1:B10; 2; FALSKT) - VLOOKUP, ex lookup names inside one table to another table and return salary of those specific employees
+			=LETARD(A2, 'TableName'B:J, ColumnToReturnFromTableLookupex9)
+		=TRIM(A1) - Removes all space between
+		=RIGHT/LEFT(4) - Returns number of characters from right or left - Probably many expressions that work here
+		=FIND("a", "Monday", 1) - Returns index of a inside monday starting from index 1
+		=LEN(A2) - Number of charachters
+		=REPLACE(A2,1,5,"Mark") - what to replace, where to start, number of characters, what
+		=ANTAL(C1:C10) - COUNT
+			=ANTALOM(A1:A20,"<12") - COUNTIF
+			=ANTALOMS() - COUNTIFS
+		=MIN(A1:A10) - MIN
+		=MAX(B1:B10) - MAX
+		=MEDEL(B1:B10) - AVERAGE
+		=HÄMTA(B2:D10; 2; 3) - INDEX
+		=PASSA("Värde"; A1:A10; 0) - MATCH
+		=OMFEL(A1/B1; "Fel") - IFERROR 
+	Visualizations
+		Select table -> insert -> table -> name table!
+		Table design -> add/remove features
+		Slicers - table design -> Insert Slices -> select columns to be able to slice(select), great for selection!
+		Pivot tables - Insert -> Pivot Table -> From Table/Range - Good for easily summarizing data. drag n drop, filter by, values breakdown. Can be used with slicers!
+			Arrow can now do by average,count e.t.c.
+			In pivottable disable/enable features
+		Pivot Charts - Pivot tables but charts, like a basic powerBI - Pivotchart -> Pivot Charts
+		Conditional Formating - Home -> Conditional Formating. Ex less than 45 green field with green text.
+			Highlight duplicate values, unique values, top 10% of owners e.t.c.
+			ctrl+q -> good shortcut for conditional formating.
+	Power Query
+		Import data from SQL/access/workbook -> Power Query Editor, can add filters, change values, replace values e.t.c.
+		Create custom columns, add index column
+		Add Conditional Columns
+		Close & Load

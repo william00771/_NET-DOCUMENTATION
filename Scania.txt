@@ -2,15 +2,15 @@ Business Flow & Structure
 	Keywords
 		Distributor - Mellanhanden mellan fabrik och återförsäljaren (Dealer)
 		Dealer - återförsäljaren till kund
+		Captive dealer - 
+			återförsäljare som är direkt knutna till en specifik tillverkare eller leverantör.
 		Invoice - Faktura
 		AP-transaktioner (Accounts Payable-transaktioner, leverantörsskulder) - 
 			Alla financiella transaktioner som verksamhet har med sina leverantörer och kreditorer.  Dvs. Inköp av varor, tjänster och andra driftrelaterade utgifter. Angår ej kunder.
-		Captive dealers - 
-			återförsäljare som är direkt knutna till en specifik tillverkare eller leverantör.
 		Accounting data - 
 			All finansiell information som behövs för att hantera fakturan i företagets bokföring. Det innefattar alltså alla ekonomiska aspekter kring fakturan, från belopp och betalningsvillkor till leverantörsinformation och kostnadsfördelning.
 		Stock data - 
-			inkluderar all information som relaterar till lagret och varorna som hör till ordern.
+			inkluderar all information som relaterar till varorna och lagret som hör till ordern.
 
 	Departments
 
