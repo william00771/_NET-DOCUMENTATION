@@ -1,3 +1,164 @@
+BI Team
+    Big Data team - solves a big business problem, work on the data itself
+    BI Team - Provides Business Insights Dashboard
+    Data Science/analytics Team - Uses BI/Data Analytics tools models to predict future outcomes
+
+    Analysis of past events/data
+        -> Data warehouse -> Data chunks -> Looking for patterns
+            Qualitative analytics -> Using intuition/experience and analysis to plan next business move
+                ex detailed analysis on which fashion trends to follow -> which styles of clothing to start selling
+            Quantitative analytics -> Working with past data formulas & algorithms to draw your analysis plan next business move
+                ex relying on past sales data + UX data to predict best month to release new collections
+Business Data Sphere (Very comprehensive picture on what is what)
+    Business sphere
+        Analysis of past events/data sphere
+            Business Case Studies - real world experience driven
+        Analytics to predict future behavior sphere
+            Qualitative Analytics - using intuition and knowledge of market
+    Business and data sphere
+        Analysis of past events/data sphere
+            Preliminary Data Report - 
+            Business Intelligence sphere
+                Reporting with Visuals - 
+                Creating Dashboards - 
+                Creating Real-time Dashboards
+        Analytics to predict future behavior sphere
+            Sales Forecasting - 
+            Client Retention - Predicting client behavior
+            Fraud Retention - 
+
+Statistics
+    Population(parameters) or sample of population(statistics). You have a sample drawn from somewhere.
+    Sample should be random, and representative
+    Data types
+        Categorical - categories or groups
+        Numerical - 
+            Discrete - integer ex grades, no objects, money
+            Continous - floats ex weight, height, area, distance, time
+        Measurment Levels
+            Qualitative - 
+                nominal - cannot be ordered
+                ordinal - neutral, good, bad
+            Quantitative - 
+                interval - no true zero
+                ratio - has true zero
+        Data words
+            Frequency - Number of occurances of desired intervals/values
+                Inteval width - Ex 1/5th or similar. Flags
+            Relative frequency - The percentage of the total frequency for each category (total would be 100%)
+            Cumulative frequency - sum of the relative frequencies
+            Pareto Princible - 80% of the effect come from 20% of the causes - Pareto diagram helps with this
+    Visualization Techniques
+        Categorical data
+            Frequency distribution tables
+            Bar charts
+            Pie charts
+            Pareto Diagrams - Descending order of frequency. Pareto Princible
+        Categorical data (multiple variables)
+            Cross tables - ex three different investors with different allocations
+            Scatter plots - ex 100 set scores in writing/reading scores, students performance. Lots of observations, trends e.t.c
+                Can spot outliers
+    Measures of Central Tendency
+        Mean - Simple average all/count
+            downside: easily affected by outliers, not enough to make definite conclusions!
+        Median - 2nd measure(middle slice position if data is in ascending order) COUNT11+1 / 2 = ex 6th position
+        Mode - The value that occurs the most often, frequency of each value. 
+    Measures of Asymmetry
+        Skewness Formula - Whether the data is concentrated on one side, you can visualize it based on mean, median, mode scales
+            Positive Skew (Left) +2.2
+            Zero Skew (Centered) 0
+            Negative Skew (Right) -1.5
+        Variance - First calculate mean ex 3
+            Population Variance - 2.0 - how spread out the values are in a population vary or deviate from the sample mean
+            Sample Variance - 2.5 - how spread out the values are in a subset of a population vary or deviate from the sample mean
+        Standard deviation - amount of variation or dispersion in a set of values. It tells you, on average, how far each data point is from the mean
+        Coefficient of variation - the ratio of the standard deviation to the mean, and it is often expressed as a percentage, ex two stocks have the same expected return, but one has a higher standard deviation relative to its mean, the stock with the higher CV is considered riskier. Standard deviation / mean
+        Covariance + Correlation Coefficient - Very interresting! price/size in houses, Whether there is a strong relationship between two variables or not. 1 would be perfect positive correlation and 0 would be no correlation. There can also be a negative correlation ex umbrella vs ice cream sales. Causality
+
+
+
+Financiella och operativa mått
+    Relativ frekvens – Andelen av den totala frekvensen för varje kategori (totalt skulle vara 100 %).
+    (Antal observationer i kategorin / Totalt antal observationer) * 100
+
+    Kumulativ frekvens – Summan av de relativa frekvenserna för varje kategori.
+    Beräkning: Summering av de relativa frekvenserna upp till och med den aktuella kategorin.
+
+    Procentuell vinstmarginal – Visar förhållandet mellan vinst och intäkter för att se lönsamheten.
+    Summa Vinst / Summa Intäkter
+
+    Värde över/under vinstmål – Visar hur mycket vinsten ligger över eller under företagets vinstmål.
+    Summa Vinst - Vinstmål
+
+    Totalt ordervärde – Beräknar totalförsäljningsvärdet baserat på enhetsantal och pris per enhet.
+    Antal enheter * Pris per enhet
+
+    Delbelopp av tidigare ordrar – Visar delbeloppet för tidigare ordrar som en uppskattning av tidigare försäljningar.
+    (Antal enheter * Pris per enhet) * Föregående ordrar
+
+    Genomsnittligt ordervärde – Genomsnittligt värde för tidigare ordrar, vilket indikerar trender i orderstorlek.
+    Delbelopp / Totalt antal tidigare ordrar
+
+    Bruttomarginal – Visar hur effektivt företaget producerar och säljer varor.
+    (Intäkter - Varukostnad) / Intäkter * 100
+
+    Nettomarginal – Andelen av intäkterna som kvarstår efter alla kostnader.
+    (Nettoresultat / Intäkter) * 100
+
+    Nollpunktsomsättning – Försäljningsvolym som behövs för att täcka alla kostnader.
+    Fasta kostnader / (Försäljningspris per enhet - Rörlig kostnad per enhet)
+
+    Varukostnad (COGS) – Direkt kostnad kopplad till produktionen av varor.
+    Startlager + Inköp - Slutlager
+
+    Lageromsättningshastighet – Mäter effektiviteten i lagerhanteringen.
+    Varukostnad / Genomsnittligt lager
+
+    Avkastning på tillgångar (ROA) – Visar hur väl tillgångar genererar vinst.
+    (Nettoresultat / Totala tillgångar) * 100
+
+    Avkastning på investering (ROI) – Bedömer investeringslönsamhet.
+    (Nettoresultat / Investeringskostnad) * 100
+
+    Kundens livstidsvärde (CLV) – Förväntad intäkt från en kund under dess livstid.
+    (Genomsnittligt köpbelopp * Köpfrekvens) * Kundens livslängd
+
+    Försäljningstillväxt – Analyserar försäljningsutveckling över tid.
+    ((Nuvarande försäljning - Föregående försäljning) / Föregående försäljning) * 100
+
+    Produktivitetsmått per anställd – Mäter intäkter per anställd.
+    Intäkter / Antal anställda
+
+    Täckningsgrad – Andelen intäkter som kan täcka fasta kostnader och ge vinst.
+    (Försäljningsintäkter - Rörliga kostnader) / Försäljningsintäkter * 100
+
+    Rörelsemarginal – Visar lönsamhet från kärnverksamheten.
+    (Rörelseresultat / Intäkter) * 100
+
+    Kundlojalitet – Andel kunder som bibehålls under en period.
+    ((Kunder i slutet - Nya kunder) / Kunder i början) * 100
+
+    Personalomsättning – Mäter personalstabilitet genom andelen anställda som slutat.
+    (Antal anställda som slutat / Genomsnittligt antal anställda) * 100
+
+    Avkastning på eget kapital (ROE) – Visar avkastning ur aktieägarnas perspektiv.
+    (Nettoresultat / Eget kapital) * 100
+
+    Skuldsättningsgrad – Anger företagets finansiella hävstång.
+    Totala skulder / Eget kapital
+
+    Kassalikviditet – Bedömer förmågan att betala kortfristiga skulder.
+    Omsättningstillgångar / Kortfristiga skulder
+
+    Kundbortfall – Andelen kunder som lämnar företaget under en period.
+    (Förlorade kunder under perioden / Totalt antal kunder vid periodens början) * 100
+
+    Investeringar som andel av försäljning – Andelen intäkter som går till investeringar.
+    (Kapitalutgifter / Försäljningsintäkter) * 100
+
+    Kundfordringsdagar (DSO) – Genomsnittlig tid för att få betalning efter försäljning.
+    (Kundfordringar / Totala kreditförsäljningar) * Antal dagar
+
 Olika Business Intelligence slutsatser som jag kanske ska sträva efter när jag börjar på scania
     * Leverantörsprestanda och SSEI-score över tid - Visar hur leverantörernas SSEI-score har förändrats under det senaste året, vilket identifierar förbättringsområden och risker.
 
@@ -98,79 +259,3 @@ Olika Business Intelligence slutsatser som jag kanske ska sträva efter när jag
     * Kostnad per kilometer för serviceavtal - Visar kostnader för service per kilometer för att analysera lönsamhet för serviceavtal.
 
     * Effekt av nya produktlanseringar på försäljning - Visar försäljningsökningar i samband med lanseringar av nya produkter, vilket hjälper att utvärdera marknadsföringsinsatser.
-
-Financiella och operativa mått
-    Procentuell vinstmarginal – Visar förhållandet mellan vinst och intäkter för att se lönsamheten.
-    Summa Vinst / Summa Intäkter
-
-    Värde över/under vinstmål – Visar hur mycket vinsten ligger över eller under företagets vinstmål.
-    Summa Vinst - Vinstmål
-
-    Totalt ordervärde – Beräknar totalförsäljningsvärdet baserat på enhetsantal och pris per enhet.
-    Antal enheter * Pris per enhet
-
-    Delbelopp av tidigare ordrar – Visar delbeloppet för tidigare ordrar som en uppskattning av tidigare försäljningar.
-    (Antal enheter * Pris per enhet) * Föregående ordrar
-
-    Genomsnittligt ordervärde – Genomsnittligt värde för tidigare ordrar, vilket indikerar trender i orderstorlek.
-    Delbelopp / Totalt antal tidigare ordrar
-
-    Bruttomarginal – Visar hur effektivt företaget producerar och säljer varor.
-    (Intäkter - Varukostnad) / Intäkter * 100
-
-    Nettomarginal – Andelen av intäkterna som kvarstår efter alla kostnader.
-    (Nettoresultat / Intäkter) * 100
-
-    Nollpunktsomsättning – Försäljningsvolym som behövs för att täcka alla kostnader.
-    Fasta kostnader / (Försäljningspris per enhet - Rörlig kostnad per enhet)
-
-    Varukostnad (COGS) – Direkt kostnad kopplad till produktionen av varor.
-    Startlager + Inköp - Slutlager
-
-    Lageromsättningshastighet – Mäter effektiviteten i lagerhanteringen.
-    Varukostnad / Genomsnittligt lager
-
-    Avkastning på tillgångar (ROA) – Visar hur väl tillgångar genererar vinst.
-    (Nettoresultat / Totala tillgångar) * 100
-
-    Avkastning på investering (ROI) – Bedömer investeringslönsamhet.
-    (Nettoresultat / Investeringskostnad) * 100
-
-    Kundens livstidsvärde (CLV) – Förväntad intäkt från en kund under dess livstid.
-    (Genomsnittligt köpbelopp * Köpfrekvens) * Kundens livslängd
-
-    Försäljningstillväxt – Analyserar försäljningsutveckling över tid.
-    ((Nuvarande försäljning - Föregående försäljning) / Föregående försäljning) * 100
-
-    Produktivitetsmått per anställd – Mäter intäkter per anställd.
-    Intäkter / Antal anställda
-
-    Täckningsgrad – Andelen intäkter som kan täcka fasta kostnader och ge vinst.
-    (Försäljningsintäkter - Rörliga kostnader) / Försäljningsintäkter * 100
-
-    Rörelsemarginal – Visar lönsamhet från kärnverksamheten.
-    (Rörelseresultat / Intäkter) * 100
-
-    Kundlojalitet – Andel kunder som bibehålls under en period.
-    ((Kunder i slutet - Nya kunder) / Kunder i början) * 100
-
-    Personalomsättning – Mäter personalstabilitet genom andelen anställda som slutat.
-    (Antal anställda som slutat / Genomsnittligt antal anställda) * 100
-
-    Avkastning på eget kapital (ROE) – Visar avkastning ur aktieägarnas perspektiv.
-    (Nettoresultat / Eget kapital) * 100
-
-    Skuldsättningsgrad – Anger företagets finansiella hävstång.
-    Totala skulder / Eget kapital
-
-    Kassalikviditet – Bedömer förmågan att betala kortfristiga skulder.
-    Omsättningstillgångar / Kortfristiga skulder
-
-    Kundbortfall – Andelen kunder som lämnar företaget under en period.
-    (Förlorade kunder under perioden / Totalt antal kunder vid periodens början) * 100
-
-    Investeringar som andel av försäljning – Andelen intäkter som går till investeringar.
-    (Kapitalutgifter / Försäljningsintäkter) * 100
-
-    Kundfordringsdagar (DSO) – Genomsnittlig tid för att få betalning efter försäljning.
-    (Kundfordringar / Totala kreditförsäljningar) * Antal dagar
